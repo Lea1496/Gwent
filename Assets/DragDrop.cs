@@ -84,12 +84,36 @@ public class DragDrop : MonoBehaviour
    private Vector2 startPosition;
    private Vector2 endPosition;
    private GameObject dropZone;
-   
-   
+   private Touch touch;
+   public bool isDraggable = true;
+   private int rank;
+   private void Start()
+   {
+       rank = gameObject.GetComponent<CardBehavior>().rank;
+   }
+
    private void Update()
    {
+       if (Input.touches.Length > 0)
+       {
+           Debug.Log("touch");
+           touch = Input.touches[0];
+           if (touch.phase == TouchPhase.Began)
+           {
+               
+               StartDragging();
+           }
+           else
+           {
+               if (touch.phase == TouchPhase.Ended)
+               {
+                   EndDragging();
+               }
+           }
+       }
        if (isDragging)
        {
+           
            transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
        }
    }
@@ -110,20 +134,24 @@ public class DragDrop : MonoBehaviour
 
    public void StartDragging()
    {
-       startPosition = transform.position;
-       isDragging = true;
+       if (isDraggable)
+       {
+           startPosition = transform.position;
+           isDragging = true;
+       }
+       
    }
 
    public void EndDragging()
    {
         isDragging = false;
 
-        if (isOverDropZone)
+        if (isOverDropZone && rank == dropZone.layer)
         { 
             Debug.Log("drop " + dropZone.name);
-            transform.SetParent(dropZone.transform, false);
-          
-            transform.SetLocalPositionAndRotation(new Vector3(0,0,transform.position.z), transform.rotation);
+            transform.position = new Vector2(transform.position.x, dropZone.transform.position.y);
+            isDraggable = false;
+            //transform.SetLocalPositionAndRotation(new Vector3(0,transform.localPosition.y,transform.localPosition.z), transform.rotation);
         }
         else
         {
