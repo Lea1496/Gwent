@@ -15,7 +15,7 @@ public class CardBehavior : MonoBehaviour
     public int rank;
     public string image;
     public bool isHero;
-
+ 
     private int offset;
 
     private List<GameObject> cardsOnBoard = new List<GameObject>();
@@ -37,11 +37,21 @@ public class CardBehavior : MonoBehaviour
     private List<CardBehavior> rangee = new List<CardBehavior>();
 
     [SerializeField] private GameObject card;
+    private GameManager gameManager;
     private void Start()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         DefineDropZones();
-        abilityFunctions.Add(UseMedic);
-        abilityFunctions.Add(UseMoralBoost);
+//        abilityFunctions.Add(UseMedic);
+       // abilityFunctions.Add(UseMoralBoost);
+
+       BoardManager.defausse.Add(card.GetComponent<CardBehavior>());
+       BoardManager.defausse.Add(card.GetComponent<CardBehavior>());
+       BoardManager.defausse.Add(card.GetComponent<CardBehavior>());
+       BoardManager.defausse.Add(card.GetComponent<CardBehavior>());
+       BoardManager.defausse.Add(card.GetComponent<CardBehavior>());
+       BoardManager.defausse.Add(card.GetComponent<CardBehavior>());
+       
     }
 
     private void DefineDropZones()
@@ -56,6 +66,16 @@ public class CardBehavior : MonoBehaviour
 
         
 
+    }
+
+    public CardBehavior(string _name, int _ability, int _power, int _rank, string _image, bool _isHero)
+    {
+        name = _name;
+        ability = _ability;
+        power = _power;
+        rank = _rank;
+        image = _image;
+        isHero = _isHero;
     }
     /*private void MontrerDefausse(GameObject carte)
     {
@@ -94,25 +114,27 @@ public class CardBehavior : MonoBehaviour
         }
     }*/
 
-    public void AssociateCard(GameObject card)
+    public void AssociateCard()
     {
-        if (defausseOpen)
+        if (GameManager.defausseOpen && BoardManager.defausse.Contains(gameObject.GetComponent<CardBehavior>()) && !gameObject.GetComponent<DragDrop>().isDraggable)
         {
+            Debug.Log(card.GetComponent<DragDrop>().isDraggable);
             GameManager.CacherDefausse(card);
-            BoardManager.defausse.Remove(card.GetComponent<CardBehavior>());
+            BoardManager.defausse.Remove(gameObject.GetComponent<CardBehavior>()); //Facon plus efficace de dire ca??
         }
     }
     private void UseMedic()
     {
         if (BoardManager.defausse.Count != 0)
         {
-            GameManager.MontrerDefausse(card);
+            Debug.Log("Test");
+            gameManager.MontrerDefausse(card);
         }
     }
 
     private void UseMoralBoost()
     {
-        rangee = BoardManager.wholeBoard[rank];
+        rangee = BoardManager.wholeBoard[rank]; //Jsp si ça marche de même
         if (rangee.Count != 0)
         {
             foreach (var card in rangee)
@@ -124,11 +146,14 @@ public class CardBehavior : MonoBehaviour
             }
         }
     }
-    public void OnDrop(GameObject dropZone)
+    public void OnDrop()
     {
         if ((int)abilities.none != ability)
         {
-            
+            if (ability == (int)abilities.medic)
+            {
+                UseMedic();
+            }
         }   
     
     }

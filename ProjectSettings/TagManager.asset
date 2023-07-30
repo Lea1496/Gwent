@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Card
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - DropZoneSword2
   - DropZoneArc2
   - DropZoneCat2
-  - 
+  - Defausse
   - 
   - 
   - 

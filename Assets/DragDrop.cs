@@ -90,11 +90,12 @@ public class DragDrop : MonoBehaviour
    private void Start()
    {
        rank = gameObject.GetComponent<CardBehavior>().rank;
+       Debug.Log(rank);
    }
 
    private void Update()
    {
-       if (Input.touches.Length > 0)
+       /*if (Input.touches.Length > 0)
        {
            Debug.Log("touch");
            touch = Input.touches[0];
@@ -110,32 +111,41 @@ public class DragDrop : MonoBehaviour
                    EndDragging();
                }
            }
-       }
+       }*/
+       
+       
        if (isDragging)
        {
-           
            transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
        }
    }
 
    private void OnCollisionEnter2D(Collision2D col)
    {
-       Debug.Log("Enter" + col.collider.gameObject.name);
-       isOverDropZone = true;
-       dropZone = col.gameObject;
+
+       if (!col.gameObject.CompareTag("Card"))
+       {
+           Debug.Log("Enter" + col.collider.gameObject.name);
+           isOverDropZone = true;
+           dropZone = col.gameObject;
+       }
    }
 
    private void OnCollisionExit2D(Collision2D other)
    {
-       Debug.Log("Exit" + other.collider.gameObject.name);
-       isOverDropZone = false;
-       dropZone = null;
+       if (!other.gameObject.CompareTag("Card"))
+       {
+           Debug.Log("Exit" + other.collider.gameObject.name);
+           isOverDropZone = false;
+           dropZone = null;
+       }
    }
 
    public void StartDragging()
    {
        if (isDraggable)
        {
+           Debug.Log("startDragging");
            startPosition = transform.position;
            isDragging = true;
        }
@@ -144,18 +154,23 @@ public class DragDrop : MonoBehaviour
 
    public void EndDragging()
    {
+       
         isDragging = false;
-
+        
         if (isOverDropZone && rank == dropZone.layer)
         { 
+            
             Debug.Log("drop " + dropZone.name);
             transform.position = new Vector2(transform.position.x, dropZone.transform.position.y);
             isDraggable = false;
+            
+            gameObject.GetComponent<CardBehavior>().OnDrop();
             //transform.SetLocalPositionAndRotation(new Vector3(0,transform.localPosition.y,transform.localPosition.z), transform.rotation);
         }
         else
         {
-            transform.position = startPosition;
+           
+            gameObject.transform.position = startPosition;
         }
    }
 }
