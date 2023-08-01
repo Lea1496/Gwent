@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 12.874907, y: -12.214346}
-  m_SizeDelta: {x: 513.6, y: 66}
+  m_SizeDelta: {x: 506, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2394244811975751776
 CanvasRenderer:
@@ -119,5 +119,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 513.6, y: 66}
+  m_Size: {x: 506, y: 60}
   m_EdgeRadius: 0
