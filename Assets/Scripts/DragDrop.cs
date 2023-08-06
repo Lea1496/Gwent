@@ -87,10 +87,13 @@ public class DragDrop : MonoBehaviour
    private Touch touch;
    public bool isDraggable = true;
    private int rank;
+
+   private GameManager gameManager;
    private void Start()
    {
        rank = gameObject.GetComponent<CardBehavior>().rank;
        Debug.Log(rank);
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
    }
 
    private void Update()
@@ -154,27 +157,63 @@ public class DragDrop : MonoBehaviour
 
    public void EndDragging()
    {
-       
+        
         isDragging = false;
+        
+        CardBehavior cardB = gameObject.GetComponent<CardBehavior>();
+        
         
         if (isOverDropZone && rank == dropZone.layer)
         {
-            CardBehavior cardB = gameObject.GetComponent<CardBehavior>();
-            Debug.Log("drop " + dropZone.name);
-            transform.position = new Vector2(transform.position.x, dropZone.transform.position.y);
-            isDraggable = false;
-            cardB.OnDrop();
-            cardB.indice = -2;
-            BoardManager.cardsInHand.Remove(cardB.TransformIntoCardObj());
-            
-            BoardManager.wholeBoard[rank - 7].Add(cardB.TransformIntoCardObj());
+            DropCard(cardB);
             
             //transform.SetLocalPositionAndRotation(new Vector3(0,transform.localPosition.y,transform.localPosition.z), transform.rotation);
         }
         else
         {
-           
-            gameObject.transform.position = startPosition;
+            if (isOverDropZone && cardB.ability == 14)
+            {
+                cardB.rank = 14;
+
+                if (cardB.rank + 1 == dropZone.layer ||  cardB.rank + 2 == dropZone.layer)
+                {
+                    DropCard(cardB);
+                }
+            }
+            else
+            {
+                gameObject.transform.position = startPosition;
+            }
+            
         }
    }
+
+   private void DropCard(CardBehavior cardB)
+   {
+       int nbCardsInRow = BoardManager.wholeBoard[rank - 7].Count;
+       float offset = 844.0f / (nbCardsInRow + 1);
+       Debug.Log("drop " + dropZone.name);
+       foreach (var card in BoardManager.board)
+       {
+           if (card.GetComponent<CardBehavior>().rank == cardB.rank && !card.GetComponent<DragDrop>().isDraggable)
+           {
+               card.transform.position = new Vector2(dropZone.transform.position.x - 844.0f/2 + offset * card.GetComponent<CardBehavior>().indice, dropZone.transform.position.y);
+           }
+       }
+
+       if (cardB.indice >= 0)
+       {
+           gameManager.RemoveCardInHands(GetComponent<CardBehavior>().indice);
+       }
+       transform.position = new Vector2(dropZone.transform.position.x - 844.0f/2 + offset *  nbCardsInRow, dropZone.transform.position.y);
+       isDraggable = false;
+       cardB.OnDrop();
+       cardB.indice = nbCardsInRow;
+       BoardManager.cardsInHand.Remove(cardB);
+       gameManager.physicalCards.Remove(gameObject);    
+       BoardManager.wholeBoard[rank - 7].Add(cardB);
+       BoardManager.board.Add(gameObject);
+       
+   }
+   
 }

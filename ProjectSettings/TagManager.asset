@@ -20,13 +20,13 @@ TagManager:
   - DropZoneArc2
   - DropZoneCat2
   - Defausse
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - comSword
+  - comArc
+  - comCat
+  - comSwordEnemy
+  - comArcEnemy
+  - comCatEnemy
+  - weather
   - 
   - 
   - 

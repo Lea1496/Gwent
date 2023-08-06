@@ -9,17 +9,17 @@ public class CardObj
     public int ability;
     public int power;
     public int rank;
-    public string image;
+    
     public bool isHero;
     public int indice;
 
-    public CardObj(string _name, int _ability, int _power, int _rank, string _image, bool _isHero, int _indice)
+    public CardObj(string _name, int _ability, int _power, int _rank, bool _isHero, int _indice)
     {
         name = _name;
         ability = _ability;
         power = _power;
         rank = _rank;
-        image = _image;
+        
         isHero = _isHero;
         indice = _indice;
     }
