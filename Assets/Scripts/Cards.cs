@@ -116,11 +116,43 @@ public static class Cards
             ("siege_engineer_card", 8, 6, 9, false, 0, 102, 1),
             ("young_emissary_card", 7, 5, 7, false, 0, 103, 1),
             ("young_emissary_card", 7, 5, 7, false, 0, 104, 1),
-            
-            
-            
-            
-            
+            ("eithne_card",8, 10, 8, true, 0, 105, 2),
+            ("saesenthessis_card", 8, 10, 8, true, 0, 106, 2),
+            ("isengrim_faoiltiarna_card", 4, 10,7, false, 0, 107, 2),
+            ("iorveth_card", 8, 10, 8, true, 0, 108, 2),
+            ("dennis_cranmer_card", 8, 6, 7, false, 0, 109, 2),
+            ("milva_card", 4, 10, 8, false, 0, 110, 2), // <3
+            ("ida_emean_card", 8, 6, 8, false, 0, 111, 2),
+            ("filavandrel_card", 0, 6, 7, false, 0, 112, 2), // hmmm son ranK ??
+            ("yaevinn_card", 0, 6, 7, false, 0, 113, 2), //hmm son rank??
+            ("toruviel_card", 8, 2, 8, false, 0, 114, 2),
+            ("riordain_card", 8, 1 , 8, false, 0, 115, 2),
+            ("ciaran_aep_easnillien_card", 0, 3, 7, false,0, 116, 2),//hmm son rank??
+            ("barclay_els_card", 0, 6, 7, false, 0, 117, 2), //hmm son rank??
+            ("havekar_healer_card", 3, 0, 8, false, 0, 118, 2),
+            ("havekar_healer_card", 3, 0, 8, false, 0, 119, 2),
+            ("havekar_healer_card", 3, 0, 8, false, 0, 120, 2),
+            ("vrihedd_brigade_veteran_card", 0, 5, 7, false, 0, 121, 2), //hmm son rank ??
+            ("vrihedd_brigade_veteran_card", 0, 5, 7, false, 0, 122, 2), //hmm son rank ??
+            ("dol_blathanna_archer_card", 0, 6, 7, false, 0, 123, 2), //hmm son rank ??
+            ("dol_blathanna_scout_card", 0, 6, 7, false, 0, 124, 2), //hmm son rank ??
+            ("dol_blathanna_scout_card", 0, 6, 7, false, 0, 125, 2), //hmm son rank ??
+            ("dwarvf_skirmisher_card", 5, 3, 7, false, 0, 126, 2),
+            ("dwarvf_skirmisher_card", 5, 3, 7, false, 0, 127, 2),
+            ("dwarvf_skirmisher_card", 5, 3, 7, false, 0, 128, 2),
+            ("mahakaman_defender_card", 8, 5, 7, false, 0, 129, 2),
+            ("mahakaman_defender_card", 8, 5, 7, false, 0, 130, 2),
+            ("mahakaman_defender_card", 8, 5, 7, false, 0, 131, 2),
+            ("mahakaman_defender_card", 8, 5, 7, false, 0, 132, 2),
+            ("mahakaman_defender_card", 8, 5, 7, false, 0, 133, 2),
+            ("elven_skirmisher_card", 5, 2, 8, false, 0, 134, 2),
+            ("elven_skirmisher_card", 5, 2, 8, false, 0, 135, 2),
+            ("elven_skirmisher_card", 5, 2, 8, false, 0, 136, 2),
+            ("vrihedd_cadet_card", 0, 4, 7, false, 0, 137, 2), //hmm son rank ??
+            ("havekar_smuggler_card", 5, 5, 7, false, 0, 138, 2),
+            ("havekar_smuggler_card", 5, 5, 7, false, 0, 139, 2),
+            ("havekar_smuggler_card", 5, 5, 7, false, 0, 140, 2),
+
         };
 
     private static (string, int, int, int, bool, int, int) c1 = ("geralt_of_rivia_card", 8, 15, 7,true, 0, 4);
