@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -41,7 +42,7 @@ public class GameManager : MonoBehaviour
 
     public bool isTimeToChangeCards = false;
 
-    [SerializeField]  private GameObject card;
+    [SerializeField]  public GameObject card;
     [SerializeField] private GameObject keepCardsButton;
     private GameObject canvas;
     private int setActiveCounter = 0;
@@ -77,16 +78,18 @@ public class GameManager : MonoBehaviour
     public  void EndRound(GameObject carte)
     {
         CompterNbPts();
+        CardBehavior cardB;
         for (int i = 0; i < 3; i++)
         {
             foreach (var card in BoardManager.wholeBoard[i])
             {
-                card.power = card.ogPower;
-                if (card.isTightBondUsed)
+                cardB = card.GetComponent<CardBehavior>();
+                cardB.power = cardB.ogPower;
+                if (cardB.isTightBondUsed)
                 {
-                    card.isTightBondUsed = false;
+                    cardB.isTightBondUsed = false;
                 }
-                BoardManager.defausse.Add(card);
+                BoardManager.defausse.Add(cardB);
                 
             }
         }
@@ -116,7 +119,7 @@ public class GameManager : MonoBehaviour
         {
             foreach (var card in BoardManager.wholeBoard[i])
             {
-                totPts += card.power;
+                totPts += card.GetComponent<CardBehavior>().power;
             }
         }
     }
@@ -212,14 +215,19 @@ public class GameManager : MonoBehaviour
         BoardManager.defausse.Add(c33);
         BoardManager.defausse.Add(c44);
         BoardManager.defausse.Add(c55);*/
+        //CreateDeck();
+        
+        Cards.CreateDeck();
         DefineDropZones();
-        StartGame();
+        Refaire();
+        //StartGame();
     }
 
     private void StartGame()
     {
         while (BoardManager.cardsInHand.Count != 10)
         {
+            
             ChooseCardInHand();
         }
         CreateCards();
@@ -251,14 +259,14 @@ public class GameManager : MonoBehaviour
         GameObject card = Instantiate(aCard, new Vector2(offset * index + cardZone.transform.position.x - (844f / 2), cardZone.transform.position.y),
             cardZone.transform.rotation);
         card.transform.SetParent(canvas.transform, true);
-        
+        BoardManager.cardsInHand.Add(card.GetComponent<CardBehavior>()); //
         physicalCards.Add(card);
     }
 
     public void ChooseCardInHand()
     {
         int index = ChooseRandomCard();
-        BoardManager.cardsInHand.Add(BoardManager.deck[index]);
+        //BoardManager.cardsInHand.Add(BoardManager.deck[index].GetComponent<CardBehavior>());
         BoardManager.cardsAlreadyPicked.Add(index);
         
     }
@@ -266,7 +274,7 @@ public class GameManager : MonoBehaviour
     public  int ChooseRandomCard()
     {
         int index = 0;
-        Random gen = new Random();
+        Random gen = new Random((uint)DateTime.Now.Millisecond);
         index = gen.NextInt(0, BoardManager.deck.Count);
         while (BoardManager.cardsAlreadyPicked.Contains(index))
         {
@@ -301,6 +309,49 @@ public class GameManager : MonoBehaviour
                 zoneCard.transform.position.y);
         }
     }
+    private void WorkThreadFunction()
+    {
+        try
+        {
+            StartGame();
+        }
+        catch 
+        {
+            Refaire();
+        }
+    }
+    private void Refaire()
+    {
+        Thread thread = new Thread(new ThreadStart(WorkThreadFunction)) ;
+       
+        thread.Start();
+        if (!thread.Join(new TimeSpan(0, 0, 1)) )
+        {
+            thread.Abort();
+            Debug.Log("Ça a pas marché");
+            Refaire();
+            
+        }
+    }
+   /* private  void CreateDeck()
+    {
+        GameObject card = this.card;
+        List<(string, int, int, int, bool,int, int, int)> cards = Cards.cards;
+        for (int i = 0; i < cards.Count; i++)
+        {
+            Debug.Log(cards[i].Item1);
+            BoardManager.deck.Add(card);
+            BoardManager.deck[BoardManager.deck.Count - 1].GetComponent<CardBehavior>().Constructeur(cards[i].Item1, cards[i].Item2, cards[i].Item3, cards[i].Item4, cards[i].Item5, cards[i].Item6, cards[i].Item7,  cards[i].Item8);
+            if (i != 0)
+            {
+                Debug.Log(BoardManager.deck[BoardManager.deck.Count - 2].GetComponent<CardBehavior>()
+                    .name);
+            } //BoardManager.deck.Add(card);
+        }
+        
+        
+        
+    }*/
 
     
 }

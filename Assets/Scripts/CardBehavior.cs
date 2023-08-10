@@ -63,7 +63,7 @@ public class CardBehavior : MonoBehaviour
 
     private List<Action> abilityFunctions = new List<Action>();
 
-    private List<CardBehavior> rangee = new List<CardBehavior>();
+    private List<GameObject> rangee = new List<GameObject>();
 
     [SerializeField] private GameObject card;
     private GameManager gameManager;
@@ -176,13 +176,15 @@ public class CardBehavior : MonoBehaviour
             BoardManager.cardsInHand.Remove(this);
             int indice = gameManager.ChooseRandomCard();
 
-            CardBehavior cardB = BoardManager.deck[indice];
+            //CardBehavior cardB = BoardManager.deck[indice].GetComponent<CardBehavior>();
+            (string, int, int, int, bool, int, int, int) obj = BoardManager.deck[indice];
             BoardManager.cardsAlreadyPicked.Add(indice);
-            BoardManager.cardsInHand.Add(BoardManager.deck[indice]);
-            BoardManager.cardsAlreadyPicked.Remove(BoardManager.deck.IndexOf(this));
-            card.GetComponent<CardBehavior>().Constructeur(cardB.name, cardB.ability, cardB.power, cardB.rank, cardB.isHero, cardB.indice, cardB.no, cardB.faction);
+            //BoardManager.cardsInHand.Add(BoardManager.deck[indice].GetComponent<CardBehavior>()); //
+            BoardManager.cardsAlreadyPicked.Remove(BoardManager.deck.IndexOf( (name, ability, power, rank, isHero, indice, no, faction)));
+            //card.GetComponent<CardBehavior>().Constructeur(cardB.name, cardB.ability, cardB.power, cardB.rank, cardB.isHero, cardB.indice, cardB.no, cardB.faction);
+            card.GetComponent<CardBehavior>().Constructeur(obj.Item1, obj.Item2, obj.Item3, obj.Item4, obj.Item5, obj.Item6, obj.Item7, obj.Item8);
             gameManager.InstanciateCards(index, BoardManager.cardsInHand.Count + 1, card);
-            gameManager.AddCardInHands();
+            
             gameManager.physicalCards.Add(card);
             
             gameManager.physicalCards.Remove(gameObject);
@@ -190,7 +192,17 @@ public class CardBehavior : MonoBehaviour
         }
     }
 
-    
+    private void Transfo((string, int, int, int, bool, int, int, int) obj)
+    {
+        name = obj.Item1;
+        ability = obj.Item2;
+        power = obj.Item3;
+        rank = obj.Item4;
+        isHero = obj.Item5;
+        indice = obj.Item6;
+        no = obj.Item7;
+        
+    }
     public void UseFrost()
     {
         
@@ -200,11 +212,13 @@ public class CardBehavior : MonoBehaviour
     {
         if (gameManager.isComUsed[rank - 14])
         {
+            CardBehavior cardB;
             foreach (var card in BoardManager.wholeBoard[rank-14])
             {
-                if (!card.isHero)
+                cardB = card.GetComponent<CardBehavior>();
+                if (!cardB.isHero)
                 {
-                    card.power *= 2;
+                    cardB.power *= 2;
                 }
             }
         }
@@ -218,12 +232,14 @@ public class CardBehavior : MonoBehaviour
     {
         int nbCard = 0;
         List<CardBehavior> tightBondCards = new List<CardBehavior>();
+        CardBehavior cardB;
         foreach (var card in BoardManager.wholeBoard[rank - 7])
         {
-            if (card.name == name)
+            cardB = card.GetComponent<CardBehavior>();
+            if (cardB.name == name)
             {
                 isTightBondUsed = true;
-                tightBondCards.Add(card);
+                tightBondCards.Add(cardB);
                 nbCard++;
             }
         }
@@ -253,63 +269,72 @@ public class CardBehavior : MonoBehaviour
     private void UseMuster()
     {
         int nbCardSpawned = 0;
-        float offset = 506.0f / (BoardManager.wholeBoard[rank - 7].Count + 1);
+        float offset = 844.0f / (BoardManager.wholeBoard[rank - 7].Count + 1);
         Transform dropZone = dropZones[rank - 7].transform;
         CardBehavior cardB;
+        CardBehavior cardBeh;
         foreach (var card in BoardManager.deck)
         {
-            if (card.name == name)
+            
+            if (card.Item1 == name)
             {
                 BoardManager.board.Add(Instantiate(this.card,
-                    new Vector2(dropZone.position.x - 506 / 2.0f + offset * (indice + ++nbCardSpawned),
+                    new Vector2(dropZone.position.x - 844 / 2.0f + offset * (indice + ++nbCardSpawned),
                         dropZone.position.y), dropZone.rotation));
                 cardB = BoardManager.board[BoardManager.board.Count - 1].GetComponent<CardBehavior>();
-                cardB.Constructeur(card.name, card.ability, card.power, card.rank, card.isHero,  indice + nbCardSpawned, card.no, card.faction);
-                BoardManager.wholeBoard[cardB.rank - 7].Add(cardB);
+                cardB.Constructeur(card.Item1, card.Item2, card.Item3, card.Item4, card.Item5,  indice + nbCardSpawned, card.Item7, card.Item8);
+                BoardManager.wholeBoard[cardB.rank - 7].Add(BoardManager.board[BoardManager.board.Count - 1]);
             }
         }
 
         foreach (var card in BoardManager.cardsInHand)
         {
-            if (card.name == name)
+           
+            cardBeh = card.GetComponent<CardBehavior>();
+            if (cardBeh.name == name)
             {
                 BoardManager.board.Add(Instantiate(this.card,
-                    new Vector2(dropZone.position.x - 506 / 2.0f + offset * (indice + ++nbCardSpawned),
+                    new Vector2(dropZone.position.x - 844 / 2.0f + offset * (indice + ++nbCardSpawned),
                         dropZone.position.y), dropZone.rotation));
                 cardB = BoardManager.board[BoardManager.board.Count - 1].GetComponent<CardBehavior>();
                 cardB.Constructeur(card.name, card.ability, card.power, card.rank, card.isHero,  indice + nbCardSpawned, card.no, card.faction);
-                BoardManager.wholeBoard[cardB.rank - 7].Add(cardB);
-                BoardManager.cardsInHand.Remove(cardB);
+                BoardManager.wholeBoard[cardB.rank - 7].Add(BoardManager.board[BoardManager.board.Count - 1]);
             }
         }
         foreach (var card in BoardManager.wholeBoard[rank - 7])
         {
-            if (card.indice > indice)
+            cardBeh = card.GetComponent<CardBehavior>();
+            if (cardBeh.indice > indice)
             {
-                card.indice += nbCardSpawned;
+                cardBeh.indice += nbCardSpawned;
             }
         }
     }
     private void UseMoralBoost()
     {
-        rangee = BoardManager.wholeBoard[rank]; //Jsp si ça marche de même
+
+        CardBehavior cardB;
+        rangee = BoardManager.wholeBoard[rank - 7]; //Jsp si ça marche de même
         if (rangee.Count != 0 && name != "dandelion_card")
         {
             foreach (var card in rangee)
             {
-                if (!card.isHero)
+                cardB = card.GetComponent<CardBehavior>();
+                if (!cardB.isHero)
                 {
-                    card.power++;
+                    cardB.power++;
                 }
             }
         }
         else if (name == "dandelion_name")
         {
+            
             foreach (var card in BoardManager.wholeBoard[rank - 7])
             {
-                if (!card.isHero)
+                cardB = card.GetComponent<CardBehavior>();
+                if (!cardB.isHero)
                 {
-                    card.power *= 2;
+                    cardB.power *= 2;
                 }
             }
         }

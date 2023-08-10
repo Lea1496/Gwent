@@ -211,7 +211,7 @@ public class DragDrop : MonoBehaviour
        cardB.indice = nbCardsInRow;
        BoardManager.cardsInHand.Remove(cardB);
        gameManager.physicalCards.Remove(gameObject);    
-       BoardManager.wholeBoard[rank - 7].Add(cardB);
+       BoardManager.wholeBoard[rank - 7].Add(cardB.gameObject);
        BoardManager.board.Add(gameObject);
        
    }

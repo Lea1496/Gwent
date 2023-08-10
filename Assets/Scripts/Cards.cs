@@ -9,7 +9,7 @@ public static class Cards
 {
 
     [SerializeField] private static GameObject card;
-    public static List<(string, int, int, int, bool,int, int, int)> cardss =
+    public static List<(string, int, int, int, bool,int, int, int)> cards =
         new List<(string, int, int, int, bool,int, int, int)>()
         {
             ("geralt_of_rivia_card", 8, 15, 7,true, 0, 0, 4),
@@ -152,24 +152,62 @@ public static class Cards
             ("havekar_smuggler_card", 5, 5, 7, false, 0, 138, 2),
             ("havekar_smuggler_card", 5, 5, 7, false, 0, 139, 2),
             ("havekar_smuggler_card", 5, 5, 7, false, 0, 140, 2),
-
+            ("draug_card", 8, 10, 7, true, 0, 141, 3),
+            ("kayran_card", 4, 8, 7, true, 0, 142, 3), //hmm son rank??
+            ("imlerith_card", 8, 10, 7, true, 0, 143, 3),
+            ("leshen_card", 8, 10, 8, true, 0, 144, 3),
+            ("forktail_card", 8,5, 7, false, 0, 145, 3),
+            ("earth_elemental_card",  8, 6, 9, false, 0, 146, 3),
+            ("fiend_card", 8, 6, 7, false, 0, 147, 3),
+            ("plague_maiden_card", 8, 5, 7, false, 0, 148, 3),
+            ("griffin_card", 8, 5, 7, false, 0, 149, 3),
+            ("werewolf_card", 8, 5, 7, false, 0, 150, 3),
+            ("botchling_card", 8, 4, 7, false, 0, 151, 3),
+            ("frightener_card", 8, 5, 7, false, 0, 152, 3),
+            ("ice_giant_card", 8, 5, 9, false, 0, 153, 3),
+            ("endrega_card", 8, 2, 8, false, 0, 154, 3),
+            ("harpy_card", 0, 2, 7, false, 0, 155, 3), //hmm le rank??
+            ("cockatrice_card", 8, 2, 8, false, 0, 156, 3),
+            ("gargoyle_card", 8, 2, 8, false, 0, 157, 3),
+            ("celaeno_harpy_card", 0, 2, 7, false, 0, 158, 3), //hmm le rank??
+            ("grave_hag_card", 8, 5, 8, false, 0, 159, 3),
+            ("fire_elemental_card", 8, 6, 9, false, 0, 160, 3),
+            ("foglet_card", 8, 2, 7, false, 0, 161, 3),
+            ("wyverm_card", 8, 2, 8, false, 0, 162, 3),
+            ("arachas_behemoth_card", 5, 6, 9, false, 0, 163, 3),
+            ("arachas_card", 5, 4, 7, false, 0, 164, 3),
+            ("arachas_card", 5, 4, 7, false, 0, 165, 3),
+            ("arachas_card", 5, 4, 7, false, 0, 166, 3),
+            ("nekker_card", 5, 2, 7, false, 0, 167, 3),
+            ("nekker_card", 5, 2, 7, false, 0, 168, 3),
+            ("nekker_card", 5, 2, 7, false, 0, 169, 3),
+            ("vampire_ekimmara_card", 5, 4, 7, false, 0, 170, 3),
+            ("vampire_fleder_card", 5, 4, 7, false, 0, 171, 3),
+            ("vampire_garkain_card", 5, 4, 7, false, 0, 172, 3),
+            ("vampire_bruxa_card", 5, 4, 7, false, 0, 173, 3),
+            ("vampire_katakan_card", 5, 4, 7, false, 0, 174, 3),
+            ("ghoul_card", 5, 1, 7, false, 0, 175, 3),
+            ("ghoul_card", 5, 1, 7, false, 0, 176, 3),
+            ("ghoul_card", 5, 1, 7, false, 0, 177, 3),
+            ("crone_brewess_card", 5, 6, 7, false, 0, 178, 3),
+            ("crone_weavess_card", 5, 6, 7, false, 0, 179, 3),
+            ("crone_whispess_card", 5, 6, 7, false, 0, 180, 3),
+            
+            
         };
 
-    private static (string, int, int, int, bool, int, int) c1 = ("geralt_of_rivia_card", 8, 15, 7,true, 0, 4);
+    //private static (string, int, int, int, bool, int, int) c1 = ("geralt_of_rivia_card", 8, 15, 7,true, 0, 4);
 
-    public static List<GameObject> cards = new List<GameObject>();
-
-    private static void Test()
+    public static void CreateDeck()
     {
-        for (int i = 0; i < cardss.Count; i++)
+        foreach (var card in cards)
         {
-            card.GetComponent<CardBehavior>().Constructeur(cardss[i].Item1, cardss[i].Item2, cardss[i].Item3, cardss[i].Item4, cardss[i].Item5, cardss[i].Item6, cardss[i].Item7,  cardss[i].Item8);
-            cards.Add(card);
+            BoardManager.deck.Add(card);
         }
-        
-        
-        
     }
+
+
+    
 
 
 
