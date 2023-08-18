@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using GwentEngine;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -155,8 +156,8 @@ public class CardBehavior : MonoBehaviour
 
     public void ChooseThisCardToChange()
     {
-       
-        int index = indice;
+        gameManager._gameState.ChangeCard(no);
+        /*int index = indice;
         if (gameManager.isTimeToChangeCards)
         {
             BoardManager.cardsInHand.Remove(this);
@@ -171,7 +172,7 @@ public class CardBehavior : MonoBehaviour
             gameManager.physicalCards.Remove(gameObject);
             gameManager.nbCardChanged++;
             Destroy(gameObject);
-        }
+        }*/
     }
 
     private void Transfo((string, int, int, int, bool, int, int, int) obj)
@@ -190,7 +191,7 @@ public class CardBehavior : MonoBehaviour
     {
         gameManager.isDecoyBeingUsed = true;
         gameManager.decoyCard = gameObject;
-        BoardManager.cardsInHand.Remove(this);
+        //BoardManager.cardsInHand.Remove(this);
         gameManager.physicalCards.Remove(gameObject);
         RectTransform rect = GetComponent<RectTransform>();
         rect.sizeDelta = new Vector2(100, 140);

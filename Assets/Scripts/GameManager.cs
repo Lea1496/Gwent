@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using GwentEngine;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -13,6 +14,8 @@ using Random = Unity.Mathematics.Random;
 public class GameManager : MonoBehaviour
 {
     //[SerializeField] private GameObject cardZone;
+    public GameState _gameState = new GameState();
+    private Dictionary<int, CardMetadata> _metadata;
     
     private static float offset;
 
@@ -64,6 +67,7 @@ public class GameManager : MonoBehaviour
     private int index = 0;
     private void Start()
     {
+        _gameState.NewGame(_metadata);
         
         ChooseWhoStarts();
         isComUsed = new List<bool>(3) { isComUsedS, isComUsedA, isComUsedC };
@@ -72,22 +76,25 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (isTimeToChangeCards)
+        ActivateAndDeactivateButton();
+    }
+
+    public void ActivateAndDeactivateButton()
+    {
+        if (_gameState.IsTimeToChangeCards)
         {
             if (setActiveCounter < 1)
             {
                 keepCardsButton.SetActive(true);
                 setActiveCounter++;
             }
-            if (nbCardChanged == 2)
-            {
-                isTimeToChangeCards = false;
-                keepCardsButton.SetActive(false);
-            }
-            
+
+        }
+        else if(keepCardsButton.GameObject().activeInHierarchy)
+        {
+            keepCardsButton.SetActive(false);
         }
     }
-
     public  void EndRound(GameObject carte)
     {
         CompterNbPts();
