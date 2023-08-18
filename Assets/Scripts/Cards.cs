@@ -17,7 +17,7 @@ public static class Cards
             ("vesemir_card", 8, 6, 7, false, 0, 2, 4),
             ("yennefer_of_vengerberg_card", 3, 7, 8, true, 0, 3, 4),
             ("triss_merigold_card", 8, 7, 7, true, 0, 5, 4),
-            ("dandelion", 4, 2, 7, false, 0, 6, 4),
+            ("dandelion_card", 4, 2, 7, false, 0, 6, 4),
             ("zoltan_chivay_card", 8, 5, 7, false, 0, 7, 4),
             ("emiel_regis_rohellec_terzieff_card", 8, 5, 7, false, 0, 8, 4),
             ("villentretenmerth_card", 13, 7, 7, false, 0,9, 4), //hmmm
@@ -52,7 +52,7 @@ public static class Cards
             ("siegfried_of_denesle_card", 8,5,7,false, 0, 38, 0),
             ("yarpen_zigrin_card", 8, 2, 7, false, 0, 39, 0),
             ("sigismund_dijkstra_card", 6, 4, 10, false, 0, 40, 0),
-            ("kiera_metz_card", 8, 5, 8, false, 0, 41, 0),
+            ("keira_metz_card", 8, 5, 8, false, 0, 41, 0),
             ("sile_de_tansarville_card", 8, 5, 8, false, 0, 42, 0),
             ("sabrina_glevissing_card", 8, 4, 8, false, 0, 43, 0),
             ("sheldon_skaggs", 8, 4, 8, false, 0, 44, 0),
@@ -137,9 +137,9 @@ public static class Cards
             ("dol_blathanna_archer_card", 0, 6, 7, false, 0, 123, 2), //hmm son rank ??
             ("dol_blathanna_scout_card", 0, 6, 7, false, 0, 124, 2), //hmm son rank ??
             ("dol_blathanna_scout_card", 0, 6, 7, false, 0, 125, 2), //hmm son rank ??
-            ("dwarvf_skirmisher_card", 5, 3, 7, false, 0, 126, 2),
-            ("dwarvf_skirmisher_card", 5, 3, 7, false, 0, 127, 2),
-            ("dwarvf_skirmisher_card", 5, 3, 7, false, 0, 128, 2),
+            ("dwarven_skirmisher_card", 5, 3, 7, false, 0, 126, 2),
+            ("dwarven_skirmisher_card", 5, 3, 7, false, 0, 127, 2),
+            ("dwarven_skirmisher_card", 5, 3, 7, false, 0, 128, 2),
             ("mahakaman_defender_card", 8, 5, 7, false, 0, 129, 2),
             ("mahakaman_defender_card", 8, 5, 7, false, 0, 130, 2),
             ("mahakaman_defender_card", 8, 5, 7, false, 0, 131, 2),

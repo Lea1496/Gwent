@@ -190,30 +190,88 @@ public class DragDrop : MonoBehaviour
 
    private void DropCard(CardBehavior cardB)
    {
-       int nbCardsInRow = BoardManager.wholeBoard[rank - 7].Count;
-       float offset = 844.0f / (nbCardsInRow + 1);
-       Debug.Log("drop " + dropZone.name);
-       foreach (var card in BoardManager.board)
+       Debug.Log("ici");
+       List<GameObject> row;
+       int nbCardsInRow = 1;
+       float offset = 0;
+       float width;
+
+       bool isNotComHorn = false;
+       if (rank < 13)
        {
-           if (card.GetComponent<CardBehavior>().rank == cardB.rank && !card.GetComponent<DragDrop>().isDraggable)
+           isNotComHorn = true;
+           row = BoardManager.wholeBoard[rank - 7];
+           nbCardsInRow = row.Count;
+           width = 844.0f;
+           BoardManager.wholeBoard[rank - 7].Add(cardB.gameObject);
+       }
+       else
+       {
+           if (rank < 20)
            {
-               card.transform.position = new Vector2(dropZone.transform.position.x - 844.0f/2 + offset * card.GetComponent<CardBehavior>().indice, dropZone.transform.position.y);
+               row = new List<GameObject>();
+               width = 141f;
+           }
+           else
+           {
+               isNotComHorn = true;
+               row = BoardManager.weatherCards;
+               width = 261f;
+               BoardManager.weatherCards.Add(cardB.gameObject);
            }
        }
 
-       if (cardB.indice >= 0)
+       if (isNotComHorn)
        {
-           gameManager.RemoveCardInHands(GetComponent<CardBehavior>().indice);
+           if (row.Count + 1 < 6)
+           {
+               offset = width / (nbCardsInRow + 1);
+           }
+           else
+           {
+               offset = width/ (nbCardsInRow + 1);
+           }
+           Debug.Log("drop " + dropZone.name);
+
+           gameManager.AddCard(dropZone, row, offset);
        }
-       transform.position = new Vector2(dropZone.transform.position.x - 844.0f/2 + offset *  nbCardsInRow, dropZone.transform.position.y);
-       isDraggable = false;
+       
+          
+       
+      isDraggable = false;
+      
+      BoardManager.cardsInHand.Remove(cardB);
+      Debug.Log($"TEST + {cardB.name}");
+      gameManager.physicalCards.Remove(gameObject);
+      BoardManager.board.Add(gameObject);
+      if (cardB.indice >= 0)
+      {
+          //gameManager.RemoveCard(cardB.indice, gameManager.zoneCard, gameManager.physicalCards);
+      }
+      
+      
+       transform.position = new Vector2(dropZone.transform.position.x - width/2 + offset * nbCardsInRow, dropZone.transform.position.y);
+       
        cardB.OnDrop();
        cardB.indice = nbCardsInRow;
-       BoardManager.cardsInHand.Remove(cardB);
-       gameManager.physicalCards.Remove(gameObject);    
-       BoardManager.wholeBoard[rank - 7].Add(cardB.gameObject);
-       BoardManager.board.Add(gameObject);
-       
+       VerifyIfAbilityIsUsedOn();
+   }
+
+   private void VerifyIfAbilityIsUsedOn()
+   {
+       CardBehavior cardB = gameObject.GetComponent<CardBehavior>();
+      if (rank < 10 && !cardB.isHero)
+       {
+           
+           if (gameManager.isComUsed[rank - 7])
+           {
+               cardB.power *= 2;
+           }
+           if (gameManager.isWeatherUsed[rank - 7])
+           {
+               cardB.power -= (cardB.ogPower - 1);
+           }
+       }
    }
    
 }

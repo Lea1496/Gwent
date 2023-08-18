@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = Unity.Mathematics.Random;
@@ -10,7 +12,7 @@ using Random = Unity.Mathematics.Random;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private GameObject cardZone;
+    //[SerializeField] private GameObject cardZone;
     
     private static float offset;
 
@@ -18,22 +20,30 @@ public class GameManager : MonoBehaviour
     public bool isComUsedA = false;
     public bool isComUsedC = false;
     public List<bool> isComUsed;
+
+    public bool isDecoyBeingUsed = false;
+    public GameObject decoyCard;
+    
+    public bool isFrostUsed = false;
+    public bool isFogUsed = false;
+    public bool isRainUsed = false;
+    public List<bool> isWeatherUsed;
     [SerializeField] private TextMeshProUGUI youStart;
     [SerializeField] private TextMeshProUGUI opponentStarts;
     
     private List<GameObject> cardsOnBoard = new List<GameObject>();
     private static List<GameObject> cardsInDefausse = new List<GameObject>();
 
-    private GameObject dropZoneSword;
-    private GameObject dropZoneArc;
-    private GameObject dropZoneCatapult;
-    private GameObject dropZoneSwordEnemy;
-    private GameObject dropZoneArcEnemy;
-    private GameObject dropZoneCatapultEnemy;
-    private GameObject zoneCard;
-   
+    [SerializeField] private GameObject dropZoneSword;
+    [SerializeField] private GameObject dropZoneArc;
+    [SerializeField] private GameObject dropZoneCatapult;
+    [SerializeField] private GameObject dropZoneSwordEnemy;
+    [SerializeField]private GameObject dropZoneArcEnemy;
+    [SerializeField] private GameObject dropZoneCatapultEnemy;
+    [SerializeField] public GameObject zoneCard;
+    
 
-    private static GameObject defausse;
+    [SerializeField] private GameObject defausse;
     public static bool defausseOpen = false;
     private GameObject cardToKeep;
     private GameObject tempCard;
@@ -44,17 +54,20 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]  public GameObject card;
     [SerializeField] private GameObject keepCardsButton;
-    private GameObject canvas;
+    [SerializeField] private GameObject canvas;
     private int setActiveCounter = 0;
 
     private int startingPlayer;
     public int nbCardChanged = 0;
     public int totPts = 0;
     public int totPtsEnemy = 0;
+    private int index = 0;
     private void Start()
     {
+        
         ChooseWhoStarts();
         isComUsed = new List<bool>(3) { isComUsedS, isComUsedA, isComUsedC };
+        isWeatherUsed = new List<bool>(3) { isFrostUsed, isFogUsed, isRainUsed };
     }
 
     private void Update()
@@ -89,7 +102,7 @@ public class GameManager : MonoBehaviour
                 {
                     cardB.isTightBondUsed = false;
                 }
-                BoardManager.defausse.Add(cardB);
+                BoardManager.defausse.Add(cardB.TransformIntoCardObj());
                 
             }
         }
@@ -109,8 +122,24 @@ public class GameManager : MonoBehaviour
             GameObject.Destroy(card);
         }*/
     }
-    
 
+
+    public void CreateCardDisplay(GameObject card)
+    {
+        Debug.Log(card.GetComponent<CardBehavior>().name);
+        Debug.Log(GameObject.Find(card.GetComponent<CardBehavior>().name).name);
+        card.GetComponent<Image>().sprite = GameObject.Find(card.GetComponent<CardBehavior>().name).GetComponent<SpriteRenderer>().sprite;
+        CardBehavior cardB = card.GetComponent<CardBehavior>();
+        if (!cardB.isHero && cardB.rank < 13)
+        {
+            cardB.ChangePower();
+        }
+        else
+        {
+            cardB.cover.gameObject.SetActive(false);
+        }
+        
+    }
     
 
     public void CompterNbPts()
@@ -125,10 +154,10 @@ public class GameManager : MonoBehaviour
     }
     private void ChooseWhoStarts()
     {
-        Random gen = new Random();
+        Random gen = new Random(2);
         int index = gen.NextInt(1, 3);
         TextMeshProUGUI text;
-        if (index % 2 == 0)
+        if (index == 2)
         {
             text = youStart;
             startingPlayer = 0;
@@ -145,7 +174,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator HideText(TextMeshProUGUI text)
     {
-        yield return (1f);
+        yield return (2f);
         text.gameObject.SetActive(false);
     }
     private void DefineDropZones()
@@ -166,14 +195,16 @@ public class GameManager : MonoBehaviour
         offset = 276.0f / (BoardManager.defausse.Count + 1);
         float offsetStart = offset;
         Debug.Log(BoardManager.defausse.Count);
-        foreach (CardBehavior card in BoardManager.defausse)
+        CardBehavior cardB;
+        foreach (var card in BoardManager.defausse)
         {
-            if (!card.isHero && card.ability < 9)
+            //cardB = card.GetComponent<CardBehavior>();
+            if (!card.isHero && card.ability < 13)
             {
                 Debug.Log("testttt");
                 carte.GetComponent<CardBehavior>().Constructeur(card.name, card.ability, card.power, card.rank, card.isHero, -1, card.no,card.faction);
                // cardsInDefausse.Add(GameObject.Instantiate(carte, new Vector2(offset, defausse.transform.position.y), defausse.transform.rotation));
-                Instantiate(carte, new Vector2(offset + 10, defausse.transform.position.y), defausse.transform.rotation).transform.SetParent(canvas.transform, true);
+                Instantiate(carte, new Vector2(offset , defausse.transform.position.y), defausse.transform.rotation).transform.SetParent(canvas.transform, true);
                 
                 //tempCard.transform.SetParent(canvas.transform, true);
                 //cardsInDefausse.Add(tempCard);
@@ -185,7 +216,7 @@ public class GameManager : MonoBehaviour
         offset = 0;
     }
 
-    public static void CacherDefausse(CardBehavior cardToKeep)
+    public void CacherDefausse(CardObj cardToKeep)
     {
         foreach (GameObject card in cardsInDefausse)
         {
@@ -217,20 +248,34 @@ public class GameManager : MonoBehaviour
         BoardManager.defausse.Add(c55);*/
         //CreateDeck();
         
-        Cards.CreateDeck();
-        DefineDropZones();
-        Refaire();
+        //Cards.CreateDeck();
+        //DefineDropZones();
+        //Refaire();
+        StartGame();
+        foreach (var card in physicalCards)
+        {
+            CreateCardDisplay(card);
+        }
+
         //StartGame();
     }
 
+    private void Test()
+    {
+        //Cards.CreateDeck();
+         //List<(string, int, int, int, bool,int, int, int)> test = BoardManager.deck;
+      //DefineDropZones();
+        StartGame();
+    }
     private void StartGame()
     {
+        int index = 0;
         while (BoardManager.cardsInHand.Count != 10)
         {
             
-            ChooseCardInHand();
+            CreateCards(ChooseCardInHand(), 10, index++);
         }
-        CreateCards();
+        
        /* int i = 0;
         foreach (var card in physicalCards)
         {
@@ -241,34 +286,36 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void CreateCards()
+    public void CreateCards((string, int, int, int, bool,int, int, int) obj, int nbCards, int index)
     {
         GameObject carte;
-        int index = 0;
-        foreach (var card in BoardManager.cardsInHand)
+        
+        //foreach (var card in BoardManager.cardsInHand)
         {
             carte = this.card;
-            carte.GetComponent<CardBehavior>().Constructeur(card.name, card.ability, card.power, card.rank,  card.isHero, index, card.no, card.faction);
-            InstanciateCards(index++, 10, carte);
+            //carte.GetComponent<CardBehavior>().Constructeur(card.name, card.ability, card.power, card.rank,  card.isHero, index, card.no, card.faction);
+            carte.GetComponent<CardBehavior>().Constructeur(obj.Item1, obj.Item2,  obj.Item3, obj.Item4, obj.Item5, obj.Item6,  obj.Item7, obj.Item8);
+            InstanciateCards(index, nbCards, carte);
             
         }
     }
     public void InstanciateCards(int index, int nbCards, GameObject aCard)
     {
         float offset = 844.0f / nbCards;
-        GameObject card = Instantiate(aCard, new Vector2(offset * index + cardZone.transform.position.x - (844f / 2), cardZone.transform.position.y),
-            cardZone.transform.rotation);
+        GameObject card = Instantiate(aCard, new Vector2(offset * index + zoneCard.transform.position.x - (844f / 2), zoneCard.transform.position.y),
+            zoneCard.transform.rotation);
         card.transform.SetParent(canvas.transform, true);
+        card.GetComponent<CardBehavior>().indice = index;
         BoardManager.cardsInHand.Add(card.GetComponent<CardBehavior>()); //
         physicalCards.Add(card);
     }
 
-    public void ChooseCardInHand()
+    public (string, int, int, int, bool,int, int, int) ChooseCardInHand()
     {
         int index = ChooseRandomCard();
         //BoardManager.cardsInHand.Add(BoardManager.deck[index].GetComponent<CardBehavior>());
-        BoardManager.cardsAlreadyPicked.Add(index);
         
+        return BoardManager.deck[index];
     }
 
     public  int ChooseRandomCard()
@@ -280,40 +327,47 @@ public class GameManager : MonoBehaviour
         {
             index = gen.NextInt(0, BoardManager.deck.Count);
         }
-
+        BoardManager.cardsAlreadyPicked.Add(index);
         return index;
     }
 
-    public void AddCardInHands()
+    public void AddCard(GameObject dropZone, List<GameObject> row, float offset)
     {
-        offset = 844f / (physicalCards.Count + 1);
-        foreach (var card in physicalCards)
+       // offset = 844f / (row.Count + 1);
+        foreach (var card in row)
         {
-            card.transform.position = new Vector2(zoneCard.transform.position.x - 844.0f/2 + offset * card.GetComponent<CardBehavior>().indice, zoneCard.transform.position.y);
+            card.transform.position = new Vector2(dropZone.transform.position.x - 844.0f/2 + offset * card.GetComponent<CardBehavior>().indice, dropZone.transform.position.y);
         }
+
+        index++;
     }
 
-    public void RemoveCardInHands(int index)
+    public void RemoveCard(int index, GameObject dropZone, List<GameObject> row)
     {
         CardBehavior cardB;
-        offset = 844f / (physicalCards.Count);
-        foreach (var card in physicalCards)
+        offset = 844f / (row.Count);
+        int i = 0;
+        foreach (var card in row)
         {
+            Debug.Log(i++);
+            //Debug.Log(card.name);
             cardB = card.GetComponent<CardBehavior>();
             if (cardB.indice > index)
             {
                 cardB.indice--;
             }
 
-            card.transform.position = new Vector2(zoneCard.transform.position.x - 844.0f / 2 + offset * cardB.indice,
-                zoneCard.transform.position.y);
+            card.transform.position = new Vector2(dropZone.transform.position.x - 844.0f / 2 + offset * cardB.indice,
+                dropZone.transform.position.y);
         }
+
+        this.index--;
     }
     private void WorkThreadFunction()
     {
         try
         {
-            StartGame();
+            Refaire();
         }
         catch 
         {
@@ -325,6 +379,8 @@ public class GameManager : MonoBehaviour
         Thread thread = new Thread(new ThreadStart(WorkThreadFunction)) ;
        
         thread.Start();
+        
+        Test();
         if (!thread.Join(new TimeSpan(0, 0, 1)) )
         {
             thread.Abort();

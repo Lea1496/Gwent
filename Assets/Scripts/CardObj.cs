@@ -12,8 +12,10 @@ public class CardObj
     
     public bool isHero;
     public int indice;
+    public int no;
+    public int faction;
 
-    public CardObj(string _name, int _ability, int _power, int _rank, bool _isHero, int _indice)
+    public CardObj(string _name, int _ability, int _power, int _rank, bool _isHero, int _indice, int _no, int _faction)
     {
         name = _name;
         ability = _ability;
@@ -22,5 +24,7 @@ public class CardObj
         
         isHero = _isHero;
         indice = _indice;
+        no = _no;
+        faction = _faction;
     }
 }
