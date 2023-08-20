@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 using System.Linq;
 using System.Numerics;
 
-
 namespace GwentEngine
 {
     public static class Settings
@@ -37,6 +36,68 @@ namespace GwentEngine
         scorch = 15,
         leader = 16
     }
+
+    public abstract class CardAbility
+    {
+        public abstract IEnumerable<CardInfo> Apply(CardMetadata cardMetadata, CardInPlay cardInPlay, GameState gameState);
+    }
+
+    public class DefaultAbility : CardAbility
+    {
+        public override IEnumerable<CardInfo> Apply(CardMetadata cardMetadata, CardInPlay cardInPlay, GameState gameState)
+        {
+            yield break;
+        }
+    }
+
+    public class FrostAbility : CardAbility
+    {
+        public override IEnumerable<CardInfo> Apply(CardMetadata cardMetadata, CardInPlay cardInPlay, GameState gameState)
+        {
+            var cardsInOpponentSword = gameState.GetCards(PlayerKind.Opponent, Location.Sword);
+            var cardsInPlayerSword = gameState.GetCards(PlayerKind.Player, Location.Sword);
+
+            foreach (var cardInSwordLocation in cardsInOpponentSword.Union(cardsInPlayerSword))
+            {
+                if (!cardInSwordLocation.IsHero)
+                {
+                    cardInSwordLocation.ChangePower(1);
+                    yield return new CardInfo() { Number = cardInSwordLocation.Number, Location = cardInSwordLocation.Location, Player = cardInSwordLocation.Player };
+                }
+            }
+
+            yield break;
+        }
+    }
+
+    public static class CardAbilityFactory
+    {
+        public static CardAbility Create(Ability ability)
+        {
+            switch (ability)
+            {
+                case Ability.agile: return new DefaultAbility();
+                case Ability.berserker: return new DefaultAbility();
+                case Ability.mardroeme: return new DefaultAbility();
+                case Ability.medic: return new DefaultAbility();
+                case Ability.moralBoost: return new DefaultAbility();
+                case Ability.muster: return new DefaultAbility();
+                case Ability.spy: return new DefaultAbility();
+                case Ability.tightBond: return new DefaultAbility();
+                case Ability.none: return new DefaultAbility();
+                case Ability.frost: return new FrostAbility();
+                case Ability.fog: return new DefaultAbility();
+                case Ability.rain: return new DefaultAbility();
+                case Ability.commandersHorn: return new DefaultAbility();
+                case Ability.clearWeather: return new DefaultAbility();
+                case Ability.decoy: return new DefaultAbility();
+                case Ability.scorch: return new DefaultAbility();
+                case Ability.leader: return new DefaultAbility();
+                default: throw new Exception("Unkown ability");
+            }
+        }
+    }
+
 
     public class CardMetadata
     {
@@ -106,11 +167,6 @@ namespace GwentEngine
             Power = power;
         }
 
-        public void ChangePower(int incrementOrDecrement)
-        {
-            Power += incrementOrDecrement;
-        }
-
         public override string ToString() => $"#{Number} {Location} {Player}";
     }
 
@@ -142,6 +198,14 @@ namespace GwentEngine
 
         public override string ToString() => $"#{Number} {Location} {Player}";
 
+        public void ChangePower(int power) => _cardInPlay.Power = power;
+    }
+
+    public struct CardInfo
+    {
+        public PlayerKind Player;
+        public int Number;
+        public Location Location;
     }
 
     public static class Extensions
@@ -154,6 +218,20 @@ namespace GwentEngine
             }
         }
 
+        public static int IndexOf<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            var index = 0;
+            foreach (var item in source)
+            {
+                if (predicate.Invoke(item))
+                {
+                    return index;
+                }
+                index++;
+            }
+
+            return -1;
+        }
 
         public static bool IsClickable(this Ability ability) => (new[] { Ability.decoy, Ability.scorch, Ability.leader }).Contains(ability);
 
@@ -173,8 +251,8 @@ namespace GwentEngine
         private Random _random = new Random(DateTime.Now.Millisecond);
         private int _nbCardChanged = 0;
         private bool _isTimeToChangeCards = false;
-        
-        public bool IsTimeToChangeCards { get => _isTimeToChangeCards;}
+
+        public bool IsTimeToChangeCards { get => _isTimeToChangeCards; }
         public BoardState CurrentState => _boardStates.Peek();
 
         public void NewGame(Dictionary<int, CardMetadata> metadata, int initialCardCount = 0)
@@ -213,13 +291,18 @@ namespace GwentEngine
             }
         }
 
-        
+
         public void UseCard(int cardNumber, PlayerKind player)
         {
             var cardMetadata = _metadata[cardNumber];
             var cardInPlay = new CardInPlay(cardNumber, Location.Hand, player, cardMetadata.DefaultPower);
             CurrentState.CardsInPlay[cardInPlay.Number] = cardInPlay;
+
+            OnCardAdded(this, new CardInfo() { Number = cardNumber, Player = player, Location = Location.Hand });
         }
+
+        public event EventHandler<CardInfo> OnCardAdded;
+        public event EventHandler<CardInfo> OnCardChanged;
 
         public void Play(int cardNumber, Location location)
         {
@@ -236,8 +319,9 @@ namespace GwentEngine
             }
 
             cardInPlay.Location = location;
+            OnCardChanged(this, new CardInfo() { Number = cardNumber, Player = cardInPlay.Player, Location = location });
 
-            ApplyCardEffect(cardInPlay);
+            ApplyCardAbility(cardMetadata, cardInPlay);
         }
 
         public void RemoveCard(int cardNumber, Location location)
@@ -251,12 +335,18 @@ namespace GwentEngine
             if (!cardMetadata.IsHero || cardMetadata.DefaultPower == -1)
             {
                 cardInPlay.Location = Location.Discard;
+                OnCardChanged(this, new CardInfo() { Number = cardNumber, Player = cardInPlay.Player, Location = location });
             }
-            
         }
 
-        private void ApplyCardEffect(CardInPlay cardInPlay)
+        private void ApplyCardAbility(CardMetadata cardMetadata, CardInPlay cardInPlay)
         {
+            var cardAbility = CardAbilityFactory.Create(cardMetadata.Ability);
+
+            foreach (var cardInfo in cardAbility.Apply(cardMetadata, cardInPlay, this))
+            {
+                OnCardChanged(this, cardInfo);
+            }
         }
 
         private static Dictionary<Location, Location> LocationWithCommandersHorn = new()
@@ -277,7 +367,8 @@ namespace GwentEngine
             var cardsInLocation = CurrentState.CardsInPlay.Values
                 .Where(c => c.Location == location)
                 .Select(c => Tuple.Create(_metadata[c.Number], c))
-                .Where(c => {
+                .Where(c =>
+                {
                     if (location == Location.Hand)
                     {
                         return c.Item2.Player == player;
@@ -344,7 +435,7 @@ namespace GwentEngine
             public int Power;
         }
 
-        private Dictionary<int, CardGameObject> _cache = new ();
+        private Dictionary<int, CardGameObject> _cache = new();
 
         public void Render()
         {
@@ -352,13 +443,13 @@ namespace GwentEngine
             gameState.NewGame(null);
 
             foreach (var cardInPlay in gameState.GetCards(PlayerKind.Player, Location.Hand))
-            { 
-                if(_cache.TryGetValue(cardInPlay.Number, out var cachedCard))
+            {
+                if (_cache.TryGetValue(cardInPlay.Number, out var cachedCard))
                 {
                     cachedCard.Power = cardInPlay.Power != cachedCard.Power ? cardInPlay.Power : cachedCard.Power;
                 }
-                else 
-                { 
+                else
+                {
                     //Create and cache new card
                 }
             }
@@ -373,54 +464,54 @@ namespace GwentEngine
     {
         public void UseFrost()
         {
-            
+
         }
 
         public void UseFog()
         {
-            
+
         }
         public void UseRain()
         {
-            
+
         }
         public void UseMedic()
         {
-            
+
         }
         public void UseMoralBoost()
         {
-            
+
         }
 
         public void UseMuster()
         {
-            
+
         }
 
         public void UseSpy()
         {
-            
+
         }
 
         public void UseTightBond()
         {
-            
+
         }
 
         public void UseDecoy()
         {
-            
+
         }
 
         public void UseScorch()
         {
-            
+
         }
 
         public void UseClearWeather()
         {
-            
+
         }
     }
 }
