@@ -168,7 +168,8 @@ namespace GwentEngine
         ComandersHornArchery = 32,
         Archery = 64,
         Discard = 128,
-        Weather = 256
+        Weather = 256,
+        Dead = 512
     }
 
     public enum PlayerKind
@@ -281,15 +282,18 @@ namespace GwentEngine
                 {
                     return index;
                 }
+
                 index++;
             }
 
             return -1;
         }
 
-        public static bool IsClickable(this Ability ability) => (new[] { Ability.decoy, Ability.scorch, Ability.leader }).Contains(ability);
+        public static bool IsClickable(this Ability ability) =>
+            (new[] { Ability.decoy, Ability.scorch, Ability.leader }).Contains(ability);
 
-        public static PlayerKind Reverse(this PlayerKind playerKind) => playerKind == PlayerKind.Opponent ? PlayerKind.Player : PlayerKind.Opponent;
+        public static PlayerKind Reverse(this PlayerKind playerKind) =>
+            playerKind == PlayerKind.Opponent ? PlayerKind.Player : PlayerKind.Opponent;
     }
 
     public class BoardState
@@ -329,6 +333,11 @@ namespace GwentEngine
             var cardNumber = _availableCards[index];
 
             UseCard(cardNumber, player);
+        }
+        public void ChangeCard(int cardNumber)
+        {
+            Draw(CurrentState.CardsInPlay[cardNumber].Player);
+            RemoveCard(cardNumber, true);
         }
 
         public void UseCard(int cardNumber, PlayerKind player)
@@ -375,17 +384,28 @@ namespace GwentEngine
             ApplyCardAbility(cardMetadata, cardInPlay);
         }
 
-        public void RemoveCard(int cardNumber, Location location)
+        public void RemoveCard(int cardNumber, bool isRecyclable)
         {
             var cardMetadata = _metadata[cardNumber];
             if (!CurrentState.CardsInPlay.TryGetValue(cardNumber, out var cardInPlay))
             {
                 throw new Exception($"Cannot play a card not drawn yet");
             }
-
-            if (!cardMetadata.IsHero || cardMetadata.DefaultPower == -1)
+            if (isRecyclable)
             {
-                cardInPlay.Location = Location.Discard;
+                CurrentState.CardsInPlay.Remove(cardNumber);
+                _availableCards.Add(cardNumber);
+            }
+            else
+            {
+                if (!cardMetadata.IsHero || cardMetadata.DefaultPower != -1)
+                {
+                    cardInPlay.Location = Location.Discard;
+                }
+                else
+                {
+                    cardInPlay.Location = Location.Dead;
+                }
             }
         }
 
@@ -397,16 +417,16 @@ namespace GwentEngine
 
         private static Dictionary<Location, Location> LocationWithCommandersHorn = new()
         {
-            { Location.Catapult, Location.ComandersHornCatapult } ,
+            { Location.Catapult, Location.ComandersHornCatapult },
             { Location.Sword, Location.ComandersHornSword },
-            { Location.Archery, Location.ComandersHornArchery}
+            { Location.Archery, Location.ComandersHornArchery }
         };
 
         private static Dictionary<Location, Location> LocationWithWeather = new()
         {
-            { Location.Sword, Location.ComandersHornCatapult } ,
+            { Location.Sword, Location.ComandersHornCatapult },
             { Location.Archery, Location.ComandersHornSword },
-            { Location.Catapult, Location.ComandersHornArchery}
+            { Location.Catapult, Location.ComandersHornArchery }
         };
 
         public Card[] GetCards(PlayerKind player, Location location)
@@ -438,15 +458,18 @@ namespace GwentEngine
 
         public string ToJson() => JsonConvert.SerializeObject(_boardStates);
 
-        public static GameState FromFile(Dictionary<int, CardMetadata> metadata, string fullPath) => FromJson(metadata, File.ReadAllText(fullPath));
-        public static GameState FromJson(Dictionary<int, CardMetadata> metadata, string json) => new GameState() { _boardStates = JsonConvert.DeserializeObject<Stack<BoardState>>(json), _metadata = metadata };
+        public static GameState FromFile(Dictionary<int, CardMetadata> metadata, string fullPath) =>
+            FromJson(metadata, File.ReadAllText(fullPath));
+
+        public static GameState FromJson(Dictionary<int, CardMetadata> metadata, string json) => new GameState()
+            { _boardStates = JsonConvert.DeserializeObject<Stack<BoardState>>(json), _metadata = metadata };
 
         public string PrettyPrint()
         {
             return $"{CurrentState}";
         }
     }
-<<<<<<< HEAD
+ 
 
     public class Renderer
     {
@@ -482,67 +505,4 @@ namespace GwentEngine
         }
     }
 
-    public class UseAbility
-    {
-        public void UseFrost()
-        {
-
-        }
-
-        public void UseFog()
-        {
-
-        }
-        public void UseRain()
-        {
-
-        }
-        public void UseMedic()
-        {
-<<<<<<< HEAD
-            
-        }  
-=======
-
-        }
->>>>>>> 836eb24e1892d714c477f2c57e17f3d622436966
-        public void UseMoralBoost()
-        {
-
-        }
-
-        public void UseMuster()
-        {
-
-        }
-
-        public void UseSpy()
-        {
-
-        }
-
-        public void UseTightBond()
-        {
-
-        }
-
-        public void UseDecoy()
-        {
-
-        }
-
-        public void UseScorch()
-        {
-
-        }
-
-        public void UseClearWeather()
-        {
-
-        }
-    }
-=======
->>>>>>> 1bf0a7e5e363e2d5e2f1f5db394a795574b3b4e5
 }
-
-

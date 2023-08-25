@@ -6,7 +6,8 @@ public class OnButtonPressed : MonoBehaviour
 {
     public void StopChangeCards()
     {
-        //GameObject.Find("GameManager").GetComponent<GameManager>().nbCardChanged = 2;
+        GameObject.Find("GameManager").GetComponent<GameManager>().NbCardsChanged = 2;
+        gameObject.SetActive(false);
     }
 
     public void Pass()

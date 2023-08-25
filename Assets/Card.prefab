@@ -373,7 +373,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 8343753159227419207}
           m_TargetAssemblyTypeName: CardBehavior, Assembly-CSharp
-          m_MethodName: ChooseThisCardToChange
+          m_MethodName: ChoseThisCardToChange
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -505,17 +505,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 254326dc48463b74690e3f506d27124e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
-  ability: 0
-  power: 0
-  rank: 0
-  isHero: 0
-  indice: 0
-  no: 0
-  faction: 0
   powerText: {fileID: 7210989562172781421}
-  cover: {fileID: 4188918464713516887}
-  isTightBondUsed: 0
-  ogPower: 0
-  card: {fileID: 6913159340962412152}
-  gameManager: {fileID: 0}

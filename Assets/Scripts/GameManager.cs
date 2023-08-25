@@ -12,14 +12,26 @@ public class GameManager : MonoBehaviour
 {
     private float _cardSize = 844.0f;
     private Dictionary<int, CardMetadata> _cardMetadata;
+    private bool _isTimeToChangeCards = false;
     public GameState _gameState;
-    private ConcurrentDictionary<int, (GameObject gameObject, Card card, PlayerKind player, Location location, int position)> _cardGameObjects;
+    private int _instanciationCounter = 0;
+
+    private ConcurrentDictionary<int, (GameObject gameObject, Card card, PlayerKind player, Location location, int
+        position)> _cardGameObjects;
+
     private Zones _zones;
 
     [SerializeField] public GameObject card;
     [SerializeField] private TextMeshProUGUI youStart;
     [SerializeField] private TextMeshProUGUI opponentStarts;
+    [SerializeField] private Button keepCardsButton;
+    public bool IsTimeToChangeCards
+    {
+        get => _isTimeToChangeCards;
+        set => _isTimeToChangeCards = IsTimeToChangeCards;
+    }
 
+    public int NbCardsChanged { get; set; }
     public class Zones
     {
         public Zones()
@@ -34,8 +46,19 @@ public class GameManager : MonoBehaviour
             Card = GameObject.Find("CardZone");
 
             Canvas = GameObject.Find("Canvas");
+
+            CommandersHornSword = GameObject.Find("CommandersHornSword");
+            CommandersHornArc = GameObject.Find("CommandersHornArc");
+            CommandersHornCat = GameObject.Find("CommandersHornCat");
+            CommandersHornSwordEnemy = GameObject.Find("CommandersHornSwordEnemy");
+            CommandersHornArcEnemy = GameObject.Find("CommandersHornArcEnemy");
+            CommandersHornCatEnemy = GameObject.Find("CommandersHornCatEnemy");
         }
 
+        
+
+        
+        
         public GameObject PlayerSword { get; }
         public GameObject PlayerArc { get; }
         public GameObject PlayerCatapult { get; }
@@ -48,6 +71,13 @@ public class GameManager : MonoBehaviour
         public GameObject Card { get; }
 
         public GameObject Canvas { get; }
+        
+        public GameObject CommandersHornSword { get; }
+        public GameObject CommandersHornArc { get; }
+        public GameObject CommandersHornCat { get; }
+        public GameObject CommandersHornSwordEnemy { get; }
+        public GameObject CommandersHornArcEnemy { get; }
+        public GameObject CommandersHornCatEnemy { get; }
 
         public GameObject GetZone(PlayerKind player, Location location)
         {
@@ -64,6 +94,10 @@ public class GameManager : MonoBehaviour
                     case Location.Sword: return PlayerSword;
                     case Location.Archery: return PlayerArc;
                     case Location.Catapult: return PlayerCatapult;
+                    case Location.ComandersHornSword: return CommandersHornSword;
+                    case Location.ComandersHornArchery: return CommandersHornArc;
+                    case Location.ComandersHornCatapult: return CommandersHornCat;
+
                 }
             }
             else
@@ -74,9 +108,13 @@ public class GameManager : MonoBehaviour
                     case Location.Sword: return EnemySword;
                     case Location.Archery: return EnemyArc;
                     case Location.Catapult: return EnemyCatapult;
+                    case Location.ComandersHornSword: return CommandersHornSwordEnemy;
+                    case Location.ComandersHornArchery: return CommandersHornArcEnemy;
+                    case Location.ComandersHornCatapult: return CommandersHornCatEnemy;
                 }
             }
-            Debug.Log($"Unsupported : {player}, {location}");
+
+            Debug.Log($"Cannot plate card at : {player}, {location}");
             return null;
         }
     }
@@ -107,10 +145,19 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        
         if (_gameState != null)
         {
             UpdateAllCards();
         }
+
+        if (_isTimeToChangeCards && _instanciationCounter < 1)
+        {
+            keepCardsButton.gameObject.SetActive(true);
+            _instanciationCounter++;
+        }
+
+        _isTimeToChangeCards = NbCardsChanged >= 2 ? false : true;
     }
 
     private void Awake()
@@ -124,22 +171,25 @@ public class GameManager : MonoBehaviour
         _cardMetadata = CardMetadata.FromFile(deckFullPath);
 
         _gameState.NewGame(_cardMetadata, Settings.InitialCardCount);
-        Simulate(_gameState, PlayerKind.Player);
-        Simulate(_gameState, PlayerKind.Opponent);
+        //Simulate(_gameState, PlayerKind.Player);
+        //Simulate(_gameState, PlayerKind.Opponent);
 
         UpdateAllCards();
+        _isTimeToChangeCards = true;
         StartCoroutine();
     }
 
+
     private void Simulate(GameState gameState, PlayerKind player)
     {
-        var items = new Dictionary<Location, int>() {
+        var items = new Dictionary<Location, int>()
+        {
             { Location.ComandersHornCatapult, 1 },
             { Location.Catapult, 5 },
             { Location.ComandersHornSword, 1 },
             { Location.Sword, 6 },
             { Location.ComandersHornArchery, 1 },
-            { Location.Archery,2}
+            { Location.Archery, 2 }
         };
 
         foreach (var (location, count) in items)
@@ -155,6 +205,7 @@ public class GameManager : MonoBehaviour
                         break;
                     }
                 }
+                
             }
         }
     }
@@ -182,9 +233,12 @@ public class GameManager : MonoBehaviour
 
                 _cardGameObjects.AddOrUpdate(card.Number, key =>
                 {
-                    var gameObject = Instantiate(this.card, new Vector2(x2, zone.transform.position.y), zone.transform.rotation);
+                    var gameObject = Instantiate(this.card, new Vector2(x2, zone.transform.position.y),
+                        zone.transform.rotation);
                     gameObject.transform.SetParent(_zones.Canvas.transform, true);
-                    gameObject.GetComponent<Image>().sprite = GameObject.Find(card.Metadata.Name).GetComponent<SpriteRenderer>().sprite;
+                    gameObject.GetComponent<Image>().sprite =
+                        GameObject.Find(card.Metadata.Name).GetComponent<SpriteRenderer>().sprite;
+                    gameObject.GetComponent<CardBehavior>().Constructor(card, player);
 
                     return (gameObject, card, player, location, i);
                 }, (key, existing) =>
@@ -203,6 +257,6 @@ public class GameManager : MonoBehaviour
             var rowScore = cards.Sum(card => card.Power);
         }
 
-        Debug.Log($"Update phase: {sw.ElapsedMilliseconds} ms");
+//        Debug.Log($"Update phase: {sw.ElapsedMilliseconds} ms");
     }
 }
