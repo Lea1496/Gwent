@@ -1,4 +1,4 @@
-/*using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,13 +8,18 @@ using Newtonsoft.Json.Linq;
 
 namespace GwentEngine
 {
+    public class BaseTests 
+    { 
+        public static string DeckFilePath = @"..\..\..\..\..\..\Assets\Cards\Deck.json";
+    }
+
     [TestClass]
-    public class CardMetadataTests
+    public class CardMetadataTests : BaseTests
     {
         [TestMethod]
         public void CanReadDeckMetadata()
         {
-            var metadata = CardMetadata.FromFile(Path.Combine(Environment.CurrentDirectory, "Deck.json"));
+            var metadata = CardMetadata.FromFile(DeckFilePath);
 
             Assert.AreEqual(179, metadata.Count);
 
@@ -31,7 +36,7 @@ namespace GwentEngine
     }
 
     [TestClass]
-    public class GameStateTest
+    public class GameStateTest : BaseTests
     {
         private const int commanders_horn_card = 14;
         private const int geralt_of_rivia_card = 0;
@@ -44,8 +49,16 @@ namespace GwentEngine
         [TestInitialize]
         public void Setup()
         {
-            _metadata = CardMetadata.FromFile(Path.Combine(Environment.CurrentDirectory, "Deck.json"));
+            _metadata = CardMetadata.FromFile(DeckFilePath);
             _gameState = new GameState();
+        }
+
+        private void _gameState_OnCardChanged(object sender, CardInfo e)
+        {
+        }
+
+        private void _gameState_OnCardAdded(object sender, CardInfo e)
+        {
         }
 
         [TestMethod]
@@ -179,4 +192,4 @@ namespace GwentEngine
             Assert.AreEqual(2 * Settings.InitialCardCount, cardNumbers.Length);
         }
     }
-}*/
+}

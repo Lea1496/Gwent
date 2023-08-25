@@ -12,7 +12,6 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private float cheapInterpolationTime = 0.1f;
 
 
-
     // Update is called once per frame
     void Update()
     {
@@ -57,6 +56,7 @@ public class PlayerNetwork : NetworkBehaviour
             set => yRot = value.y;
 
         }
+
         private void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
             serializer.SerializeValue(ref x);
@@ -64,7 +64,5 @@ public class PlayerNetwork : NetworkBehaviour
             
             serializer.SerializeValue(ref yRot);
         }
-    }
-
-    
+    }   
 }

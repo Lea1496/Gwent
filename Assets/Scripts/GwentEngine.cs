@@ -39,20 +39,54 @@ namespace GwentEngine
 
     public abstract class CardAbility
     {
-        public abstract IEnumerable<CardInfo> Apply(CardMetadata cardMetadata, CardInPlay cardInPlay, GameState gameState);
+        public abstract void Apply(CardMetadata cardMetadata, CardInPlay cardInPlay, GameState gameState);
     }
 
     public class DefaultAbility : CardAbility
     {
-        public override IEnumerable<CardInfo> Apply(CardMetadata cardMetadata, CardInPlay cardInPlay, GameState gameState)
+        public override void Apply(CardMetadata cardMetadata, CardInPlay cardInPlay, GameState gameState)
         {
-            yield break;
+        }
+    }
+
+    public class CommandersHornAbility : CardAbility
+    {
+        public override void Apply(CardMetadata cardMetadata, CardInPlay cardInPlay, GameState gameState)
+        {
+            var cardsInPlayerSword = gameState.GetCards(PlayerKind.Player, Location.Sword);
+            foreach (var card in cardsInPlayerSword)
+            {
+                var shouldApply = false;
+                if (shouldApply)
+                {
+                    card.ChangePowerMultiplier(2);
+                }
+            }
+            //private int GetPowerMultiplier(Tuple<CardMetadata, CardInPlay>[] cardsInLocation, PlayerKind player, Location location, CardMetadata metadata)
+            //{
+            //    var isRowCommanderHornPresent = LocationWithCommandersHorn.TryGetValue(location, out var commandersHornLocation) && GetCards(player, commandersHornLocation).Length > 0;
+
+            //    if (metadata.IsCommandersHorn)
+            //    {
+            //        return isRowCommanderHornPresent ? 2 : 1;
+            //    }
+
+            //    if (metadata.IsHero)
+            //    {
+            //        return 1;
+            //    }
+
+            //    var isCardWithCommandersHornPresentInLocation = cardsInLocation.Any(c => c.Item1.IsCommandersHorn);
+
+            //    return isCardWithCommandersHornPresentInLocation ? 2 : 1;
+            //}
+
         }
     }
 
     public class FrostAbility : CardAbility
     {
-        public override IEnumerable<CardInfo> Apply(CardMetadata cardMetadata, CardInPlay cardInPlay, GameState gameState)
+        public override void Apply(CardMetadata cardMetadata, CardInPlay cardInPlay, GameState gameState)
         {
             var cardsInOpponentSword = gameState.GetCards(PlayerKind.Opponent, Location.Sword);
             var cardsInPlayerSword = gameState.GetCards(PlayerKind.Player, Location.Sword);
@@ -62,11 +96,8 @@ namespace GwentEngine
                 if (!cardInSwordLocation.IsHero)
                 {
                     cardInSwordLocation.ChangePower(1);
-                    yield return new CardInfo() { Number = cardInSwordLocation.Number, Location = cardInSwordLocation.Location, Player = cardInSwordLocation.Player };
                 }
             }
-
-            yield break;
         }
     }
 
@@ -176,17 +207,16 @@ namespace GwentEngine
         private CardMetadata _metadata;
         private int _powerMultiplier;
 
-        public Card(CardInPlay cardInPlay, CardMetadata metadata, int powerMultiplier)
+        public Card(CardInPlay cardInPlay, CardMetadata metadata)
         {
             _cardInPlay = cardInPlay;
             _metadata = metadata;
-            _powerMultiplier = powerMultiplier;
+            _powerMultiplier = 1;
         }
 
         public int Number => _cardInPlay.Number;
         public int Sequence => _cardInPlay.Sequence;
         public Location Location => _cardInPlay.Location;
-        public PlayerKind Player => _cardInPlay.Player;
         public int Power => _cardInPlay.Power * _powerMultiplier;
 
         public string Name => _metadata.Name;
@@ -195,14 +225,38 @@ namespace GwentEngine
         public Location PossibleLocations => _metadata.PossibleLocations;
         public bool IsHero => _metadata.IsHero;
         public int Faction => _metadata.Faction;
+        public CardMetadata Metadata => _metadata;
 
-        public override string ToString() => $"#{Number} {Location} {Player}";
+        public override string ToString() => $"#{Number} {Location} {EffectivePlayer}";
 
         public void ChangePower(int power) => _cardInPlay.Power = power;
+        public void ChangePowerMultiplier(int powerMultiplier) => _powerMultiplier = powerMultiplier;
+
+        public PlayerKind EffectivePlayer
+        {
+            get
+            {
+                if (Location == Location.Hand)
+                {
+                    return _cardInPlay.Player;
+                }
+
+                return _metadata.InOpponentZone ? _cardInPlay.Player.Reverse() : _cardInPlay.Player;
+            }
+        }
     }
 
-    public struct CardInfo
+    public class CardInfo
     {
+        public CardInfo(int number, CardMetadata metadata, PlayerKind player, Location location)
+        {
+            Number = number;
+            Metadata = metadata;
+            Player = player;
+            Location = location;
+        }
+
+        public CardMetadata Metadata;
         public PlayerKind Player;
         public int Number;
         public Location Location;
@@ -249,10 +303,8 @@ namespace GwentEngine
         private Dictionary<int, CardMetadata> _metadata = new();
         private List<int> _availableCards = new();
         private Random _random = new Random(DateTime.Now.Millisecond);
-        private int _nbCardChanged = 0;
-        private bool _isTimeToChangeCards = false;
+        public PlayerKind FirstPlayer { get; private set; }
 
-        public bool IsTimeToChangeCards { get => _isTimeToChangeCards; }
         public BoardState CurrentState => _boardStates.Peek();
 
         public void NewGame(Dictionary<int, CardMetadata> metadata, int initialCardCount = 0)
@@ -267,42 +319,42 @@ namespace GwentEngine
                 Draw(PlayerKind.Player);
                 Draw(PlayerKind.Opponent);
             });
-            _isTimeToChangeCards = true;
+
+            FirstPlayer = _random.Next(0, 1) == 0 ? PlayerKind.Player : PlayerKind.Opponent;
         }
 
         private void Draw(PlayerKind player)
         {
-            var index = _random.Next(0, _availableCards.Count);
+            var index = _random.Next(0, _availableCards.Count - 1);
             var cardNumber = _availableCards[index];
-            _availableCards.Remove(cardNumber);
 
             UseCard(cardNumber, player);
         }
-
-        public void ChangeCard(int cardNumber)
-        {
-            _isTimeToChangeCards = _nbCardChanged >= 2 ? false : true;
-            if (_isTimeToChangeCards)
-            {
-                _availableCards.Add(cardNumber);
-                CurrentState.CardsInPlay.Remove(cardNumber);
-                Draw(CurrentState.CardsInPlay[cardNumber].Player);
-                _nbCardChanged++;
-            }
-        }
-
 
         public void UseCard(int cardNumber, PlayerKind player)
         {
             var cardMetadata = _metadata[cardNumber];
             var cardInPlay = new CardInPlay(cardNumber, Location.Hand, player, cardMetadata.DefaultPower);
             CurrentState.CardsInPlay[cardInPlay.Number] = cardInPlay;
-
-            OnCardAdded(this, new CardInfo() { Number = cardNumber, Player = player, Location = Location.Hand });
+            _availableCards.Remove(cardNumber);
         }
 
-        public event EventHandler<CardInfo> OnCardAdded;
-        public event EventHandler<CardInfo> OnCardChanged;
+        public bool CanPlayAndAvailable(int cardNumber, Location location)
+        {
+            var cardMetadata = _metadata[cardNumber];
+
+            if ((cardMetadata.PossibleLocations & location) == 0)
+            {
+                return false;
+            }
+
+            if (!_availableCards.Contains(cardNumber))
+            {
+                return false;
+            }
+
+            return true;
+        }
 
         public void Play(int cardNumber, Location location)
         {
@@ -319,7 +371,6 @@ namespace GwentEngine
             }
 
             cardInPlay.Location = location;
-            OnCardChanged(this, new CardInfo() { Number = cardNumber, Player = cardInPlay.Player, Location = location });
 
             ApplyCardAbility(cardMetadata, cardInPlay);
         }
@@ -335,18 +386,13 @@ namespace GwentEngine
             if (!cardMetadata.IsHero || cardMetadata.DefaultPower == -1)
             {
                 cardInPlay.Location = Location.Discard;
-                OnCardChanged(this, new CardInfo() { Number = cardNumber, Player = cardInPlay.Player, Location = location });
             }
         }
 
         private void ApplyCardAbility(CardMetadata cardMetadata, CardInPlay cardInPlay)
         {
             var cardAbility = CardAbilityFactory.Create(cardMetadata.Ability);
-
-            foreach (var cardInfo in cardAbility.Apply(cardMetadata, cardInPlay, this))
-            {
-                OnCardChanged(this, cardInfo);
-            }
+            cardAbility.Apply(cardMetadata, cardInPlay, this);
         }
 
         private static Dictionary<Location, Location> LocationWithCommandersHorn = new()
@@ -355,6 +401,7 @@ namespace GwentEngine
             { Location.Sword, Location.ComandersHornSword },
             { Location.Archery, Location.ComandersHornArchery}
         };
+
         private static Dictionary<Location, Location> LocationWithWeather = new()
         {
             { Location.Sword, Location.ComandersHornCatapult } ,
@@ -364,45 +411,19 @@ namespace GwentEngine
 
         public Card[] GetCards(PlayerKind player, Location location)
         {
-            var cardsInLocation = CurrentState.CardsInPlay.Values
-                .Where(c => c.Location == location)
-                .Select(c => Tuple.Create(_metadata[c.Number], c))
-                .Where(c =>
-                {
-                    if (location == Location.Hand)
-                    {
-                        return c.Item2.Player == player;
-                    }
-
-                    var affectedPlayer = c.Item1.InOpponentZone ? c.Item2.Player.Reverse() : c.Item2.Player;
-                    return affectedPlayer == player;
-
-                })
-                .ToArray();
-
-            return cardsInLocation
-                .Select(c => new Card(c.Item2, c.Item1, GetPowerMultiplier(cardsInLocation, player, location, c.Item1)))
+            return CurrentState.CardsInPlay.Values
+                .Select(c => new Card(c, _metadata[c.Number]))
+                .Where(c => c.Location == location && c.EffectivePlayer == player)
                 .OrderBy(c => c.Sequence)
                 .ToArray();
         }
 
-        private int GetPowerMultiplier(Tuple<CardMetadata, CardInPlay>[] cardsInLocation, PlayerKind player, Location location, CardMetadata metadata)
+        public Dictionary<(PlayerKind, Location), Card[]> GetAllCards()
         {
-            var isRowCommanderHornPresent = LocationWithCommandersHorn.TryGetValue(location, out var commandersHornLocation) && GetCards(player, commandersHornLocation).Length > 0;
-
-            if (metadata.IsCommandersHorn)
-            {
-                return isRowCommanderHornPresent ? 2 : 1;
-            }
-
-            if (metadata.IsHero)
-            {
-                return 1;
-            }
-
-            var isCardWithCommandersHornPresentInLocation = cardsInLocation.Any(c => c.Item1.IsCommandersHorn);
-
-            return isCardWithCommandersHornPresentInLocation ? 2 : 1;
+            return CurrentState.CardsInPlay.Values
+                .Select(c => new Card(c, _metadata[c.Number]))
+                .GroupBy(c => (c.EffectivePlayer, c.Location))
+                .ToDictionary(g => g.Key, g => g.OrderBy(c => c.Sequence).ToArray());
         }
 
         public void Undo()
@@ -423,95 +444,6 @@ namespace GwentEngine
         public string PrettyPrint()
         {
             return $"{CurrentState}";
-        }
-    }
-
-    public class Renderer
-    {
-        private class CardGameObject
-        {
-            public Card card;
-            public object obj;
-            public int Power;
-        }
-
-        private Dictionary<int, CardGameObject> _cache = new();
-
-        public void Render()
-        {
-            var gameState = new GameState();
-            gameState.NewGame(null);
-
-            foreach (var cardInPlay in gameState.GetCards(PlayerKind.Player, Location.Hand))
-            {
-                if (_cache.TryGetValue(cardInPlay.Number, out var cachedCard))
-                {
-                    cachedCard.Power = cardInPlay.Power != cachedCard.Power ? cardInPlay.Power : cachedCard.Power;
-                }
-                else
-                {
-                    //Create and cache new card
-                }
-            }
-
-
-
-
-        }
-    }
-
-    public class UseAbility
-    {
-        public void UseFrost()
-        {
-
-        }
-
-        public void UseFog()
-        {
-
-        }
-        public void UseRain()
-        {
-
-        }
-        public void UseMedic()
-        {
-
-        }
-        public void UseMoralBoost()
-        {
-
-        }
-
-        public void UseMuster()
-        {
-
-        }
-
-        public void UseSpy()
-        {
-
-        }
-
-        public void UseTightBond()
-        {
-
-        }
-
-        public void UseDecoy()
-        {
-
-        }
-
-        public void UseScorch()
-        {
-
-        }
-
-        public void UseClearWeather()
-        {
-
         }
     }
 }
