@@ -387,7 +387,7 @@ namespace GwentEngine
         public void UseMedic()
         {
             
-        }
+        }  
         public void UseMoralBoost()
         {
             
