@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class OnButtonPressed : MonoBehaviour
 {
-   public void StopChangeCards()
-   {
-      GameObject.Find("GameManager").GetComponent<GameManager>().nbCardChanged = 2;
-   }
+    public void StopChangeCards()
+    {
+        //GameObject.Find("GameManager").GetComponent<GameManager>().nbCardChanged = 2;
+    }
 
-   public void Pass()
-   {
-      BoardManager.playerHasPassed = true;
-   }
+    public void Pass()
+    {
+        //BoardManager.playerHasPassed = true;
+    }
 }
