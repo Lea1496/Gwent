@@ -107,6 +107,10 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if (_gameState != null)
+        {
+            UpdateAllCards();
+        }
     }
 
     private void Awake()
@@ -135,7 +139,7 @@ public class GameManager : MonoBehaviour
             { Location.ComandersHornSword, 1 },
             { Location.Sword, 6 },
             { Location.ComandersHornArchery, 1 },
-            { Location.Archery,2} 
+            { Location.Archery,2}
         };
 
         foreach (var (location, count) in items)
@@ -160,7 +164,7 @@ public class GameManager : MonoBehaviour
         var sw = System.Diagnostics.Stopwatch.StartNew();
 
         var cardsByPlayerAndLocation = _gameState.GetAllCards();
-            
+
         foreach (var ((player, location), cards) in cardsByPlayerAndLocation)
         {
             var zone = _zones.GetZone(player, location);
