@@ -1,6 +1,8 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using GwentEngine;
 using TMPro;
@@ -13,10 +15,13 @@ using Random = Unity.Mathematics.Random;
 
 public class GameManager : MonoBehaviour
 {
+    private float _screenSize = 844.0f;
+    private Dictionary<int, CardMetadata> _cardMetadata;
+    public GameState _gameState;
+    private Dictionary<int, (GameObject gameObject, CardInfo cardInfo)> _cardGameObjects;
+
     //[SerializeField] private GameObject cardZone;
-    public GameState _gameState = new GameState();
-    private Dictionary<int, CardMetadata> _metadata;
-    
+
     private static float offset;
 
     public bool isComUsedS = false;
@@ -65,14 +70,58 @@ public class GameManager : MonoBehaviour
     public int totPts = 0;
     public int totPtsEnemy = 0;
     private int index = 0;
+
     private void Start()
     {
-        _gameState.NewGame(_metadata);
-        
+        var deckFullPath = Path.Combine(Application.dataPath, "Cards", "Deck.json");
+
+        _cardGameObjects = new Dictionary<int, (GameObject gameObject, CardInfo cardInfo)>();
+
+        _gameState = new GameState();
+        _gameState.OnCardAdded += _gameState_OnCardAdded;
+        _gameState.OnCardChanged += _gameState_OnCardChanged;
+
         ChooseWhoStarts();
+
+        _cardMetadata = CardMetadata.FromFile(deckFullPath);
+        _gameState.NewGame(_cardMetadata);
+
+
         isComUsed = new List<bool>(3) { isComUsedS, isComUsedA, isComUsedC };
         isWeatherUsed = new List<bool>(3) { isFrostUsed, isFogUsed, isRainUsed };
     }
+
+    private float TranslateCardX(Card[] cardsInLocation, int cardNumber, Vector3 initialPosition)
+    {
+        var offset = _screenSize / cardsInLocation.Length;
+        var thisCardIndex = cardsInLocation.IndexOf(c => c.Number == cardNumber);
+        var translateX = offset * thisCardIndex + zoneCard.transform.position.x - (_screenSize / 2);
+        return translateX;
+    }
+
+    private void _gameState_OnCardAdded(object sender, CardInfo added)
+    {
+        var cardsInLocation = _gameState.GetCards(added.Player, added.Location);
+        var x = TranslateCardX(cardsInLocation, added.Number, zoneCard.transform.position);
+
+        var gameObject = Instantiate(this.card, new Vector2(x, zoneCard.transform.position.y), zoneCard.transform.rotation);
+        gameObject.transform.SetParent(canvas.transform, true);
+
+        _cardGameObjects[added.Number] = (gameObject, added);
+    }
+
+    private void _gameState_OnCardChanged(object sender, CardInfo changed)
+    {
+        var (gameObject, cardInfo) = _cardGameObjects[changed.Number];
+
+        var cardsInLocation = _gameState.GetCards(changed.Player, changed.Location);
+        var x = TranslateCardX(cardsInLocation, changed.Number, zoneCard.transform.position);
+
+        //TODO update card position / text / power, etc....
+
+
+    }
+
 
     private void Update()
     {
@@ -159,6 +208,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
     private void ChooseWhoStarts()
     {
         Random gen = new Random(2);
@@ -176,7 +226,6 @@ public class GameManager : MonoBehaviour
         }
         text.gameObject.SetActive(true);
         StartCoroutine(HideText(text));
-
     }
 
     private IEnumerator HideText(TextMeshProUGUI text)
@@ -274,6 +323,7 @@ public class GameManager : MonoBehaviour
       //DefineDropZones();
         StartGame();
     }
+
     private void StartGame()
     {
         int index = 0;
@@ -308,8 +358,8 @@ public class GameManager : MonoBehaviour
     }
     public void InstanciateCards(int index, int nbCards, GameObject aCard)
     {
-        float offset = 844.0f / nbCards;
-        GameObject card = Instantiate(aCard, new Vector2(offset * index + zoneCard.transform.position.x - (844f / 2), zoneCard.transform.position.y),
+        float offset = _screenSize / nbCards;
+        GameObject card = Instantiate(aCard, new Vector2(offset * index + zoneCard.transform.position.x - (_screenSize / 2), zoneCard.transform.position.y),
             zoneCard.transform.rotation);
         card.transform.SetParent(canvas.transform, true);
         card.GetComponent<CardBehavior>().indice = index;
@@ -340,10 +390,10 @@ public class GameManager : MonoBehaviour
 
     public void AddCard(GameObject dropZone, List<GameObject> row, float offset)
     {
-       // offset = 844f / (row.Count + 1);
+        // offset = _screenSize / (row.Count + 1);
         foreach (var card in row)
         {
-            card.transform.position = new Vector2(dropZone.transform.position.x - 844.0f/2 + offset * card.GetComponent<CardBehavior>().indice, dropZone.transform.position.y);
+            card.transform.position = new Vector2(dropZone.transform.position.x - _screenSize / 2 + offset * card.GetComponent<CardBehavior>().indice, dropZone.transform.position.y);
         }
 
         index++;
@@ -352,7 +402,7 @@ public class GameManager : MonoBehaviour
     public void RemoveCard(int index, GameObject dropZone, List<GameObject> row)
     {
         CardBehavior cardB;
-        offset = 844f / (row.Count);
+        offset = _screenSize / (row.Count);
         int i = 0;
         foreach (var card in row)
         {
@@ -364,7 +414,7 @@ public class GameManager : MonoBehaviour
                 cardB.indice--;
             }
 
-            card.transform.position = new Vector2(dropZone.transform.position.x - 844.0f / 2 + offset * cardB.indice,
+            card.transform.position = new Vector2(dropZone.transform.position.x - _screenSize / 2 + offset * cardB.indice,
                 dropZone.transform.position.y);
         }
 

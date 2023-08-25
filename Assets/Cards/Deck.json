@@ -1,0 +1,1792 @@
+[
+  {
+    "Name": "geralt_of_rivia_card",
+    "Ability": 8,
+    "DefaultPower": 15,
+    "PossibleLocations": 16,
+    "IsHero": true,
+    
+    "Number": 0,
+    "Faction": 4
+  },
+  {
+    "Name": "cirilla_fiona_elen_riannon_card",
+    "Ability": 8,
+    "DefaultPower": 15,
+    "PossibleLocations": 16,
+    "IsHero": true,
+    
+    "Number": 1,
+    "Faction": 4
+  },
+  {
+    "Name": "vesemir_card",
+    "Ability": 8,
+    "DefaultPower": 6,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 2,
+    "Faction": 4
+  },
+  {
+    "Name": "yennefer_of_vengerberg_card",
+    "Ability": 3,
+    "DefaultPower": 7,
+    "PossibleLocations": 64,
+    "IsHero": true,
+    
+    "Number": 3,
+    "Faction": 4
+  },
+  {
+    "Name": "triss_merigold_card",
+    "Ability": 8,
+    "DefaultPower": 7,
+    "PossibleLocations": 16,
+    "IsHero": true,
+    
+    "Number": 5,
+    "Faction": 4
+  },
+  {
+    "Name": "dandelion_card",
+    "Ability": 4,
+    "DefaultPower": 2,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    "IsCommandersHorn": true,
+    "Number": 6,
+    "Faction": 4
+  },
+  {
+    "Name": "zoltan_chivay_card",
+    "Ability": 8,
+    "DefaultPower": 5,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 7,
+    "Faction": 4
+  },
+  {
+    "Name": "emiel_regis_rohellec_terzieff_card",
+    "Ability": 8,
+    "DefaultPower": 5,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 8,
+    "Faction": 4
+  },
+  {
+    "Name": "villentretenmerth_card",
+    "Ability": 13,
+    "DefaultPower": 7,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 9,
+    "Faction": 4
+  },
+  {
+    "Name": "avallach_card",
+    "Ability": 6,
+    "DefaultPower": 0,
+    "PossibleLocations": 16, "InOpponentZone": true,
+    "IsHero": true,
+    
+    "Number": 10,
+    "Faction": 4
+  },
+  {
+    "Name": "decoy_card",
+    "Ability": 12,
+    "DefaultPower": -1,
+    "PossibleLocations": 84,
+    "IsHero": false,
+
+    "Number": 11,
+    "Faction": 4
+  },
+  {
+    "Name": "decoy_card",
+    "Ability": 12,
+    "DefaultPower": -1,
+    "PossibleLocations": 84,
+    "IsHero": false,
+
+    "Number": 12,
+    "Faction": 4
+  },
+  {
+    "Name": "decoy_card",
+    "Ability": 12,
+    "DefaultPower": -1,
+    "PossibleLocations": 84,
+    "IsHero": false,
+
+    "Number": 13,
+    "Faction": 4
+  },
+  {
+    "Name": "commanders_horn_card",
+    "Ability": 12,
+    "DefaultPower": -1,
+    "PossibleLocations": 42,
+    "IsHero": false,
+
+    "Number": 14,
+    "Faction": 4
+  },
+  {
+    "Name": "commanders_horn_card",
+    "Ability": 12,
+    "DefaultPower": -1,
+    "PossibleLocations": 42,
+    "IsHero": false,
+
+    "Number": 15,
+    "Faction": 4
+  },
+  {
+    "Name": "commanders_horn_card",
+    "Ability": 12,
+    "DefaultPower": -1,
+    "PossibleLocations": 42,
+    "IsHero": false,
+
+    "Number": 16,
+    "Faction": 4
+  },
+  {
+    "Name": "scorch_card",
+    "Ability": 13,
+    "DefaultPower": -1,
+    "PossibleLocations": 0,
+    "IsHero": false,
+
+    "Number": 17,
+    "Faction": 4
+  },
+  {
+    "Name": "scorch_card",
+    "Ability": 13,
+    "DefaultPower": -1,
+    "PossibleLocations": 0,
+    "IsHero": false,
+
+    "Number": 18,
+    "Faction": 4
+  },
+  {
+    "Name": "scorch_card",
+    "Ability": 13,
+    "DefaultPower": -1,
+    "PossibleLocations": 0,
+    "IsHero": false,
+
+    "Number": 19,
+    "Faction": 4
+  },
+  {
+    "Name": "biting_frost_card",
+    "Ability": 9,
+    "DefaultPower": -1,
+    "PossibleLocations": 256,
+    "IsHero": false,
+    
+    "Number": 20,
+    "Faction": 4
+  },
+  {
+    "Name": "biting_frost_card",
+    "Ability": 9,
+    "DefaultPower": -1,
+    "PossibleLocations": 256,
+    "IsHero": false,
+    
+    "Number": 21,
+    "Faction": 4
+  },
+  {
+    "Name": "biting_frost_card",
+    "Ability": 9,
+    "DefaultPower": -1,
+    "PossibleLocations": 256,
+    "IsHero": false,
+    
+    "Number": 22,
+    "Faction": 4
+  },
+  {
+    "Name": "impenetrable_fog_card",
+    "Ability": 10,
+    "DefaultPower": -1,
+    "PossibleLocations": 256,
+    "IsHero": false,
+    
+    "Number": 23,
+    "Faction": 4
+  },
+  {
+    "Name": "impenetrable_fog_card",
+    "Ability": 10,
+    "DefaultPower": -1,
+    "PossibleLocations": 256,
+    "IsHero": false,
+    
+    "Number": 24,
+    "Faction": 4
+  },
+  {
+    "Name": "impenetrable_fog_card",
+    "Ability": 10,
+    "DefaultPower": -1,
+    "PossibleLocations": 256,
+    "IsHero": false,
+    
+    "Number": 25,
+    "Faction": 4
+  },
+  {
+    "Name": "torrential_rain_card",
+    "Ability": 11,
+    "DefaultPower": -1,
+    "PossibleLocations": 256,
+    "IsHero": false,
+    
+    "Number": 26,
+    "Faction": 4
+  },
+  {
+    "Name": "torrential_rain_card",
+    "Ability": 11,
+    "DefaultPower": -1,
+    "PossibleLocations": 256,
+    "IsHero": false,
+    
+    "Number": 27,
+    "Faction": 4
+  },
+  {
+    "Name": "torrential_rain_card",
+    "Ability": 11,
+    "DefaultPower": -1,
+    "PossibleLocations": 256,
+    "IsHero": false,
+    
+    "Number": 28,
+    "Faction": 4
+  },
+  {
+    "Name": "clear_weather_card",
+    "Ability": 13,
+    "DefaultPower": -1,
+    "PossibleLocations": 256,
+    "IsHero": false,
+    
+    "Number": 29,
+    "Faction": 4
+  },
+  {
+    "Name": "clear_weather_card",
+    "Ability": 13,
+    "DefaultPower": -1,
+    "PossibleLocations": 256,
+    "IsHero": false,
+    
+    "Number": 30,
+    "Faction": 4
+  },
+  {
+    "Name": "clear_weather_card",
+    "Ability": 13,
+    "DefaultPower": -1,
+    "PossibleLocations": 256,
+    "IsHero": false,
+    
+    "Number": 31,
+    "Faction": 4
+  },
+  {
+    "Name": "vernon_roche_card",
+    "Ability": 8,
+    "DefaultPower": 10,
+    "PossibleLocations": 16,
+    "IsHero": true,
+    
+    "Number": 32,
+    "Faction": 0
+  },
+  {
+    "Name": "john_natalis_card",
+    "Ability": 8,
+    "DefaultPower": 10,
+    "PossibleLocations": 16,
+    "IsHero": true,
+    
+    "Number": 33,
+    "Faction": 0
+  },
+  {
+    "Name": "esterad_thyssen_card",
+    "Ability": 8,
+    "DefaultPower": 10,
+    "PossibleLocations": 16,
+    "IsHero": true,
+    
+    "Number": 34,
+    "Faction": 0
+  },
+  {
+    "Name": "philippa_eilhart_card",
+    "Ability": 8,
+    "DefaultPower": 10,
+    "PossibleLocations": 64,
+    "IsHero": true,
+    
+    "Number": 35,
+    "Faction": 0
+  },
+  {
+    "Name": "thaler_card",
+    "Ability": 6,
+    "DefaultPower": 1,
+    "PossibleLocations": 4, "InOpponentZone": true,
+    "IsHero": false,
+    
+    "Number": 36,
+    "Faction": 0
+  },
+  {
+    "Name": "ves_card",
+    "Ability": 8,
+    "DefaultPower": 5,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 37,
+    "Faction": 0
+  },
+  {
+    "Name": "siegfried_of_denesle_card",
+    "Ability": 8,
+    "DefaultPower": 5,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 38,
+    "Faction": 0
+  },
+  {
+    "Name": "yarpen_zigrin_card",
+    "Ability": 8,
+    "DefaultPower": 2,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 39,
+    "Faction": 0
+  },
+  {
+    "Name": "sigismund_dijkstra_card",
+    "Ability": 6,
+    "DefaultPower": 4,
+    "PossibleLocations": 16, "InOpponentZone": true,
+    "IsHero": false,
+    
+    "Number": 40,
+    "Faction": 0
+  },
+  {
+    "Name": "keira_metz_card",
+    "Ability": 8,
+    "DefaultPower": 5,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 41,
+    "Faction": 0
+  },
+  {
+    "Name": "sile_de_tansarville_card",
+    "Ability": 8,
+    "DefaultPower": 5,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 42,
+    "Faction": 0
+  },
+  {
+    "Name": "sabrina_glevissig_card",
+    "Ability": 8,
+    "DefaultPower": 4,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 43,
+    "Faction": 0
+  },
+  {
+    "Name": "sheldon_skaggs_card",
+    "Ability": 8,
+    "DefaultPower": 4,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 44,
+    "Faction": 0
+  },
+  {
+    "Name": "dethmold_card",
+    "Ability": 8,
+    "DefaultPower": 6,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 45,
+    "Faction": 0
+  },
+  {
+    "Name": "prince_stennis_card",
+    "Ability": 6,
+    "DefaultPower": 5,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 46,
+    "Faction": 0
+  },
+  {
+    "Name": "trebuchet_card",
+    "Ability": 8,
+    "DefaultPower": 6,
+    "PossibleLocations": 4,
+    "IsHero": false,
+    
+    "Number": 47,
+    "Faction": 0
+  },
+  {
+    "Name": "trebuchet_card",
+    "Ability": 8,
+    "DefaultPower": 6,
+    "PossibleLocations": 4,
+    "IsHero": false,
+    
+    "Number": 48,
+    "Faction": 0
+  },
+  {
+    "Name": "poor_fcking_infantry_card",
+    "Ability": 7,
+    "DefaultPower": 1,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 49,
+    "Faction": 0
+  },
+  {
+    "Name": "poor_fcking_infantry_card",
+    "Ability": 7,
+    "DefaultPower": 1,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 50,
+    "Faction": 0
+  },
+  {
+    "Name": "poor_fcking_infantry_card",
+    "Ability": 7,
+    "DefaultPower": 1,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 51,
+    "Faction": 0
+  },
+  {
+    "Name": "crinfrid_reavers_dragon_hunter_card",
+    "Ability": 7,
+    "DefaultPower": 5,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 52,
+    "Faction": 0
+  },
+  {
+    "Name": "crinfrid_reavers_dragon_hunter_card",
+    "Ability": 7,
+    "DefaultPower": 5,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 53,
+    "Faction": 0
+  },
+  {
+    "Name": "crinfrid_reavers_dragon_hunter_card",
+    "Ability": 7,
+    "DefaultPower": 5,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 54,
+    "Faction": 0
+  },
+  {
+    "Name": "redanian_foot_soldier_card",
+    "Ability": 8,
+    "DefaultPower": 1,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 55,
+    "Faction": 0
+  },
+  {
+    "Name": "redanian_foot_soldier_card",
+    "Ability": 8,
+    "DefaultPower": 1,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 56,
+    "Faction": 0
+  },
+  {
+    "Name": "catapult_card",
+    "Ability": 7,
+    "DefaultPower": 8,
+    "PossibleLocations": 4,
+    "IsHero": false,
+    
+    "Number": 57,
+    "Faction": 0
+  },
+  {
+    "Name": "catapult_card",
+    "Ability": 7,
+    "DefaultPower": 8,
+    "PossibleLocations": 4,
+    "IsHero": false,
+    
+    "Number": 58,
+    "Faction": 0
+  },
+  {
+    "Name": "ballista_card",
+    "Ability": 8,
+    "DefaultPower": 6,
+    "PossibleLocations": 4,
+    "IsHero": false,
+    
+    "Number": 59,
+    "Faction": 0
+  },
+  {
+    "Name": "ballista_card",
+    "Ability": 8,
+    "DefaultPower": 6,
+    "PossibleLocations": 4,
+    "IsHero": false,
+    
+    "Number": 60,
+    "Faction": 0
+  },
+  {
+    "Name": "kaedweni_siege_expert_card",
+    "Ability": 4,
+    "DefaultPower": 1,
+    "PossibleLocations": 4,
+    "IsHero": false,
+    
+    "Number": 61,
+    "Faction": 0
+  },
+  {
+    "Name": "kaedweni_siege_expert_card",
+    "Ability": 4,
+    "DefaultPower": 1,
+    "PossibleLocations": 4,
+    "IsHero": false,
+    
+    "Number": 62,
+    "Faction": 0
+  },
+  {
+    "Name": "kaedweni_siege_expert_card",
+    "Ability": 4,
+    "DefaultPower": 1,
+    "PossibleLocations": 4,
+    "IsHero": false,
+    
+    "Number": 63,
+    "Faction": 0
+  },
+  {
+    "Name": "blue_stripes_commando_card",
+    "Ability": 7,
+    "DefaultPower": 4,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 64,
+    "Faction": 0
+  },
+  {
+    "Name": "blue_stripes_commando_card",
+    "Ability": 7,
+    "DefaultPower": 4,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 65,
+    "Faction": 0
+  },
+  {
+    "Name": "blue_stripes_commando_card",
+    "Ability": 7,
+    "DefaultPower": 4,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 66,
+    "Faction": 0
+  },
+  {
+    "Name": "siege_tower_card",
+    "Ability": 8,
+    "DefaultPower": 6,
+    "PossibleLocations": 4,
+    "IsHero": false,
+    
+    "Number": 67,
+    "Faction": 0
+  },
+  {
+    "Name": "dun_banner_medic_card",
+    "Ability": 3,
+    "DefaultPower": 5,
+    "PossibleLocations": 4,
+    "IsHero": false,
+    
+    "Number": 68,
+    "Faction": 0
+  },
+  {
+    "Name": "letho_of_gulet_card",
+    "Ability": 8,
+    "DefaultPower": 10,
+    "PossibleLocations": 16,
+    "IsHero": true,
+    
+    "Number": 69,
+    "Faction": 1
+  },
+  {
+    "Name": "menno_coehoorn_card",
+    "Ability": 3,
+    "DefaultPower": 10,
+    "PossibleLocations": 16,
+    "IsHero": true,
+    
+    "Number": 70,
+    "Faction": 1
+  },
+  {
+    "Name": "morvran_voorhis_card",
+    "Ability": 8,
+    "DefaultPower": 10,
+    "PossibleLocations": 4,
+    "IsHero": true,
+    
+    "Number": 71,
+    "Faction": 1
+  },
+  {
+    "Name": "tibor_eggebracht_card",
+    "Ability": 8,
+    "DefaultPower": 10,
+    "PossibleLocations": 64,
+    "IsHero": true,
+    
+    "Number": 72,
+    "Faction": 1
+  },
+  {
+    "Name": "albrich_card",
+    "Ability": 8,
+    "DefaultPower": 2,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 73,
+    "Faction": 1
+  },
+  {
+    "Name": "assire_var_anahid_card",
+    "Ability": 8,
+    "DefaultPower": 6,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 74,
+    "Faction": 1
+  },
+  {
+    "Name": "cynthia_card",
+    "Ability": 8,
+    "DefaultPower": 4,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 75,
+    "Faction": 1
+  },
+  {
+    "Name": "fringilla_vigo_card",
+    "Ability": 8,
+    "DefaultPower": 6,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 76,
+    "Faction": 1
+  },
+  {
+    "Name": "morteisen_card",
+    "Ability": 8,
+    "DefaultPower": 3,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 77,
+    "Faction": 1
+  },
+  {
+    "Name": "rainfarn_card",
+    "Ability": 8,
+    "DefaultPower": 4,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 78,
+    "Faction": 1
+  },
+  {
+    "Name": "renuald_aep_matsen_card",
+    "Ability": 8,
+    "DefaultPower": 5,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 79,
+    "Faction": 1
+  },
+  {
+    "Name": "rotten_mangonel_card",
+    "Ability": 8,
+    "DefaultPower": 5,
+    "PossibleLocations": 4,
+    "IsHero": false,
+    
+    "Number": 80,
+    "Faction": 1
+  },
+  {
+    "Name": "shilard_fitz_oesternlen_card",
+    "Ability": 6,
+    "DefaultPower": 7,
+    "PossibleLocations": 16, "InOpponentZone": true,
+    "IsHero": false,
+    
+    "Number": 81,
+    "Faction": 1
+  },
+  {
+    "Name": "stefan_skellen_card",
+    "Ability": 6,
+    "DefaultPower": 9,
+    "PossibleLocations": 16, "InOpponentZone": true,
+    "IsHero": false,
+    
+    "Number": 82,
+    "Faction": 1
+  },
+  {
+    "Name": "sweers_card",
+    "Ability": 8,
+    "DefaultPower": 2,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 83,
+    "Faction": 1
+  },
+  {
+    "Name": "vanhemar_card",
+    "Ability": 8,
+    "DefaultPower": 4,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 84,
+    "Faction": 1
+  },
+  {
+    "Name": "vattier_de_rideaux_card",
+    "Ability": 6,
+    "DefaultPower": 4,
+    "PossibleLocations": 16, "InOpponentZone": true,
+    "IsHero": false,
+    
+    "Number": 85,
+    "Faction": 1
+  },
+  {
+    "Name": "vreemde_card",
+    "Ability": 8,
+    "DefaultPower": 2,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 86,
+    "Faction": 1
+  },
+  {
+    "Name": "cahir_mawr_dyffryn_aep_ceallach_card",
+    "Ability": 8,
+    "DefaultPower": 6,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 87,
+    "Faction": 1
+  },
+  {
+    "Name": "puttkammer_card",
+    "Ability": 8,
+    "DefaultPower": 3,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 88,
+    "Faction": 1
+  },
+  {
+    "Name": "etolian_auxiliary_archers_card",
+    "Ability": 3,
+    "DefaultPower": 1,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 89,
+    "Faction": 1
+  },
+  {
+    "Name": "etolian_auxiliary_archers_card",
+    "Ability": 3,
+    "DefaultPower": 1,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 90,
+    "Faction": 1
+  },
+  {
+    "Name": "black_infantry_archer_card",
+    "Ability": 8,
+    "DefaultPower": 10,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 91,
+    "Faction": 1
+  },
+  {
+    "Name": "black_infantry_archer_card",
+    "Ability": 8,
+    "DefaultPower": 10,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 92,
+    "Faction": 1
+  },
+  {
+    "Name": "siege_technician_card",
+    "Ability": 3,
+    "DefaultPower": 0,
+    "PossibleLocations": 4,
+    "IsHero": false,
+    
+    "Number": 93,
+    "Faction": 1
+  },
+  {
+    "Name": "heavy_zerrikanian_fire_scorpion_card",
+    "Ability": 8,
+    "DefaultPower": 10,
+    "PossibleLocations": 4,
+    "IsHero": false,
+    
+    "Number": 94,
+    "Faction": 1
+  },
+  {
+    "Name": "impera_brigade_guard_card",
+    "Ability": 7,
+    "DefaultPower": 3,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 95,
+    "Faction": 1
+  },
+  {
+    "Name": "impera_brigade_guard_card",
+    "Ability": 7,
+    "DefaultPower": 3,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 96,
+    "Faction": 1
+  },
+  {
+    "Name": "impera_brigade_guard_card",
+    "Ability": 7,
+    "DefaultPower": 3,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 97,
+    "Faction": 1
+  },
+  {
+    "Name": "impera_brigade_guard_card",
+    "Ability": 7,
+    "DefaultPower": 3,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 98,
+    "Faction": 1
+  },
+  {
+    "Name": "nausicaa_cavalry_brigade_card",
+    "Ability": 7,
+    "DefaultPower": 2,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 99,
+    "Faction": 1
+  },
+  {
+    "Name": "nausicaa_cavalry_brigade_card",
+    "Ability": 7,
+    "DefaultPower": 2,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 100,
+    "Faction": 1
+  },
+  {
+    "Name": "nausicaa_cavalry_brigade_card",
+    "Ability": 7,
+    "DefaultPower": 2,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 101,
+    "Faction": 1
+  },
+  {
+    "Name": "siege_engineer_card",
+    "Ability": 8,
+    "DefaultPower": 6,
+    "PossibleLocations": 4,
+    "IsHero": false,
+    
+    "Number": 102,
+    "Faction": 1
+  },
+  {
+    "Name": "young_emissary_card",
+    "Ability": 7,
+    "DefaultPower": 5,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 103,
+    "Faction": 1
+  },
+  {
+    "Name": "young_emissary_card",
+    "Ability": 7,
+    "DefaultPower": 5,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 104,
+    "Faction": 1
+  },
+  {
+    "Name": "eithne_card",
+    "Ability": 8,
+    "DefaultPower": 10,
+    "PossibleLocations": 64,
+    "IsHero": true,
+    
+    "Number": 105,
+    "Faction": 2
+  },
+  {
+    "Name": "saesenthessis_card",
+    "Ability": 8,
+    "DefaultPower": 10,
+    "PossibleLocations": 64,
+    "IsHero": true,
+    
+    "Number": 106,
+    "Faction": 2
+  },
+  {
+    "Name": "isengrim_faolitarna_card",
+    "Ability": 4,
+    "DefaultPower": 10,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 107,
+    "Faction": 2
+  },
+  {
+    "Name": "iorveth_card",
+    "Ability": 8,
+    "DefaultPower": 10,
+    "PossibleLocations": 64,
+    "IsHero": true,
+    
+    "Number": 108,
+    "Faction": 2
+  },
+  {
+    "Name": "dennis_cranmer_card",
+    "Ability": 8,
+    "DefaultPower": 6,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 109,
+    "Faction": 2
+  },
+  {
+    "Name": "milva_card",
+    "Ability": 4,
+    "DefaultPower": 10,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 110,
+    "Faction": 2
+  },
+  {
+    "Name": "ida_emean_card",
+    "Ability": 8,
+    "DefaultPower": 6,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 111,
+    "Faction": 2
+  },
+  {
+    "Name": "filavandrel_card",
+    "Ability": 0,
+    "DefaultPower": 6,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 112,
+    "Faction": 2
+  },
+  {
+    "Name": "yaevinn_card",
+    "Ability": 0,
+    "DefaultPower": 6,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 113,
+    "Faction": 2
+  },
+  {
+    "Name": "toruviel_card",
+    "Ability": 8,
+    "DefaultPower": 2,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 114,
+    "Faction": 2
+  },
+  {
+    "Name": "riordain_card",
+    "Ability": 8,
+    "DefaultPower": 1,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 115,
+    "Faction": 2
+  },
+  {
+    "Name": "ciaran_aep_easnillien_card",
+    "Ability": 0,
+    "DefaultPower": 3,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 116,
+    "Faction": 2
+  },
+  {
+    "Name": "barclay_els_card",
+    "Ability": 0,
+    "DefaultPower": 6,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 117,
+    "Faction": 2
+  },
+  {
+    "Name": "havekar_healer_card",
+    "Ability": 3,
+    "DefaultPower": 0,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 118,
+    "Faction": 2
+  },
+  {
+    "Name": "havekar_healer_card",
+    "Ability": 3,
+    "DefaultPower": 0,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 119,
+    "Faction": 2
+  },
+  {
+    "Name": "havekar_healer_card",
+    "Ability": 3,
+    "DefaultPower": 0,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 120,
+    "Faction": 2
+  },
+  {
+    "Name": "vrihedd_brigade_recruit_card",
+    "Ability": 0,
+    "DefaultPower": 4,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 121,
+    "Faction": 2
+  },
+  {
+    "Name": "vrihedd_brigade_veteran_card",
+    "Ability": 0,
+    "DefaultPower": 5,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 122,
+    "Faction": 2
+  },
+  {
+    "Name": "dol_blathanna_archer_card",
+    "Ability": 0,
+    "DefaultPower": 6,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 123,
+    "Faction": 2
+  },
+  {
+    "Name": "dol_blathanna_scout_card",
+    "Ability": 0,
+    "DefaultPower": 6,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 124,
+    "Faction": 2
+  },
+  {
+    "Name": "dol_blathanna_scout_card",
+    "Ability": 0,
+    "DefaultPower": 6,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 125,
+    "Faction": 2
+  },
+  {
+    "Name": "dwarven_skirmisher_card",
+    "Ability": 5,
+    "DefaultPower": 3,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 126,
+    "Faction": 2
+  },
+  {
+    "Name": "dwarven_skirmisher_card",
+    "Ability": 5,
+    "DefaultPower": 3,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 127,
+    "Faction": 2
+  },
+  {
+    "Name": "dwarven_skirmisher_card",
+    "Ability": 5,
+    "DefaultPower": 3,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 128,
+    "Faction": 2
+  },
+  {
+    "Name": "mahakaman_defender_card",
+    "Ability": 8,
+    "DefaultPower": 5,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 129,
+    "Faction": 2
+  },
+  {
+    "Name": "mahakaman_defender_card",
+    "Ability": 8,
+    "DefaultPower": 5,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 130,
+    "Faction": 2
+  },
+  {
+    "Name": "mahakaman_defender_card",
+    "Ability": 8,
+    "DefaultPower": 5,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 131,
+    "Faction": 2
+  },
+  {
+    "Name": "mahakaman_defender_card",
+    "Ability": 8,
+    "DefaultPower": 5,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 132,
+    "Faction": 2
+  },
+  {
+    "Name": "mahakaman_defender_card",
+    "Ability": 8,
+    "DefaultPower": 5,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 133,
+    "Faction": 2
+  },
+  {
+    "Name": "elven_skirmisher_card",
+    "Ability": 5,
+    "DefaultPower": 2,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 134,
+    "Faction": 2
+  },
+  {
+    "Name": "elven_skirmisher_card",
+    "Ability": 5,
+    "DefaultPower": 2,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 135,
+    "Faction": 2
+  },
+  {
+    "Name": "elven_skirmisher_card",
+    "Ability": 5,
+    "DefaultPower": 2,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 136,
+    "Faction": 2
+  },
+  {
+    "Name": "havekar_smuggler_card",
+    "Ability": 5,
+    "DefaultPower": 5,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 138,
+    "Faction": 2
+  },
+  {
+    "Name": "havekar_smuggler_card",
+    "Ability": 5,
+    "DefaultPower": 5,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 139,
+    "Faction": 2
+  },
+  {
+    "Name": "havekar_smuggler_card",
+    "Ability": 5,
+    "DefaultPower": 5,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 140,
+    "Faction": 2
+  },
+  {
+    "Name": "draug_card",
+    "Ability": 8,
+    "DefaultPower": 10,
+    "PossibleLocations": 16,
+    "IsHero": true,
+    
+    "Number": 141,
+    "Faction": 3
+  },
+  {
+    "Name": "kayran_card",
+    "Ability": 4,
+    "DefaultPower": 8,
+    "PossibleLocations": 16,
+    "IsHero": true,
+    
+    "Number": 142,
+    "Faction": 3
+  },
+  {
+    "Name": "imlerith_card",
+    "Ability": 8,
+    "DefaultPower": 10,
+    "PossibleLocations": 16,
+    "IsHero": true,
+    
+    "Number": 143,
+    "Faction": 3
+  },
+  {
+    "Name": "leshen_card",
+    "Ability": 8,
+    "DefaultPower": 10,
+    "PossibleLocations": 64,
+    "IsHero": true,
+    
+    "Number": 144,
+    "Faction": 3
+  },
+  {
+    "Name": "forktail_card",
+    "Ability": 8,
+    "DefaultPower": 5,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 145,
+    "Faction": 3
+  },
+  {
+    "Name": "earth_elemental_card",
+    "Ability": 8,
+    "DefaultPower": 6,
+    "PossibleLocations": 4,
+    "IsHero": false,
+    
+    "Number": 146,
+    "Faction": 3
+  },
+  {
+    "Name": "fiend_card",
+    "Ability": 8,
+    "DefaultPower": 6,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 147,
+    "Faction": 3
+  },
+  {
+    "Name": "plague_maiden_card",
+    "Ability": 8,
+    "DefaultPower": 5,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 148,
+    "Faction": 3
+  },
+  {
+    "Name": "griffin_card",
+    "Ability": 8,
+    "DefaultPower": 5,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 149,
+    "Faction": 3
+  },
+  {
+    "Name": "werewolf_card",
+    "Ability": 8,
+    "DefaultPower": 5,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 150,
+    "Faction": 3
+  },
+  {
+    "Name": "botchling_card",
+    "Ability": 8,
+    "DefaultPower": 4,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 151,
+    "Faction": 3
+  },
+  {
+    "Name": "frightener_card",
+    "Ability": 8,
+    "DefaultPower": 5,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 152,
+    "Faction": 3
+  },
+  {
+    "Name": "ice_giant_card",
+    "Ability": 8,
+    "DefaultPower": 5,
+    "PossibleLocations": 4,
+    "IsHero": false,
+    
+    "Number": 153,
+    "Faction": 3
+  },
+  {
+    "Name": "endrega_card",
+    "Ability": 8,
+    "DefaultPower": 2,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 154,
+    "Faction": 3
+  },
+  {
+    "Name": "harpy_card",
+    "Ability": 0,
+    "DefaultPower": 2,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 155,
+    "Faction": 3
+  },
+  {
+    "Name": "cockatrice_card",
+    "Ability": 8,
+    "DefaultPower": 2,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 156,
+    "Faction": 3
+  },
+  {
+    "Name": "gargoyle_card",
+    "Ability": 8,
+    "DefaultPower": 2,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 157,
+    "Faction": 3
+  },
+  {
+    "Name": "celaeno_harpy_card",
+    "Ability": 0,
+    "DefaultPower": 2,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 158,
+    "Faction": 3
+  },
+  {
+    "Name": "grave_hag_card",
+    "Ability": 8,
+    "DefaultPower": 5,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 159,
+    "Faction": 3
+  },
+  {
+    "Name": "fire_elemental_card",
+    "Ability": 8,
+    "DefaultPower": 6,
+    "PossibleLocations": 4,
+    "IsHero": false,
+    
+    "Number": 160,
+    "Faction": 3
+  },
+  {
+    "Name": "foglet_card",
+    "Ability": 8,
+    "DefaultPower": 2,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 161,
+    "Faction": 3
+  },
+  {
+    "Name": "wyvern_card",
+    "Ability": 8,
+    "DefaultPower": 2,
+    "PossibleLocations": 64,
+    "IsHero": false,
+    
+    "Number": 162,
+    "Faction": 3
+  },
+  {
+    "Name": "arachas_behemoth_card",
+    "Ability": 5,
+    "DefaultPower": 6,
+    "PossibleLocations": 4,
+    "IsHero": false,
+    
+    "Number": 163,
+    "Faction": 3
+  },
+  {
+    "Name": "arachas_card",
+    "Ability": 5,
+    "DefaultPower": 4,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 164,
+    "Faction": 3
+  },
+  {
+    "Name": "arachas_card",
+    "Ability": 5,
+    "DefaultPower": 4,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 165,
+    "Faction": 3
+  },
+  {
+    "Name": "arachas_card",
+    "Ability": 5,
+    "DefaultPower": 4,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 166,
+    "Faction": 3
+  },
+  {
+    "Name": "nekker_card",
+    "Ability": 5,
+    "DefaultPower": 2,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 167,
+    "Faction": 3
+  },
+  {
+    "Name": "nekker_card",
+    "Ability": 5,
+    "DefaultPower": 2,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 168,
+    "Faction": 3
+  },
+  {
+    "Name": "nekker_card",
+    "Ability": 5,
+    "DefaultPower": 2,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 169,
+    "Faction": 3
+  },
+  {
+    "Name": "vampire_ekimmara_card",
+    "Ability": 5,
+    "DefaultPower": 4,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 170,
+    "Faction": 3
+  },
+  {
+    "Name": "vampire_fleder_card",
+    "Ability": 5,
+    "DefaultPower": 4,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 171,
+    "Faction": 3
+  },
+  {
+    "Name": "vampire_garkain_card",
+    "Ability": 5,
+    "DefaultPower": 4,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 172,
+    "Faction": 3
+  },
+  {
+    "Name": "vampire_bruxa_card",
+    "Ability": 5,
+    "DefaultPower": 4,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 173,
+    "Faction": 3
+  },
+  {
+    "Name": "vampire_katakan_card",
+    "Ability": 5,
+    "DefaultPower": 4,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 174,
+    "Faction": 3
+  },
+  {
+    "Name": "ghoul_card",
+    "Ability": 5,
+    "DefaultPower": 1,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 175,
+    "Faction": 3
+  },
+  {
+    "Name": "ghoul_card",
+    "Ability": 5,
+    "DefaultPower": 1,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 176,
+    "Faction": 3
+  },
+  {
+    "Name": "ghoul_card",
+    "Ability": 5,
+    "DefaultPower": 1,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 177,
+    "Faction": 3
+  },
+  {
+    "Name": "crone_brewess_card",
+    "Ability": 5,
+    "DefaultPower": 6,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 178,
+    "Faction": 3
+  },
+  {
+    "Name": "crone_weavess_card",
+    "Ability": 5,
+    "DefaultPower": 6,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 179,
+    "Faction": 3
+  },
+  {
+    "Name": "crone_whispess_card",
+    "Ability": 5,
+    "DefaultPower": 6,
+    "PossibleLocations": 16,
+    "IsHero": false,
+    
+    "Number": 180,
+    "Faction": 3
+  }
+]
