@@ -144,8 +144,7 @@ public class GameManager : MonoBehaviour
     }
 
     private void Update()
-    {
-        
+    {        
         if (_gameState != null)
         {
             UpdateAllCards();
@@ -216,6 +215,8 @@ public class GameManager : MonoBehaviour
 
         var cardsByPlayerAndLocation = _gameState.GetAllCards();
 
+        var unknownCardNumbers = _cardGameObjects.Keys.ToList();
+
         foreach (var ((player, location), cards) in cardsByPlayerAndLocation)
         {
             var zone = _zones.GetZone(player, location);
@@ -231,6 +232,8 @@ public class GameManager : MonoBehaviour
                 var offset = _cardSize / cards.Length;
                 var x2 = (offset * i) + zone.transform.position.x - (_cardSize / 2);
 
+                unknownCardNumbers.Remove(card.Number);
+
                 _cardGameObjects.AddOrUpdate(card.Number, key =>
                 {
                     var gameObject = Instantiate(this.card, new Vector2(x2, zone.transform.position.y),
@@ -238,12 +241,12 @@ public class GameManager : MonoBehaviour
                     gameObject.transform.SetParent(_zones.Canvas.transform, true);
                     gameObject.GetComponent<Image>().sprite =
                         GameObject.Find(card.Metadata.Name).GetComponent<SpriteRenderer>().sprite;
-                    gameObject.GetComponent<CardBehavior>().Constructor(card, player);
+                    gameObject.GetComponent<CardBehavior>().SetInfo(card, player);
 
                     return (gameObject, card, player, location, i);
                 }, (key, existing) =>
                 {
-                    //TODO: also add the score in the tuple for changing the text
+                    //TODO: also add the power in the tuple for changing the text
                     if (existing.player != player || existing.location != location || existing.position != i)
                     {
                         //TODO: update to new X / Y
@@ -251,6 +254,14 @@ public class GameManager : MonoBehaviour
 
                     return (existing.gameObject, existing.card, existing.player, existing.location, i);
                 });
+            }
+
+            foreach (var cardNumber in unknownCardNumbers) 
+            {
+                if(_cardGameObjects.TryRemove(cardNumber, out var v))
+                {
+                    Destroy(v.gameObject);
+                }
             }
 
             //TODO: update row scores

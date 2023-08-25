@@ -12,7 +12,7 @@ public class CardBehavior : MonoBehaviour
     private GameManager gameManager;
     private PlayerKind _player;
 
-    public void Constructor(Card card, PlayerKind player)
+    public void SetInfo(Card card, PlayerKind player)
     {
         _card = card;
         _player = player;

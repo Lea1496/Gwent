@@ -334,6 +334,7 @@ namespace GwentEngine
 
             UseCard(cardNumber, player);
         }
+
         public void ChangeCard(int cardNumber)
         {
             Draw(CurrentState.CardsInPlay[cardNumber].Player);
