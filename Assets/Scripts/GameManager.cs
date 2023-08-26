@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    private float _cardSize = 844.0f;
+
     private Dictionary<int, CardMetadata> _cardMetadata;
     private bool _isTimeToChangeCards = false;
     public GameState _gameState;
@@ -220,6 +220,7 @@ public class GameManager : MonoBehaviour
         foreach (var ((player, location), cards) in cardsByPlayerAndLocation)
         {
             var zone = _zones.GetZone(player, location);
+            var zoneWidth = zone.GetComponent<Rect>().width;
             if (zone == null)
             {
                 continue;
@@ -229,8 +230,8 @@ public class GameManager : MonoBehaviour
             {
                 var card = cards[i];
 
-                var offset = _cardSize / cards.Length;
-                var x2 = (offset * i) + zone.transform.position.x - (_cardSize / 2);
+                var offset = zoneWidth / cards.Length;
+                var x2 = (offset * i) + zone.transform.position.x - (zoneWidth / 2);
 
                 unknownCardNumbers.Remove(card.Number);
 

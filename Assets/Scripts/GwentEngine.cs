@@ -190,10 +190,10 @@ namespace GwentEngine
 
         public int Power { get; set; }
 
-        public CardInPlay(int number, Location location, PlayerKind player, int power)
+        public CardInPlay(int number, Location location, PlayerKind player, int power, int? sequence = null)
         {
             Number = number;
-            Sequence = ++_sequence;
+            Sequence = sequence.GetValueOrDefault(++_sequence);
             Location = location;
             Player = player;
             Power = power;
@@ -327,24 +327,26 @@ namespace GwentEngine
             FirstPlayer = _random.Next(0, 1) == 0 ? PlayerKind.Player : PlayerKind.Opponent;
         }
 
-        private void Draw(PlayerKind player)
+        private void Draw(PlayerKind player, int? sequence = null)
         {
+            
             var index = _random.Next(0, _availableCards.Count - 1);
             var cardNumber = _availableCards[index];
 
-            UseCard(cardNumber, player);
+            UseCard(cardNumber, player, sequence);
         }
 
         public void ChangeCard(int cardNumber)
         {
-            Draw(CurrentState.CardsInPlay[cardNumber].Player);
+            var currentCard = CurrentState.CardsInPlay[cardNumber];
+            Draw(currentCard.Player, currentCard.Sequence);
             RemoveCard(cardNumber, true);
         }
 
-        public void UseCard(int cardNumber, PlayerKind player)
+        public void UseCard(int cardNumber, PlayerKind player, int? sequence = null)
         {
             var cardMetadata = _metadata[cardNumber];
-            var cardInPlay = new CardInPlay(cardNumber, Location.Hand, player, cardMetadata.DefaultPower);
+            var cardInPlay = new CardInPlay(cardNumber, Location.Hand, player, cardMetadata.DefaultPower, sequence);
             CurrentState.CardsInPlay[cardInPlay.Number] = cardInPlay;
             _availableCards.Remove(cardNumber);
         }
