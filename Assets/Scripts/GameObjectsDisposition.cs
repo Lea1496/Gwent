@@ -1,0 +1,56 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEngine;
+
+public static class GameObjectsDisposition
+{
+    public static void DistributeCenter(GameObject container, GameObject[] objects, float spaceBetween)
+    {
+        DistributeEvenly(container, objects, spaceBetween, spaceLeft => spaceLeft / 2);
+    }
+
+    public static void DistributeLeft(GameObject container, GameObject[] objects, float spaceBetween)
+    {
+        DistributeEvenly(container, objects, spaceBetween, spaceLeft => 0);
+    }
+
+    public static void DistributeRight(GameObject container, GameObject[] objects, float spaceBetween)
+    {
+        DistributeEvenly(container, objects, spaceBetween, spaceLeft => spaceLeft);
+    }
+
+    public static void DistributeEvenly(GameObject container, GameObject[] objects, float spaceBetween, Func<float, float> getInitialSpacing)
+    {
+        var totalWidth = container.Width();
+        var totalWidthNeeded = objects.Select(o => o.Width()).Sum() + ((objects.Length - 1) * spaceBetween);
+        var spaceLeft = Math.Max(totalWidth - totalWidthNeeded, 0);
+
+        var x = container.X() + getInitialSpacing(spaceLeft);
+        var y = container.Y();
+
+        var objectWidth = totalWidth / objects.Length;
+
+        var mustShrink = spaceLeft == 0;
+
+        for (var i = 0; i < objects.Length; i++)
+        {
+            var gameObject = objects[i];
+            if ((int)gameObject.transform.position.x != (int)x || (int)gameObject.transform.position.y != (int)y)
+            {
+                gameObject.transform.position = new Vector2(x, y);
+            }
+
+            if (mustShrink)
+            {
+                x += objectWidth;
+            }
+            else
+            {
+                x += gameObject.Width() + spaceBetween;
+            }
+        }
+    }
+}

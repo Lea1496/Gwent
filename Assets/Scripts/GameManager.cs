@@ -1,10 +1,12 @@
 using GwentEngine;
+using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TMPro;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -55,10 +57,10 @@ public class GameManager : MonoBehaviour
             CommandersHornCatEnemy = GameObject.Find("CommandersHornCatEnemy");
         }
 
-        
 
-        
-        
+
+
+
         public GameObject PlayerSword { get; }
         public GameObject PlayerArc { get; }
         public GameObject PlayerCatapult { get; }
@@ -71,7 +73,7 @@ public class GameManager : MonoBehaviour
         public GameObject Card { get; }
 
         public GameObject Canvas { get; }
-        
+
         public GameObject CommandersHornSword { get; }
         public GameObject CommandersHornArc { get; }
         public GameObject CommandersHornCat { get; }
@@ -144,7 +146,7 @@ public class GameManager : MonoBehaviour
     }
 
     private void Update()
-    {        
+    {
         if (_gameState != null)
         {
             UpdateAllCards();
@@ -170,8 +172,8 @@ public class GameManager : MonoBehaviour
         _cardMetadata = CardMetadata.FromFile(deckFullPath);
 
         _gameState.NewGame(_cardMetadata, Settings.InitialCardCount);
-        //Simulate(_gameState, PlayerKind.Player);
-        //Simulate(_gameState, PlayerKind.Opponent);
+        Simulate(_gameState, PlayerKind.Player);
+        Simulate(_gameState, PlayerKind.Opponent);
 
         UpdateAllCards();
         _isTimeToChangeCards = true;
@@ -204,7 +206,7 @@ public class GameManager : MonoBehaviour
                         break;
                     }
                 }
-                
+
             }
         }
     }
@@ -220,55 +222,53 @@ public class GameManager : MonoBehaviour
         foreach (var ((player, location), cards) in cardsByPlayerAndLocation)
         {
             var zone = _zones.GetZone(player, location);
-            var zoneWidth = zone.GetComponent<Rect>().width;
             if (zone == null)
             {
                 continue;
             }
 
-            for (var i = 0; i < cards.Length; i++)
+            var cardGameObjects = cards.Select((card, index) => _cardGameObjects.AddOrUpdate(card.Number,
+                    (key) => (CreateNewCard(card), card, player, location, index),
+                    (key, existing) => (existing.gameObject, existing.card, player, location, index)
+                    )).
+                    ToArray();
+
+            cardGameObjects.ForEach(cardGameObject =>
             {
-                var card = cards[i];
-
-                var offset = zoneWidth / cards.Length;
-                var x2 = (offset * i) + zone.transform.position.x - (zoneWidth / 2);
-
-                unknownCardNumbers.Remove(card.Number);
-
-                _cardGameObjects.AddOrUpdate(card.Number, key =>
+                unknownCardNumbers.Remove(cardGameObject.card.Number);
+                cardGameObject.gameObject.GetComponent<CardBehavior>().SetInfo(cardGameObject.card, player);
+                if (cardGameObject.gameObject.transform.parent != zone.transform)
                 {
-                    var gameObject = Instantiate(this.card, new Vector2(x2, zone.transform.position.y),
-                        zone.transform.rotation);
-                    gameObject.transform.SetParent(_zones.Canvas.transform, true);
-                    gameObject.GetComponent<Image>().sprite =
-                        GameObject.Find(card.Metadata.Name).GetComponent<SpriteRenderer>().sprite;
-                    gameObject.GetComponent<CardBehavior>().SetInfo(card, player);
-
-                    return (gameObject, card, player, location, i);
-                }, (key, existing) =>
-                {
-                    //TODO: also add the power in the tuple for changing the text
-                    if (existing.player != player || existing.location != location || existing.position != i)
-                    {
-                        //TODO: update to new X / Y
-                    }
-
-                    return (existing.gameObject, existing.card, existing.player, existing.location, i);
-                });
-            }
-
-            foreach (var cardNumber in unknownCardNumbers) 
-            {
-                if(_cardGameObjects.TryRemove(cardNumber, out var v))
-                {
-                    Destroy(v.gameObject);
+                    cardGameObject.gameObject.transform.localPosition = Vector3.zero;
+                    cardGameObject.gameObject.transform.SetParent(zone.transform, true);
                 }
-            }
+            });
+
+            GameObjectsDisposition.DistributeCenter(zone, cardGameObjects.Select(c => c.gameObject).ToArray(), 0);
+
 
             //TODO: update row scores
             var rowScore = cards.Sum(card => card.Power);
         }
 
-//        Debug.Log($"Update phase: {sw.ElapsedMilliseconds} ms");
+
+        foreach (var cardNumber in unknownCardNumbers)
+        {
+            if (_cardGameObjects.TryRemove(cardNumber, out var v))
+            {
+                Destroy(v.gameObject);
+            }
+        }
+
+        //        Debug.Log($"Update phase: {sw.ElapsedMilliseconds} ms");
+    }
+
+    private GameObject CreateNewCard(Card card)
+    {
+        var gameObject = Instantiate(this.card);
+        var cardImage = GameObject.Find(card.Metadata.Name);
+        var image = gameObject.GetComponent<Image>();
+        image.sprite = cardImage.GetComponent<SpriteRenderer>().sprite;
+        return gameObject;
     }
 }
