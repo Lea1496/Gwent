@@ -244,7 +244,7 @@ public class GameManager : MonoBehaviour
                 }
             });
 
-            GameObjectsDisposition.DistributeCenter(zone, cardGameObjects.Select(c => c.gameObject).ToArray(), 0);
+            GameObjectsDisposition.DistributeCenter(zone, cardGameObjects.Select(c => c.gameObject).ToArray(), 5);
 
 
             //TODO: update row scores

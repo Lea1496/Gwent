@@ -28,10 +28,12 @@ public static class GameObjectsDisposition
         var totalWidthNeeded = objects.Select(o => o.Width()).Sum() + ((objects.Length - 1) * spaceBetween);
         var spaceLeft = Math.Max(totalWidth - totalWidthNeeded, 0);
 
-        var x = container.X() + getInitialSpacing(spaceLeft);
+        var minimalObjectWidth = totalWidth / objects.Length;
+
+        var initialX = container.X() - (totalWidth / 2) + ( objects[0].Width() / 2);
+        var x = initialX + getInitialSpacing(spaceLeft);
         var y = container.Y();
 
-        var objectWidth = totalWidth / objects.Length;
 
         var mustShrink = spaceLeft == 0;
 
@@ -45,7 +47,7 @@ public static class GameObjectsDisposition
 
             if (mustShrink)
             {
-                x += objectWidth;
+                x += minimalObjectWidth;
             }
             else
             {
