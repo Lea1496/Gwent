@@ -5,7 +5,6 @@
     "DefaultPower": 15,
     "PossibleLocations": 16,
     "IsHero": true,
-    
     "Number": 0,
     "Faction": 4
   },
@@ -15,7 +14,6 @@
     "DefaultPower": 15,
     "PossibleLocations": 16,
     "IsHero": true,
-    
     "Number": 1,
     "Faction": 4
   },
@@ -25,7 +23,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 2,
     "Faction": 4
   },
@@ -35,7 +32,6 @@
     "DefaultPower": 7,
     "PossibleLocations": 64,
     "IsHero": true,
-    
     "Number": 3,
     "Faction": 4
   },
@@ -45,7 +41,6 @@
     "DefaultPower": 7,
     "PossibleLocations": 16,
     "IsHero": true,
-    
     "Number": 5,
     "Faction": 4
   },
@@ -55,7 +50,6 @@
     "DefaultPower": 2,
     "PossibleLocations": 16,
     "IsHero": false,
-    "IsCommandersHorn": true,
     "Number": 6,
     "Faction": 4
   },
@@ -65,7 +59,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 7,
     "Faction": 4
   },
@@ -75,7 +68,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 8,
     "Faction": 4
   },
@@ -85,7 +77,6 @@
     "DefaultPower": 7,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 9,
     "Faction": 4
   },
@@ -93,9 +84,9 @@
     "Name": "avallach_card",
     "Ability": 6,
     "DefaultPower": 0,
-    "PossibleLocations": 16, "InOpponentZone": true,
+    "PossibleLocations": 16,
+    "InOpponentZone": true,
     "IsHero": true,
-    
     "Number": 10,
     "Faction": 4
   },
@@ -105,7 +96,6 @@
     "DefaultPower": -1,
     "PossibleLocations": 84,
     "IsHero": false,
-
     "Number": 11,
     "Faction": 4
   },
@@ -115,7 +105,6 @@
     "DefaultPower": -1,
     "PossibleLocations": 84,
     "IsHero": false,
-
     "Number": 12,
     "Faction": 4
   },
@@ -125,7 +114,6 @@
     "DefaultPower": -1,
     "PossibleLocations": 84,
     "IsHero": false,
-
     "Number": 13,
     "Faction": 4
   },
@@ -135,7 +123,6 @@
     "DefaultPower": -1,
     "PossibleLocations": 42,
     "IsHero": false,
-
     "Number": 14,
     "Faction": 4
   },
@@ -145,7 +132,6 @@
     "DefaultPower": -1,
     "PossibleLocations": 42,
     "IsHero": false,
-
     "Number": 15,
     "Faction": 4
   },
@@ -155,7 +141,6 @@
     "DefaultPower": -1,
     "PossibleLocations": 42,
     "IsHero": false,
-
     "Number": 16,
     "Faction": 4
   },
@@ -165,7 +150,6 @@
     "DefaultPower": -1,
     "PossibleLocations": 0,
     "IsHero": false,
-
     "Number": 17,
     "Faction": 4
   },
@@ -175,7 +159,6 @@
     "DefaultPower": -1,
     "PossibleLocations": 0,
     "IsHero": false,
-
     "Number": 18,
     "Faction": 4
   },
@@ -185,7 +168,6 @@
     "DefaultPower": -1,
     "PossibleLocations": 0,
     "IsHero": false,
-
     "Number": 19,
     "Faction": 4
   },
@@ -195,7 +177,6 @@
     "DefaultPower": -1,
     "PossibleLocations": 256,
     "IsHero": false,
-    
     "Number": 20,
     "Faction": 4
   },
@@ -205,7 +186,6 @@
     "DefaultPower": -1,
     "PossibleLocations": 256,
     "IsHero": false,
-    
     "Number": 21,
     "Faction": 4
   },
@@ -215,7 +195,6 @@
     "DefaultPower": -1,
     "PossibleLocations": 256,
     "IsHero": false,
-    
     "Number": 22,
     "Faction": 4
   },
@@ -225,7 +204,6 @@
     "DefaultPower": -1,
     "PossibleLocations": 256,
     "IsHero": false,
-    
     "Number": 23,
     "Faction": 4
   },
@@ -235,7 +213,6 @@
     "DefaultPower": -1,
     "PossibleLocations": 256,
     "IsHero": false,
-    
     "Number": 24,
     "Faction": 4
   },
@@ -245,7 +222,6 @@
     "DefaultPower": -1,
     "PossibleLocations": 256,
     "IsHero": false,
-    
     "Number": 25,
     "Faction": 4
   },
@@ -255,7 +231,6 @@
     "DefaultPower": -1,
     "PossibleLocations": 256,
     "IsHero": false,
-    
     "Number": 26,
     "Faction": 4
   },
@@ -265,7 +240,6 @@
     "DefaultPower": -1,
     "PossibleLocations": 256,
     "IsHero": false,
-    
     "Number": 27,
     "Faction": 4
   },
@@ -275,7 +249,6 @@
     "DefaultPower": -1,
     "PossibleLocations": 256,
     "IsHero": false,
-    
     "Number": 28,
     "Faction": 4
   },
@@ -285,7 +258,6 @@
     "DefaultPower": -1,
     "PossibleLocations": 256,
     "IsHero": false,
-    
     "Number": 29,
     "Faction": 4
   },
@@ -295,7 +267,6 @@
     "DefaultPower": -1,
     "PossibleLocations": 256,
     "IsHero": false,
-    
     "Number": 30,
     "Faction": 4
   },
@@ -305,7 +276,6 @@
     "DefaultPower": -1,
     "PossibleLocations": 256,
     "IsHero": false,
-    
     "Number": 31,
     "Faction": 4
   },
@@ -315,7 +285,6 @@
     "DefaultPower": 10,
     "PossibleLocations": 16,
     "IsHero": true,
-    
     "Number": 32,
     "Faction": 0
   },
@@ -325,7 +294,6 @@
     "DefaultPower": 10,
     "PossibleLocations": 16,
     "IsHero": true,
-    
     "Number": 33,
     "Faction": 0
   },
@@ -335,7 +303,6 @@
     "DefaultPower": 10,
     "PossibleLocations": 16,
     "IsHero": true,
-    
     "Number": 34,
     "Faction": 0
   },
@@ -345,7 +312,6 @@
     "DefaultPower": 10,
     "PossibleLocations": 64,
     "IsHero": true,
-    
     "Number": 35,
     "Faction": 0
   },
@@ -353,9 +319,9 @@
     "Name": "thaler_card",
     "Ability": 6,
     "DefaultPower": 1,
-    "PossibleLocations": 4, "InOpponentZone": true,
+    "PossibleLocations": 4,
+    "InOpponentZone": true,
     "IsHero": false,
-    
     "Number": 36,
     "Faction": 0
   },
@@ -365,7 +331,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 37,
     "Faction": 0
   },
@@ -375,7 +340,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 38,
     "Faction": 0
   },
@@ -385,7 +349,6 @@
     "DefaultPower": 2,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 39,
     "Faction": 0
   },
@@ -393,9 +356,9 @@
     "Name": "sigismund_dijkstra_card",
     "Ability": 6,
     "DefaultPower": 4,
-    "PossibleLocations": 16, "InOpponentZone": true,
+    "PossibleLocations": 16,
+    "InOpponentZone": true,
     "IsHero": false,
-    
     "Number": 40,
     "Faction": 0
   },
@@ -405,7 +368,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 41,
     "Faction": 0
   },
@@ -415,7 +377,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 42,
     "Faction": 0
   },
@@ -425,7 +386,6 @@
     "DefaultPower": 4,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 43,
     "Faction": 0
   },
@@ -435,7 +395,6 @@
     "DefaultPower": 4,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 44,
     "Faction": 0
   },
@@ -445,7 +404,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 45,
     "Faction": 0
   },
@@ -455,7 +413,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 46,
     "Faction": 0
   },
@@ -465,7 +422,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 4,
     "IsHero": false,
-    
     "Number": 47,
     "Faction": 0
   },
@@ -475,7 +431,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 4,
     "IsHero": false,
-    
     "Number": 48,
     "Faction": 0
   },
@@ -485,7 +440,6 @@
     "DefaultPower": 1,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 49,
     "Faction": 0
   },
@@ -495,7 +449,6 @@
     "DefaultPower": 1,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 50,
     "Faction": 0
   },
@@ -505,7 +458,6 @@
     "DefaultPower": 1,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 51,
     "Faction": 0
   },
@@ -515,7 +467,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 52,
     "Faction": 0
   },
@@ -525,7 +476,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 53,
     "Faction": 0
   },
@@ -535,7 +485,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 54,
     "Faction": 0
   },
@@ -545,7 +494,6 @@
     "DefaultPower": 1,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 55,
     "Faction": 0
   },
@@ -555,7 +503,6 @@
     "DefaultPower": 1,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 56,
     "Faction": 0
   },
@@ -565,7 +512,6 @@
     "DefaultPower": 8,
     "PossibleLocations": 4,
     "IsHero": false,
-    
     "Number": 57,
     "Faction": 0
   },
@@ -575,7 +521,6 @@
     "DefaultPower": 8,
     "PossibleLocations": 4,
     "IsHero": false,
-    
     "Number": 58,
     "Faction": 0
   },
@@ -585,7 +530,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 4,
     "IsHero": false,
-    
     "Number": 59,
     "Faction": 0
   },
@@ -595,7 +539,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 4,
     "IsHero": false,
-    
     "Number": 60,
     "Faction": 0
   },
@@ -605,7 +548,6 @@
     "DefaultPower": 1,
     "PossibleLocations": 4,
     "IsHero": false,
-    
     "Number": 61,
     "Faction": 0
   },
@@ -615,7 +557,6 @@
     "DefaultPower": 1,
     "PossibleLocations": 4,
     "IsHero": false,
-    
     "Number": 62,
     "Faction": 0
   },
@@ -625,7 +566,6 @@
     "DefaultPower": 1,
     "PossibleLocations": 4,
     "IsHero": false,
-    
     "Number": 63,
     "Faction": 0
   },
@@ -635,7 +575,6 @@
     "DefaultPower": 4,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 64,
     "Faction": 0
   },
@@ -645,7 +584,6 @@
     "DefaultPower": 4,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 65,
     "Faction": 0
   },
@@ -655,7 +593,6 @@
     "DefaultPower": 4,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 66,
     "Faction": 0
   },
@@ -665,7 +602,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 4,
     "IsHero": false,
-    
     "Number": 67,
     "Faction": 0
   },
@@ -675,7 +611,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 4,
     "IsHero": false,
-    
     "Number": 68,
     "Faction": 0
   },
@@ -685,7 +620,6 @@
     "DefaultPower": 10,
     "PossibleLocations": 16,
     "IsHero": true,
-    
     "Number": 69,
     "Faction": 1
   },
@@ -695,7 +629,6 @@
     "DefaultPower": 10,
     "PossibleLocations": 16,
     "IsHero": true,
-    
     "Number": 70,
     "Faction": 1
   },
@@ -705,7 +638,6 @@
     "DefaultPower": 10,
     "PossibleLocations": 4,
     "IsHero": true,
-    
     "Number": 71,
     "Faction": 1
   },
@@ -715,7 +647,6 @@
     "DefaultPower": 10,
     "PossibleLocations": 64,
     "IsHero": true,
-    
     "Number": 72,
     "Faction": 1
   },
@@ -725,7 +656,6 @@
     "DefaultPower": 2,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 73,
     "Faction": 1
   },
@@ -735,7 +665,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 74,
     "Faction": 1
   },
@@ -745,7 +674,6 @@
     "DefaultPower": 4,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 75,
     "Faction": 1
   },
@@ -755,7 +683,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 76,
     "Faction": 1
   },
@@ -765,7 +692,6 @@
     "DefaultPower": 3,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 77,
     "Faction": 1
   },
@@ -775,7 +701,6 @@
     "DefaultPower": 4,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 78,
     "Faction": 1
   },
@@ -785,7 +710,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 79,
     "Faction": 1
   },
@@ -795,7 +719,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 4,
     "IsHero": false,
-    
     "Number": 80,
     "Faction": 1
   },
@@ -803,9 +726,9 @@
     "Name": "shilard_fitz_oesternlen_card",
     "Ability": 6,
     "DefaultPower": 7,
-    "PossibleLocations": 16, "InOpponentZone": true,
+    "PossibleLocations": 16,
+    "InOpponentZone": true,
     "IsHero": false,
-    
     "Number": 81,
     "Faction": 1
   },
@@ -813,9 +736,9 @@
     "Name": "stefan_skellen_card",
     "Ability": 6,
     "DefaultPower": 9,
-    "PossibleLocations": 16, "InOpponentZone": true,
+    "PossibleLocations": 16,
+    "InOpponentZone": true,
     "IsHero": false,
-    
     "Number": 82,
     "Faction": 1
   },
@@ -825,7 +748,6 @@
     "DefaultPower": 2,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 83,
     "Faction": 1
   },
@@ -835,7 +757,6 @@
     "DefaultPower": 4,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 84,
     "Faction": 1
   },
@@ -843,9 +764,9 @@
     "Name": "vattier_de_rideaux_card",
     "Ability": 6,
     "DefaultPower": 4,
-    "PossibleLocations": 16, "InOpponentZone": true,
+    "PossibleLocations": 16,
+    "InOpponentZone": true,
     "IsHero": false,
-    
     "Number": 85,
     "Faction": 1
   },
@@ -855,7 +776,6 @@
     "DefaultPower": 2,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 86,
     "Faction": 1
   },
@@ -865,7 +785,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 87,
     "Faction": 1
   },
@@ -875,7 +794,6 @@
     "DefaultPower": 3,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 88,
     "Faction": 1
   },
@@ -885,7 +803,6 @@
     "DefaultPower": 1,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 89,
     "Faction": 1
   },
@@ -895,7 +812,6 @@
     "DefaultPower": 1,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 90,
     "Faction": 1
   },
@@ -905,7 +821,6 @@
     "DefaultPower": 10,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 91,
     "Faction": 1
   },
@@ -915,7 +830,6 @@
     "DefaultPower": 10,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 92,
     "Faction": 1
   },
@@ -925,7 +839,6 @@
     "DefaultPower": 0,
     "PossibleLocations": 4,
     "IsHero": false,
-    
     "Number": 93,
     "Faction": 1
   },
@@ -935,7 +848,6 @@
     "DefaultPower": 10,
     "PossibleLocations": 4,
     "IsHero": false,
-    
     "Number": 94,
     "Faction": 1
   },
@@ -945,7 +857,6 @@
     "DefaultPower": 3,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 95,
     "Faction": 1
   },
@@ -955,7 +866,6 @@
     "DefaultPower": 3,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 96,
     "Faction": 1
   },
@@ -965,7 +875,6 @@
     "DefaultPower": 3,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 97,
     "Faction": 1
   },
@@ -975,7 +884,6 @@
     "DefaultPower": 3,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 98,
     "Faction": 1
   },
@@ -985,7 +893,6 @@
     "DefaultPower": 2,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 99,
     "Faction": 1
   },
@@ -995,7 +902,6 @@
     "DefaultPower": 2,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 100,
     "Faction": 1
   },
@@ -1005,7 +911,6 @@
     "DefaultPower": 2,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 101,
     "Faction": 1
   },
@@ -1015,7 +920,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 4,
     "IsHero": false,
-    
     "Number": 102,
     "Faction": 1
   },
@@ -1025,7 +929,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 103,
     "Faction": 1
   },
@@ -1035,7 +938,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 104,
     "Faction": 1
   },
@@ -1045,7 +947,6 @@
     "DefaultPower": 10,
     "PossibleLocations": 64,
     "IsHero": true,
-    
     "Number": 105,
     "Faction": 2
   },
@@ -1055,7 +956,6 @@
     "DefaultPower": 10,
     "PossibleLocations": 64,
     "IsHero": true,
-    
     "Number": 106,
     "Faction": 2
   },
@@ -1065,7 +965,6 @@
     "DefaultPower": 10,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 107,
     "Faction": 2
   },
@@ -1075,7 +974,6 @@
     "DefaultPower": 10,
     "PossibleLocations": 64,
     "IsHero": true,
-    
     "Number": 108,
     "Faction": 2
   },
@@ -1085,7 +983,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 109,
     "Faction": 2
   },
@@ -1095,7 +992,6 @@
     "DefaultPower": 10,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 110,
     "Faction": 2
   },
@@ -1105,7 +1001,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 111,
     "Faction": 2
   },
@@ -1115,7 +1010,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 112,
     "Faction": 2
   },
@@ -1125,7 +1019,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 113,
     "Faction": 2
   },
@@ -1135,7 +1028,6 @@
     "DefaultPower": 2,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 114,
     "Faction": 2
   },
@@ -1145,7 +1037,6 @@
     "DefaultPower": 1,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 115,
     "Faction": 2
   },
@@ -1155,7 +1046,6 @@
     "DefaultPower": 3,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 116,
     "Faction": 2
   },
@@ -1165,7 +1055,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 117,
     "Faction": 2
   },
@@ -1175,7 +1064,6 @@
     "DefaultPower": 0,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 118,
     "Faction": 2
   },
@@ -1185,7 +1073,6 @@
     "DefaultPower": 0,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 119,
     "Faction": 2
   },
@@ -1195,7 +1082,6 @@
     "DefaultPower": 0,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 120,
     "Faction": 2
   },
@@ -1205,7 +1091,6 @@
     "DefaultPower": 4,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 121,
     "Faction": 2
   },
@@ -1215,7 +1100,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 122,
     "Faction": 2
   },
@@ -1225,7 +1109,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 123,
     "Faction": 2
   },
@@ -1235,7 +1118,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 124,
     "Faction": 2
   },
@@ -1245,7 +1127,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 125,
     "Faction": 2
   },
@@ -1255,7 +1136,6 @@
     "DefaultPower": 3,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 126,
     "Faction": 2
   },
@@ -1265,7 +1145,6 @@
     "DefaultPower": 3,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 127,
     "Faction": 2
   },
@@ -1275,7 +1154,6 @@
     "DefaultPower": 3,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 128,
     "Faction": 2
   },
@@ -1285,7 +1163,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 129,
     "Faction": 2
   },
@@ -1295,7 +1172,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 130,
     "Faction": 2
   },
@@ -1305,7 +1181,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 131,
     "Faction": 2
   },
@@ -1315,7 +1190,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 132,
     "Faction": 2
   },
@@ -1325,7 +1199,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 133,
     "Faction": 2
   },
@@ -1335,7 +1208,6 @@
     "DefaultPower": 2,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 134,
     "Faction": 2
   },
@@ -1345,7 +1217,6 @@
     "DefaultPower": 2,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 135,
     "Faction": 2
   },
@@ -1355,7 +1226,6 @@
     "DefaultPower": 2,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 136,
     "Faction": 2
   },
@@ -1365,7 +1235,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 138,
     "Faction": 2
   },
@@ -1375,7 +1244,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 139,
     "Faction": 2
   },
@@ -1385,7 +1253,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 140,
     "Faction": 2
   },
@@ -1395,7 +1262,6 @@
     "DefaultPower": 10,
     "PossibleLocations": 16,
     "IsHero": true,
-    
     "Number": 141,
     "Faction": 3
   },
@@ -1405,7 +1271,6 @@
     "DefaultPower": 8,
     "PossibleLocations": 16,
     "IsHero": true,
-    
     "Number": 142,
     "Faction": 3
   },
@@ -1415,7 +1280,6 @@
     "DefaultPower": 10,
     "PossibleLocations": 16,
     "IsHero": true,
-    
     "Number": 143,
     "Faction": 3
   },
@@ -1425,7 +1289,6 @@
     "DefaultPower": 10,
     "PossibleLocations": 64,
     "IsHero": true,
-    
     "Number": 144,
     "Faction": 3
   },
@@ -1435,7 +1298,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 145,
     "Faction": 3
   },
@@ -1445,7 +1307,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 4,
     "IsHero": false,
-    
     "Number": 146,
     "Faction": 3
   },
@@ -1455,7 +1316,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 147,
     "Faction": 3
   },
@@ -1465,7 +1325,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 148,
     "Faction": 3
   },
@@ -1475,7 +1334,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 149,
     "Faction": 3
   },
@@ -1485,7 +1343,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 150,
     "Faction": 3
   },
@@ -1495,7 +1352,6 @@
     "DefaultPower": 4,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 151,
     "Faction": 3
   },
@@ -1505,7 +1361,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 152,
     "Faction": 3
   },
@@ -1515,7 +1370,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 4,
     "IsHero": false,
-    
     "Number": 153,
     "Faction": 3
   },
@@ -1525,7 +1379,6 @@
     "DefaultPower": 2,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 154,
     "Faction": 3
   },
@@ -1535,7 +1388,6 @@
     "DefaultPower": 2,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 155,
     "Faction": 3
   },
@@ -1545,7 +1397,6 @@
     "DefaultPower": 2,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 156,
     "Faction": 3
   },
@@ -1555,7 +1406,6 @@
     "DefaultPower": 2,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 157,
     "Faction": 3
   },
@@ -1565,7 +1415,6 @@
     "DefaultPower": 2,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 158,
     "Faction": 3
   },
@@ -1575,7 +1424,6 @@
     "DefaultPower": 5,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 159,
     "Faction": 3
   },
@@ -1585,7 +1433,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 4,
     "IsHero": false,
-    
     "Number": 160,
     "Faction": 3
   },
@@ -1595,7 +1442,6 @@
     "DefaultPower": 2,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 161,
     "Faction": 3
   },
@@ -1605,7 +1451,6 @@
     "DefaultPower": 2,
     "PossibleLocations": 64,
     "IsHero": false,
-    
     "Number": 162,
     "Faction": 3
   },
@@ -1615,7 +1460,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 4,
     "IsHero": false,
-    
     "Number": 163,
     "Faction": 3
   },
@@ -1625,7 +1469,6 @@
     "DefaultPower": 4,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 164,
     "Faction": 3
   },
@@ -1635,7 +1478,6 @@
     "DefaultPower": 4,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 165,
     "Faction": 3
   },
@@ -1645,7 +1487,6 @@
     "DefaultPower": 4,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 166,
     "Faction": 3
   },
@@ -1655,7 +1496,6 @@
     "DefaultPower": 2,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 167,
     "Faction": 3
   },
@@ -1665,7 +1505,6 @@
     "DefaultPower": 2,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 168,
     "Faction": 3
   },
@@ -1675,7 +1514,6 @@
     "DefaultPower": 2,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 169,
     "Faction": 3
   },
@@ -1685,7 +1523,6 @@
     "DefaultPower": 4,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 170,
     "Faction": 3
   },
@@ -1695,7 +1532,6 @@
     "DefaultPower": 4,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 171,
     "Faction": 3
   },
@@ -1705,7 +1541,6 @@
     "DefaultPower": 4,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 172,
     "Faction": 3
   },
@@ -1715,7 +1550,6 @@
     "DefaultPower": 4,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 173,
     "Faction": 3
   },
@@ -1725,7 +1559,6 @@
     "DefaultPower": 4,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 174,
     "Faction": 3
   },
@@ -1735,7 +1568,6 @@
     "DefaultPower": 1,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 175,
     "Faction": 3
   },
@@ -1745,7 +1577,6 @@
     "DefaultPower": 1,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 176,
     "Faction": 3
   },
@@ -1755,7 +1586,6 @@
     "DefaultPower": 1,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 177,
     "Faction": 3
   },
@@ -1765,7 +1595,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 178,
     "Faction": 3
   },
@@ -1775,7 +1604,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 179,
     "Faction": 3
   },
@@ -1785,7 +1613,6 @@
     "DefaultPower": 6,
     "PossibleLocations": 16,
     "IsHero": false,
-    
     "Number": 180,
     "Faction": 3
   }
