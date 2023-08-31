@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using System.Linq;
-using System.Numerics;
 
 namespace GwentEngine
 {
@@ -15,91 +14,153 @@ namespace GwentEngine
     //TODO : Question: une abilité est composable ?
     public enum Ability
     {
-        agile = 0,
-        berserker = 1,
-        mardroeme = 2,
-        medic = 3,
-        moralBoost = 4,
-        muster = 5,
-        spy = 6,
-        tightBond = 7,
-        none = 8,
+        Agile = 0,
+        Berserker = 1,
+        Mardroeme = 2,
+        Medic = 3,
+        MoralBoost = 4,
+        Muster = 5,
+        Spy = 6,
+        TightBond = 7,
+        None = 8,
 
-        frost = 9,
-        fog = 10,
-        rain = 11,
-        commandersHorn = 12,
-        clearWeather = 13,
+        Frost = 9,
+        Fog = 10,
+        Rain = 11,
+        CommandersHorn = 12,
+        ClearWeather = 13,
 
         //TODO : Question c'est des abileté? elle doivent aller la si oui
-        decoy = 14,
-        scorch = 15,
-        leader = 16
+        Decoy = 14,
+        Scorch = 15,
+        Leader = 16
     }
+
 
     public abstract class CardAbility
     {
-        public abstract void Apply(CardMetadata cardMetadata, CardInPlay cardInPlay, GameState gameState);
+        public virtual void ApplyAbility(Card source, Card target)
+        {
+            if (target.IsHero)
+            {
+                //Not applicable to heroes
+                return;
+            }
+
+            Apply(source, target);
+        }
+
+        protected virtual void Apply(Card source, Card target)
+        {
+        }
+    }
+
+    public abstract class SamePlayerCardAbility : CardAbility
+    {
+        public override void ApplyAbility(Card source, Card target)
+        {
+            if (source.EffectivePlayer != target.EffectivePlayer)
+            {
+                return;
+            }
+
+            base.ApplyAbility(source, target);
+        }
+    }
+
+    public class MoralBoostAbility : SamePlayerCardAbility
+    {
+        protected override void Apply(Card source, Card target)
+        {
+            if (source.Location != target.Location)
+            {
+                //Not in the same zone
+                return;
+            }
+
+            if (source.Number == target.Number)
+            {
+                //Cannot apply to self
+                return;
+            }
+
+            //Applicable
+            target.ChangePowerMultiplier(2);
+        }
+    }
+
+    public class CommandersHornAbility : SamePlayerCardAbility
+    {
+        private static Dictionary<Location, Location> LocationWithCommandersHorn = new()
+        {
+            { Location.ComandersHornCatapult, Location.Catapult },
+            { Location.ComandersHornSword, Location.Sword },
+            { Location.ComandersHornArchery, Location.Archery },
+        };
+
+        protected override void Apply(Card source, Card target)
+        {
+            if (!LocationWithCommandersHorn.TryGetValue(source.Location, out var targetLocation))
+            {
+                //This commanders horn is not in play
+                return;
+            }
+
+            if (target.Location != targetLocation)
+            {
+                //This commanders horn is not in play
+                return;
+            }
+
+            //Applicable
+            target.ChangePowerMultiplier(2);
+        }
+    }
+
+    public abstract class SpecificLocationAbility : CardAbility
+    {
+        private readonly Location _targetLocation;
+
+        public SpecificLocationAbility(Location targetLocation)
+        {
+            _targetLocation = targetLocation;
+        }
+
+        public override void ApplyAbility(Card source, Card target)
+        {
+            if (target.Location != _targetLocation)
+            {
+                return;
+            }
+
+            base.ApplyAbility(source, target);
+        }
+
+        protected override void Apply(Card source, Card target)
+        {
+            target.ChangePower(1);
+        }
+    }
+
+    public class FogAbility : SpecificLocationAbility
+    {
+        public FogAbility() : base(Location.Archery) { }
+    }
+
+    public class FrostAbility : SpecificLocationAbility
+    {
+        public FrostAbility() : base(Location.Sword) { }
+    }
+
+    public class RainAbility : SpecificLocationAbility
+    {
+        public RainAbility() : base(Location.Catapult) { }
     }
 
     public class DefaultAbility : CardAbility
     {
-        public override void Apply(CardMetadata cardMetadata, CardInPlay cardInPlay, GameState gameState)
-        {
-        }
     }
 
-    public class CommandersHornAbility : CardAbility
-    {
-        public override void Apply(CardMetadata cardMetadata, CardInPlay cardInPlay, GameState gameState)
-        {
-            var cardsInPlayerSword = gameState.GetCards(PlayerKind.Player, Location.Sword);
-            foreach (var card in cardsInPlayerSword)
-            {
-                var shouldApply = false;
-                if (shouldApply)
-                {
-                    card.ChangePowerMultiplier(2);
-                }
-            }
-            //private int GetPowerMultiplier(Tuple<CardMetadata, CardInPlay>[] cardsInLocation, PlayerKind player, Location location, CardMetadata metadata)
-            //{
-            //    var isRowCommanderHornPresent = LocationWithCommandersHorn.TryGetValue(location, out var commandersHornLocation) && GetCards(player, commandersHornLocation).Length > 0;
-
-            //    if (metadata.IsCommandersHorn)
-            //    {
-            //        return isRowCommanderHornPresent ? 2 : 1;
-            //    }
-
-            //    if (metadata.IsHero)
-            //    {
-            //        return 1;
-            //    }
-
-            //    var isCardWithCommandersHornPresentInLocation = cardsInLocation.Any(c => c.Item1.IsCommandersHorn);
-
-            //    return isCardWithCommandersHornPresentInLocation ? 2 : 1;
-            //}
-
-        }
-    }
-
-    public class FrostAbility : CardAbility
-    {
-        public override void Apply(CardMetadata cardMetadata, CardInPlay cardInPlay, GameState gameState)
-        {
-            var cardsInOpponentSword = gameState.GetCards(PlayerKind.Opponent, Location.Sword);
-            var cardsInPlayerSword = gameState.GetCards(PlayerKind.Player, Location.Sword);
-
-            foreach (var cardInSwordLocation in cardsInOpponentSword.Union(cardsInPlayerSword))
-            {
-                if (!cardInSwordLocation.IsHero)
-                {
-                    cardInSwordLocation.ChangePower(1);
-                }
-            }
-        }
-    }
 
     public static class CardAbilityFactory
     {
@@ -107,40 +168,46 @@ namespace GwentEngine
         {
             switch (ability)
             {
-                case Ability.agile: return new DefaultAbility();
-                case Ability.berserker: return new DefaultAbility();
-                case Ability.mardroeme: return new DefaultAbility();
-                case Ability.medic: return new DefaultAbility();
-                case Ability.moralBoost: return new DefaultAbility();
-                case Ability.muster: return new DefaultAbility();
-                case Ability.spy: return new DefaultAbility();
-                case Ability.tightBond: return new DefaultAbility();
-                case Ability.none: return new DefaultAbility();
-                case Ability.frost: return new FrostAbility();
-                case Ability.fog: return new DefaultAbility();
-                case Ability.rain: return new DefaultAbility();
-                case Ability.commandersHorn: return new DefaultAbility();
-                case Ability.clearWeather: return new DefaultAbility();
-                case Ability.decoy: return new DefaultAbility();
-                case Ability.scorch: return new DefaultAbility();
-                case Ability.leader: return new DefaultAbility();
+                case Ability.Agile: return new DefaultAbility();
+                case Ability.Berserker: return new DefaultAbility();
+                case Ability.Mardroeme: return new DefaultAbility();
+                case Ability.Medic: return new DefaultAbility();
+                case Ability.MoralBoost: return new MoralBoostAbility();
+                case Ability.Muster: return new DefaultAbility();
+                case Ability.Spy: return new DefaultAbility();
+                case Ability.TightBond: return new DefaultAbility();
+                case Ability.None: return new DefaultAbility();
+                case Ability.Frost: return new FrostAbility();
+                case Ability.Fog: return new FogAbility();
+                case Ability.Rain: return new RainAbility();
+                case Ability.CommandersHorn: return new CommandersHornAbility();
+                case Ability.ClearWeather: return new DefaultAbility();
+                case Ability.Decoy: return new DefaultAbility();
+                case Ability.Scorch: return new DefaultAbility();
+                case Ability.Leader: return new DefaultAbility();
                 default: throw new Exception("Unkown ability");
             }
         }
     }
 
-
     public class CardMetadata
     {
+        private Lazy<CardAbility> _cardAbility;
+
         public string Name { get; set; }
         public Ability Ability { get; set; }
+        public CardAbility CardAbility => _cardAbility.Value;
         public int DefaultPower { get; set; }
         public Location PossibleLocations { get; set; }
         public bool IsHero { get; set; }
         public int Number { get; set; }
         public int Faction { get; set; }
         public bool InOpponentZone { get; set; }
-        public bool IsCommandersHorn { get; set; }
+
+        public CardMetadata()
+        {
+            _cardAbility = new(() => CardAbilityFactory.Create(Ability));
+        }
 
         public static Dictionary<int, CardMetadata> FromFile(string fullPath)
         {
@@ -290,7 +357,7 @@ namespace GwentEngine
         }
 
         public static bool IsClickable(this Ability ability) =>
-            (new[] { Ability.decoy, Ability.scorch, Ability.leader }).Contains(ability);
+            (new[] { Ability.Decoy, Ability.Scorch, Ability.Leader }).Contains(ability);
 
         public static PlayerKind Reverse(this PlayerKind playerKind) =>
             playerKind == PlayerKind.Opponent ? PlayerKind.Player : PlayerKind.Opponent;
@@ -303,20 +370,19 @@ namespace GwentEngine
 
     public class GameState
     {
-        private Stack<BoardState> _boardStates = new();
+        private BoardState _currentState = new();
         private Dictionary<int, CardMetadata> _metadata = new();
         private List<int> _availableCards = new();
         private Random _random = new Random(DateTime.Now.Millisecond);
-        public PlayerKind FirstPlayer { get; private set; }
+        private Card[] _allCards;
 
-        public BoardState CurrentState => _boardStates.Peek();
+        public PlayerKind FirstPlayer { get; private set; }
 
         public void NewGame(Dictionary<int, CardMetadata> metadata, int initialCardCount = 0)
         {
             _metadata = metadata;
             _availableCards = _metadata.Keys.ToList();
-            _boardStates = new Stack<BoardState>();
-            _boardStates.Push(new BoardState());
+            _currentState = new();
 
             Enumerable.Range(0, initialCardCount).ForEach(i =>
             {
@@ -325,11 +391,12 @@ namespace GwentEngine
             });
 
             FirstPlayer = _random.Next(0, 1) == 0 ? PlayerKind.Player : PlayerKind.Opponent;
+
+            _allCards = null;
         }
 
         private void Draw(PlayerKind player, int? sequence = null)
         {
-            
             var index = _random.Next(0, _availableCards.Count - 1);
             var cardNumber = _availableCards[index];
 
@@ -338,7 +405,7 @@ namespace GwentEngine
 
         public void ChangeCard(int cardNumber)
         {
-            var currentCard = CurrentState.CardsInPlay[cardNumber];
+            var currentCard = _currentState.CardsInPlay[cardNumber];
             Draw(currentCard.Player, currentCard.Sequence);
             RemoveCard(cardNumber, true);
         }
@@ -347,8 +414,10 @@ namespace GwentEngine
         {
             var cardMetadata = _metadata[cardNumber];
             var cardInPlay = new CardInPlay(cardNumber, Location.Hand, player, cardMetadata.DefaultPower, sequence);
-            CurrentState.CardsInPlay[cardInPlay.Number] = cardInPlay;
+            _currentState.CardsInPlay[cardInPlay.Number] = cardInPlay;
             _availableCards.Remove(cardNumber);
+
+            _allCards = null;
         }
 
         public bool CanPlayAndAvailable(int cardNumber, Location location)
@@ -377,26 +446,26 @@ namespace GwentEngine
                 throw new Exception($"Location {location} is not playable");
             }
 
-            if (!CurrentState.CardsInPlay.TryGetValue(cardNumber, out var cardInPlay))
+            if (!_currentState.CardsInPlay.TryGetValue(cardNumber, out var cardInPlay))
             {
                 throw new Exception($"Cannot play a card not drawn yet");
             }
 
             cardInPlay.Location = location;
 
-            ApplyCardAbility(cardMetadata, cardInPlay);
+            _allCards = null;
         }
 
         public void RemoveCard(int cardNumber, bool isRecyclable)
         {
             var cardMetadata = _metadata[cardNumber];
-            if (!CurrentState.CardsInPlay.TryGetValue(cardNumber, out var cardInPlay))
+            if (!_currentState.CardsInPlay.TryGetValue(cardNumber, out var cardInPlay))
             {
                 throw new Exception($"Cannot play a card not drawn yet");
             }
             if (isRecyclable)
             {
-                CurrentState.CardsInPlay.Remove(cardNumber);
+                _currentState.CardsInPlay.Remove(cardNumber);
                 _availableCards.Add(cardNumber);
             }
             else
@@ -410,69 +479,75 @@ namespace GwentEngine
                     cardInPlay.Location = Location.Dead;
                 }
             }
+
+            _allCards = null;
         }
 
-        private void ApplyCardAbility(CardMetadata cardMetadata, CardInPlay cardInPlay)
+        public Card[] AllCards
         {
-            var cardAbility = CardAbilityFactory.Create(cardMetadata.Ability);
-            cardAbility.Apply(cardMetadata, cardInPlay, this);
+            get
+            {
+                if (_allCards == null)
+                {
+                    _allCards = BuildAllCards();
+                }
+
+                return _allCards;
+            }
         }
-
-        private static Dictionary<Location, Location> LocationWithCommandersHorn = new()
-        {
-            { Location.Catapult, Location.ComandersHornCatapult },
-            { Location.Sword, Location.ComandersHornSword },
-            { Location.Archery, Location.ComandersHornArchery }
-        };
-
-        private static Dictionary<Location, Location> LocationWithWeather = new()
-        {
-            { Location.Sword, Location.ComandersHornCatapult },
-            { Location.Archery, Location.ComandersHornSword },
-            { Location.Catapult, Location.ComandersHornArchery }
-        };
 
         public Card[] GetCards(PlayerKind player, Location location)
         {
-            return CurrentState.CardsInPlay.Values
-                .Select(c => new Card(c, _metadata[c.Number]))
+            return AllCards
                 .Where(c => c.Location == location && c.EffectivePlayer == player)
                 .OrderBy(c => c.Sequence)
                 .ToArray();
         }
 
+        private Card[] BuildAllCards()
+        {
+            var allCards = _currentState.CardsInPlay.Values.Select(c => new Card(c, _metadata[c.Number])).ToArray();
+
+            foreach (var cardX in allCards)
+            {
+                foreach (var cardY in allCards)
+                {
+                    cardX.Metadata.CardAbility.ApplyAbility(cardX, cardY);
+                }
+            }
+
+            return allCards;
+        }
+
         public Dictionary<(PlayerKind, Location), Card[]> GetAllCards()
         {
-            return CurrentState.CardsInPlay.Values
-                .Select(c => new Card(c, _metadata[c.Number]))
+            return AllCards
                 .GroupBy(c => (c.EffectivePlayer, c.Location))
                 .ToDictionary(g => g.Key, g => g.OrderBy(c => c.Sequence).ToArray());
         }
 
-        public void Undo()
-        {
-            if (_boardStates.Count == 0)
-            {
-                throw new Exception("Cannot undo an empty board");
-            }
+        public string ToJson() => JsonConvert.SerializeObject(_currentState);
 
-            _boardStates.Pop();
+        public static GameState FromFile(Dictionary<int, CardMetadata> metadata, string fullPath)
+        {
+            return FromJson(metadata, File.ReadAllText(fullPath));
         }
 
-        public string ToJson() => JsonConvert.SerializeObject(_boardStates);
-
-        public static GameState FromFile(Dictionary<int, CardMetadata> metadata, string fullPath) =>
-            FromJson(metadata, File.ReadAllText(fullPath));
-
-        public static GameState FromJson(Dictionary<int, CardMetadata> metadata, string json) => new GameState()
-            { _boardStates = JsonConvert.DeserializeObject<Stack<BoardState>>(json), _metadata = metadata };
+        public static GameState FromJson(Dictionary<int, CardMetadata> metadata, string json)
+        {
+            return new GameState()
+            {
+                _currentState = JsonConvert.DeserializeObject<BoardState>(json),
+                _metadata = metadata
+            };
+        }
 
         public string PrettyPrint()
         {
-            return $"{CurrentState}";
+            return $"{_currentState}";
         }
     }
- 
+
 
     public class Renderer
     {
