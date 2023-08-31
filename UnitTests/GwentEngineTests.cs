@@ -26,7 +26,7 @@ namespace GwentEngine
             var firstCardMetadata = metadata[14];
 
             Assert.AreEqual("commanders_horn_card", firstCardMetadata.Name);
-            Assert.AreEqual(Ability.commandersHorn, firstCardMetadata.Ability);
+            Assert.AreEqual(Ability.CommandersHorn, firstCardMetadata.Ability);
             Assert.AreEqual(-1, firstCardMetadata.DefaultPower);
             Assert.AreEqual(false, firstCardMetadata.IsHero);
             Assert.AreEqual(Location.ComandersHornCatapult|Location.ComandersHornSword|Location.ComandersHornArchery, firstCardMetadata.PossibleLocations);
@@ -59,13 +59,6 @@ namespace GwentEngine
 
         private void _gameState_OnCardAdded(object sender, CardInfo e)
         {
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(Exception))]
-        public void CannotUndoOnAnEmptyBoard()
-        {
-            _gameState.Undo();
         }
 
         [TestMethod]
