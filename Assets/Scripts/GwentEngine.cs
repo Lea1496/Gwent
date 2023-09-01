@@ -437,6 +437,20 @@ namespace GwentEngine
             return true;
         }
 
+        public bool CanPlay(int cardNumber, Location location)
+        {
+            var cardMetadata = _metadata[cardNumber];
+
+            if ((cardMetadata.PossibleLocations & location) == 0)
+            {
+                return false;
+            }
+            
+
+            return true;
+        }
+        
+
         public void Play(int cardNumber, Location location)
         {
             var cardMetadata = _metadata[cardNumber];

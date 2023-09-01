@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
 
     private Dictionary<int, CardMetadata> _cardMetadata;
     private bool _isTimeToChangeCards = false;
-    public GameState _gameState;
+    public GameState GameState { get; private set; }
     private int _instanciationCounter = 0;
 
     private ConcurrentDictionary<int, (GameObject gameObject, Card card, PlayerKind player, Location location, int
@@ -119,7 +119,43 @@ public class GameManager : MonoBehaviour
             Debug.Log($"Cannot plate card at : {player}, {location}");
             return null;
         }
+        public Location GetLocation(PlayerKind player, GameObject zone)
+        {
+            Location location = Location.None;
+                
+            if (zone == Discard)
+            {
+                return Location.Discard;
+            }
+            if (player == PlayerKind.Player)
+            {
+                location = zone == Card ? Location.Hand : location;
+                location = zone == PlayerSword ? Location.Sword : location;
+                location = zone == PlayerArc ? Location.Archery : location;
+                location = zone == PlayerCatapult ? Location.Catapult : location;
+                location = zone == CommandersHornSword ? Location.ComandersHornSword : location;
+                location = zone == CommandersHornArc ? Location.ComandersHornArchery : location;
+                location = zone == CommandersHornCat ? Location.ComandersHornCatapult : location;
+                
+            }
+            else
+            {
+                //location = zone == Card ? Location.none : location;
+                location = zone == EnemySword ? Location.Sword : location;
+                location = zone == EnemyArc ? Location.Archery : location;
+                location = zone == EnemyCatapult ? Location.Catapult : location;
+                location = zone == CommandersHornSword ? Location.ComandersHornSword : location;
+                location = zone == CommandersHornArc ? Location.ComandersHornArchery : location;
+                location = zone == CommandersHornCat ? Location.ComandersHornCatapult : location;
+            }
+
+//            Debug.Log($"Cannot plate card at : {player}, {location}");
+            return location;
+        }
     }
+    
+    
+    
 
     private void StartCoroutine()
     {
@@ -131,7 +167,7 @@ public class GameManager : MonoBehaviour
 
         IEnumerator coroutine;
 
-        if (_gameState.FirstPlayer == PlayerKind.Player)
+        if (GameState.FirstPlayer == PlayerKind.Player)
         {
             youStart.gameObject.SetActive(true);
             coroutine = HideText(youStart);
@@ -147,7 +183,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (_gameState != null)
+        if (GameState != null)
         {
             UpdateAllCards();
         }
@@ -156,6 +192,10 @@ public class GameManager : MonoBehaviour
         {
             keepCardsButton.gameObject.SetActive(true);
             _instanciationCounter++;
+        }
+        else if(!_isTimeToChangeCards)
+        {
+            keepCardsButton.gameObject.SetActive(false);
         }
 
         _isTimeToChangeCards = NbCardsChanged >= 2 ? false : true;
@@ -166,14 +206,14 @@ public class GameManager : MonoBehaviour
         var deckFullPath = Path.Combine(Application.dataPath, "Cards", "Deck.json");
 
         _cardGameObjects = new();
-        _gameState = new();
+        GameState = new();
         _zones = new();
 
         _cardMetadata = CardMetadata.FromFile(deckFullPath);
 
-        _gameState.NewGame(_cardMetadata, Settings.InitialCardCount);
-        Simulate(_gameState, PlayerKind.Player);
-        Simulate(_gameState, PlayerKind.Opponent);
+        GameState.NewGame(_cardMetadata, Settings.InitialCardCount);
+        //Simulate(_gameState, PlayerKind.Player);
+        //Simulate(_gameState, PlayerKind.Opponent);
 
         UpdateAllCards();
         _isTimeToChangeCards = true;
@@ -215,7 +255,7 @@ public class GameManager : MonoBehaviour
     {
         var sw = System.Diagnostics.Stopwatch.StartNew();
 
-        var cardsByPlayerAndLocation = _gameState.GetAllCards();
+        var cardsByPlayerAndLocation = GameState.GetAllCards();
 
         var unknownCardNumbers = _cardGameObjects.Keys.ToList();
 
