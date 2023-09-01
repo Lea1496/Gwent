@@ -39,7 +39,7 @@ public class CardBehavior : MonoBehaviour
             return;
         }
 
-        var powerString = _card.Power == -1 ? "" : _card.Power.ToString();
+        var powerString = _card.EffectivePower == -1 ? "" : _card.EffectivePower.ToString();
 
         if (powerText.text != powerString)
         {

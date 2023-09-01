@@ -248,7 +248,7 @@ public class GameManager : MonoBehaviour
 
 
             //TODO: update row scores
-            var rowScore = cards.Sum(card => card.Power);
+            var rowScore = cards.Sum(card => card.EffectivePower);
         }
 
 

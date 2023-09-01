@@ -64,6 +64,12 @@ namespace GwentEngine
                 return;
             }
 
+            if (source.Number == target.Number)
+            {
+                //Cannot apply to self
+                return;
+            }
+
             base.ApplyAbility(source, target);
         }
     }
@@ -78,14 +84,8 @@ namespace GwentEngine
                 return;
             }
 
-            if (source.Number == target.Number)
-            {
-                //Cannot apply to self
-                return;
-            }
-
             //Applicable
-            target.ChangePowerMultiplier(2);
+            target.Power += 1;
         }
     }
 
@@ -96,6 +96,7 @@ namespace GwentEngine
             { Location.ComandersHornCatapult, Location.Catapult },
             { Location.ComandersHornSword, Location.Sword },
             { Location.ComandersHornArchery, Location.Archery },
+            { Location.Sword, Location.Sword },
         };
 
         protected override void Apply(Card source, Card target)
@@ -113,7 +114,7 @@ namespace GwentEngine
             }
 
             //Applicable
-            target.ChangePowerMultiplier(2);
+            target.PowerMultiplier = 2;
         }
     }
 
@@ -138,7 +139,7 @@ namespace GwentEngine
 
         protected override void Apply(Card source, Card target)
         {
-            target.ChangePower(1);
+            target.Power = 1;
         }
     }
 
@@ -255,15 +256,12 @@ namespace GwentEngine
         public int Sequence;
         public Location Location;
 
-        public int Power { get; set; }
-
-        public CardInPlay(int number, Location location, PlayerKind player, int power, int? sequence = null)
+        public CardInPlay(int number, Location location, PlayerKind player, int? sequence = null)
         {
             Number = number;
             Sequence = sequence.GetValueOrDefault(++_sequence);
             Location = location;
             Player = player;
-            Power = power;
         }
 
         public override string ToString() => $"#{Number} {Location} {Player}";
@@ -273,19 +271,21 @@ namespace GwentEngine
     {
         private CardInPlay _cardInPlay;
         private CardMetadata _metadata;
-        private int _powerMultiplier;
 
         public Card(CardInPlay cardInPlay, CardMetadata metadata)
         {
             _cardInPlay = cardInPlay;
             _metadata = metadata;
-            _powerMultiplier = 1;
+            PowerMultiplier = 1;
+            Power = metadata.DefaultPower;
         }
 
+        public int PowerMultiplier { get; set; }
+        public int Power { get; set; }
         public int Number => _cardInPlay.Number;
         public int Sequence => _cardInPlay.Sequence;
         public Location Location => _cardInPlay.Location;
-        public int Power => _cardInPlay.Power * _powerMultiplier;
+        public int EffectivePower => Power * PowerMultiplier;
 
         public string Name => _metadata.Name;
         public Ability Ability => _metadata.Ability;
@@ -294,11 +294,7 @@ namespace GwentEngine
         public bool IsHero => _metadata.IsHero;
         public int Faction => _metadata.Faction;
         public CardMetadata Metadata => _metadata;
-
         public override string ToString() => $"#{Number} {Location} {EffectivePlayer}";
-
-        public void ChangePower(int power) => _cardInPlay.Power = power;
-        public void ChangePowerMultiplier(int powerMultiplier) => _powerMultiplier = powerMultiplier;
 
         public PlayerKind EffectivePlayer
         {
@@ -413,7 +409,7 @@ namespace GwentEngine
         public void UseCard(int cardNumber, PlayerKind player, int? sequence = null)
         {
             var cardMetadata = _metadata[cardNumber];
-            var cardInPlay = new CardInPlay(cardNumber, Location.Hand, player, cardMetadata.DefaultPower, sequence);
+            var cardInPlay = new CardInPlay(cardNumber, Location.Hand, player, sequence);
             _currentState.CardsInPlay[cardInPlay.Number] = cardInPlay;
             _availableCards.Remove(cardNumber);
 
@@ -569,7 +565,7 @@ namespace GwentEngine
             {
                 if (_cache.TryGetValue(cardInPlay.Number, out var cachedCard))
                 {
-                    cachedCard.Power = cardInPlay.Power != cachedCard.Power ? cardInPlay.Power : cachedCard.Power;
+                    cachedCard.Power = cardInPlay.EffectivePower != cachedCard.Power ? cardInPlay.EffectivePower : cachedCard.Power;
                 }
                 else
                 {

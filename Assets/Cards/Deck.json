@@ -46,7 +46,7 @@
   },
   {
     "Name": "dandelion_card",
-    "Ability": 4,
+    "Ability": 12,
     "DefaultPower": 2,
     "PossibleLocations": 16,
     "IsHero": false,
