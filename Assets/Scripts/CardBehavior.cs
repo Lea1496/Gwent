@@ -9,23 +9,16 @@ public class CardBehavior : MonoBehaviour
     [SerializeField] public TextMeshProUGUI powerText;
 
     private Card _card;
-    private PlayerKind _player;
     
     public Card Card
     {
         get => _card;
         
     }
-    
-    public PlayerKind Player
-    {
-        get => _player;
-    }
 
-    public void SetInfo(Card card, PlayerKind player)
+    public void SetInfo(Card card)
     {
         _card = card;
-        _player = player;
     }
 
     private void Awake()
@@ -33,14 +26,10 @@ public class CardBehavior : MonoBehaviour
 
     }
 
-    public void ChoseThisCardToChange()
+    public void OnClick()
     {
         var gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        if (gameManager.IsTimeToChangeCards)
-        {
-            gameManager.GameState.ChangeCard(_card.Number);
-            gameManager.NbCardsChanged++;
-        }
+        gameManager.OnClick(_card.Number);
     }
 
     public void Update()
@@ -56,13 +45,5 @@ public class CardBehavior : MonoBehaviour
         {
             powerText.text = powerString;
         }
-    }
-
-    public void OnDrop()
-    {
-    }
-
-    public void OnClick()
-    {
     }
 }

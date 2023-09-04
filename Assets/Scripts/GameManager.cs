@@ -1,4 +1,5 @@
 using GwentEngine;
+using GwentEngine.Phases;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -12,11 +13,10 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-
+    private GamePhase _currentGamePhase;
+    private List<GamePhase> _gamePhases = new List<GamePhase>();
     private Dictionary<int, CardMetadata> _cardMetadata;
-    private bool _isTimeToChangeCards = false;
-    public GameState GameState { get; private set; }
-    private int _instanciationCounter = 0;
+    private GameState _gameState;
 
     private ConcurrentDictionary<int, (GameObject gameObject, Card card, PlayerKind player, Location location, int
         position)> _cardGameObjects;
@@ -27,13 +27,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI youStart;
     [SerializeField] private TextMeshProUGUI opponentStarts;
     [SerializeField] private Button keepCardsButton;
-    public bool IsTimeToChangeCards
-    {
-        get => _isTimeToChangeCards;
-        set => _isTimeToChangeCards = IsTimeToChangeCards;
-    }
 
-    public int NbCardsChanged { get; set; }
+
     public class Zones
     {
         public Zones()
@@ -55,11 +50,8 @@ public class GameManager : MonoBehaviour
             CommandersHornSwordEnemy = GameObject.Find("CommandersHornSwordEnemy");
             CommandersHornArcEnemy = GameObject.Find("CommandersHornArcEnemy");
             CommandersHornCatEnemy = GameObject.Find("CommandersHornCatEnemy");
+            Weather = GameObject.Find("WeatherZone");            
         }
-
-
-
-
 
         public GameObject PlayerSword { get; }
         public GameObject PlayerArc { get; }
@@ -80,6 +72,7 @@ public class GameManager : MonoBehaviour
         public GameObject CommandersHornSwordEnemy { get; }
         public GameObject CommandersHornArcEnemy { get; }
         public GameObject CommandersHornCatEnemy { get; }
+        public GameObject Weather { get; }
 
         public GameObject GetZone(PlayerKind player, Location location)
         {
@@ -99,7 +92,7 @@ public class GameManager : MonoBehaviour
                     case Location.ComandersHornSword: return CommandersHornSword;
                     case Location.ComandersHornArchery: return CommandersHornArc;
                     case Location.ComandersHornCatapult: return CommandersHornCat;
-
+                    case Location.Weather: return Weather;
                 }
             }
             else
@@ -113,16 +106,18 @@ public class GameManager : MonoBehaviour
                     case Location.ComandersHornSword: return CommandersHornSwordEnemy;
                     case Location.ComandersHornArchery: return CommandersHornArcEnemy;
                     case Location.ComandersHornCatapult: return CommandersHornCatEnemy;
+                    case Location.Weather: return Weather;
                 }
             }
 
-            Debug.Log($"Cannot plate card at : {player}, {location}");
+            Debug.Log($"Cannot place card at : {player}, {location}");
             return null;
         }
+
         public Location GetLocation(PlayerKind player, GameObject zone)
         {
             Location location = Location.None;
-                
+
             if (zone == Discard)
             {
                 return Location.Discard;
@@ -136,7 +131,7 @@ public class GameManager : MonoBehaviour
                 location = zone == CommandersHornSword ? Location.ComandersHornSword : location;
                 location = zone == CommandersHornArc ? Location.ComandersHornArchery : location;
                 location = zone == CommandersHornCat ? Location.ComandersHornCatapult : location;
-                
+                location = zone == Weather ? Location.Weather : location;
             }
             else
             {
@@ -147,15 +142,14 @@ public class GameManager : MonoBehaviour
                 location = zone == CommandersHornSword ? Location.ComandersHornSword : location;
                 location = zone == CommandersHornArc ? Location.ComandersHornArchery : location;
                 location = zone == CommandersHornCat ? Location.ComandersHornCatapult : location;
+                location = zone == Weather ? Location.Weather : location;
             }
 
-//            Debug.Log($"Cannot plate card at : {player}, {location}");
+            //            Debug.Log($"Cannot plate card at : {player}, {location}");
             return location;
         }
     }
-    
-    
-    
+
 
     private void StartCoroutine()
     {
@@ -167,7 +161,7 @@ public class GameManager : MonoBehaviour
 
         IEnumerator coroutine;
 
-        if (GameState.FirstPlayer == PlayerKind.Player)
+        if (_gameState.FirstPlayer == PlayerKind.Player)
         {
             youStart.gameObject.SetActive(true);
             coroutine = HideText(youStart);
@@ -183,22 +177,10 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (GameState != null)
+        if (_gameState != null)
         {
-            UpdateAllCards();
+            UpdateAll();
         }
-
-        if (_isTimeToChangeCards && _instanciationCounter < 1)
-        {
-            keepCardsButton.gameObject.SetActive(true);
-            _instanciationCounter++;
-        }
-        else if(!_isTimeToChangeCards)
-        {
-            keepCardsButton.gameObject.SetActive(false);
-        }
-
-        _isTimeToChangeCards = NbCardsChanged >= 2 ? false : true;
     }
 
     private void Awake()
@@ -206,20 +188,41 @@ public class GameManager : MonoBehaviour
         var deckFullPath = Path.Combine(Application.dataPath, "Cards", "Deck.json");
 
         _cardGameObjects = new();
-        GameState = new();
+        _gameState = new();
         _zones = new();
 
         _cardMetadata = CardMetadata.FromFile(deckFullPath);
 
-        GameState.NewGame(_cardMetadata, Settings.InitialCardCount);
+        _gameState.NewGame(_cardMetadata, Settings.InitialCardCount);
+
         //Simulate(_gameState, PlayerKind.Player);
         //Simulate(_gameState, PlayerKind.Opponent);
 
-        UpdateAllCards();
-        _isTimeToChangeCards = true;
+        _currentGamePhase = null;
+        _gamePhases = new List<GamePhase>();
+        _gamePhases.Add(new ChooseFaction());
+        _gamePhases.Add(new ChooseDeck());
+        _gamePhases.Add(new ChangeInitialCards(_gameState, () => keepCardsButton.gameObject.SetActive(true), () => keepCardsButton.gameObject.SetActive(false)));
+        _gamePhases.Add(new Round());
+
+        UpdateAll();
         StartCoroutine();
     }
 
+    private void ActivateGamePhase() 
+    {
+        GamePhase GetCurrentGamePhase() => _gamePhases.First(gp => !gp.Done);
+
+        var currentGamePhase = GetCurrentGamePhase();
+
+        while(currentGamePhase != _currentGamePhase)
+        {
+            _currentGamePhase = currentGamePhase;
+            _currentGamePhase.Activate();
+            
+            currentGamePhase = GetCurrentGamePhase();
+        }
+    }
 
     private void Simulate(GameState gameState, PlayerKind player)
     {
@@ -251,11 +254,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void UpdateAllCards()
+    private void UpdateAll()
     {
         var sw = System.Diagnostics.Stopwatch.StartNew();
 
-        var cardsByPlayerAndLocation = GameState.GetAllCards();
+        ActivateGamePhase();
+
+        var cardsByPlayerAndLocation = _gameState.GetAllCards();
 
         var unknownCardNumbers = _cardGameObjects.Keys.ToList();
 
@@ -276,7 +281,7 @@ public class GameManager : MonoBehaviour
             cardGameObjects.ForEach(cardGameObject =>
             {
                 unknownCardNumbers.Remove(cardGameObject.card.Number);
-                cardGameObject.gameObject.GetComponent<CardBehavior>().SetInfo(cardGameObject.card, player);
+                cardGameObject.gameObject.GetComponent<CardBehavior>().SetInfo(cardGameObject.card);
                 if (cardGameObject.gameObject.transform.parent != zone.transform)
                 {
                     cardGameObject.gameObject.transform.localPosition = Vector3.zero;
@@ -310,5 +315,35 @@ public class GameManager : MonoBehaviour
         var image = gameObject.GetComponent<Image>();
         image.sprite = cardImage.GetComponent<SpriteRenderer>().sprite;
         return gameObject;
+    }
+
+    public Location GetLocation(PlayerKind player, GameObject zone)
+    {
+        return _zones.GetLocation(player, zone);
+    }
+
+    public bool CanPlay(int number, Location location)
+    {
+        return _gameState.CanPlay(number, location);
+    }
+
+    public void Play(int number, Location location)
+    {
+        _gameState.Play(number, location);
+    }
+
+    public void OnClick(int cardNumber)
+    {
+        _currentGamePhase.OnClick(cardNumber);
+    }
+
+    public void EndCurrentPhase()
+    {
+        _currentGamePhase.EndCurrentPhase();
+    }
+
+    public bool IsDraggable(Card card)
+    {
+        return _currentGamePhase.IsDraggable(card);
     }
 }

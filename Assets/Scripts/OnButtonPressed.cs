@@ -4,14 +4,8 @@ using UnityEngine;
 
 public class OnButtonPressed : MonoBehaviour
 {
-    public void StopChangeCards()
+    public void EndCurrentPhase()
     {
-        GameObject.Find("GameManager").GetComponent<GameManager>().NbCardsChanged = 2;
-        gameObject.SetActive(false);
-    }
-
-    public void Pass()
-    {
-        //BoardManager.playerHasPassed = true;
+        GameObject.Find("GameManager").GetComponent<GameManager>().EndCurrentPhase();
     }
 }

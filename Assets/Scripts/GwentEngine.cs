@@ -229,17 +229,17 @@ namespace GwentEngine
     [Flags]
     public enum Location
     {
-        None                  = 0b0000000000,
-        Hand                  = 0b0000000001,
+        None = 0b0000000000,
+        Hand = 0b0000000001,
         ComandersHornCatapult = 0b0000000010,
-        Catapult              = 0b0000000100,
-        ComandersHornSword    = 0b0000001000,
-        Sword                 = 0b0000010000,
-        ComandersHornArchery  = 0b0000100000,
-        Archery               = 0b0001000000,
-        Discard               = 0b0010000000,
-        Weather               = 0b0100000000,
-        Dead                  = 0b1000000000
+        Catapult = 0b0000000100,
+        ComandersHornSword = 0b0000001000,
+        Sword = 0b0000010000,
+        ComandersHornArchery = 0b0000100000,
+        Archery = 0b0001000000,
+        Discard = 0b0010000000,
+        Weather = 0b0100000000,
+        Dead = 0b1000000000
     }
 
     public enum PlayerKind
@@ -425,11 +425,11 @@ namespace GwentEngine
             {
                 return false;
             }
-            
+
 
             return true;
         }
-        
+
 
         public void Play(int cardNumber, Location location)
         {
@@ -539,6 +539,90 @@ namespace GwentEngine
         public string PrettyPrint()
         {
             return $"{_currentState}";
+        }
+    }
+
+    namespace Phases
+    {
+
+        public class GamePhase
+        {
+            private readonly Action _onActivatePhase;
+            private readonly Action _onEndPhase;
+
+            public virtual bool Done { get; private set; }
+
+            public GamePhase(Action onActivatePhase = null, Action onEndPhase = null)
+            {
+                _onActivatePhase = onActivatePhase;
+                _onEndPhase = onEndPhase;
+            }
+
+            public virtual void OnClick(int number) { }
+
+            public virtual void Activate()
+            {
+                _onActivatePhase?.Invoke();
+            }
+            public void EndCurrentPhase()
+            {
+                _onEndPhase?.Invoke();
+                Done = true;
+            }
+
+            public virtual bool IsDraggable(Card card)
+            {
+                return false;
+            }
+        }
+
+        public class ChooseFaction : GamePhase
+        {
+            public override void Activate()
+            {
+                EndCurrentPhase(); //This phase is not implemented yet, just simulate end right away}
+            }
+        }
+
+        public class ChooseDeck : GamePhase
+        {
+            public override void Activate()
+            {
+                EndCurrentPhase(); //This phase is not implemented yet, just simulate end right away}
+            }
+        }
+
+        public class ChangeInitialCards : GamePhase
+        {
+            private readonly GameState _gameState;
+
+            private int _nbCardsChanged;
+
+            public ChangeInitialCards(GameState gameState, Action onActivatePhase, Action onEndPhase)
+                : base(onActivatePhase, onEndPhase)
+            {
+                _gameState = gameState;
+                _nbCardsChanged = 0;
+            }
+
+            public override void OnClick(int number)
+            {
+                _gameState.ChangeCard(number);
+                _nbCardsChanged++;
+
+                if (_nbCardsChanged == 2)
+                {
+                    EndCurrentPhase();
+                }
+            }
+        }
+
+        public class Round : GamePhase
+        {
+            public override bool IsDraggable(Card card)
+            {
+                return card.EffectivePlayer == PlayerKind.Player && card.Location == Location.Hand;
+            }
         }
     }
 }
