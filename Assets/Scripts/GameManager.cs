@@ -200,10 +200,10 @@ public class GameManager : MonoBehaviour
 
         _currentGamePhase = null;
         _gamePhases = new List<GamePhase>();
-        _gamePhases.Add(new ChooseFaction());
-        _gamePhases.Add(new ChooseDeck());
-        _gamePhases.Add(new ChangeInitialCards(_gameState, () => keepCardsButton.gameObject.SetActive(true), () => keepCardsButton.gameObject.SetActive(false)));
-        _gamePhases.Add(new Round());
+        _gamePhases.Add(new ChooseFactionPhase());
+        _gamePhases.Add(new ChooseDeckPhase());
+        _gamePhases.Add(new ChangeInitialCardsPhase(_gameState, () => keepCardsButton.gameObject.SetActive(true), () => keepCardsButton.gameObject.SetActive(false)));
+        _gamePhases.Add(new RoundPhase());
 
         UpdateAll();
         StartCoroutine();

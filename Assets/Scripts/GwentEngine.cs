@@ -17,7 +17,7 @@ namespace GwentEngine
         private Lazy<CardAbility> _cardAbility;
 
         public string Name { get; set; }
-        public Ability Ability { get; set; }
+        public GamePhase Ability { get; set; }
         public CardAbility CardAbility => _cardAbility.Value;
         public int DefaultPower { get; set; }
         public Location PossibleLocations { get; set; }
@@ -107,7 +107,7 @@ namespace GwentEngine
         public int EffectivePower => Power * PowerMultiplier;
 
         public string Name => _cardInPlay.Metadata.Name;
-        public Ability Ability => _cardInPlay.Metadata.Ability;
+        public GamePhase Ability => _cardInPlay.Metadata.Ability;
         public int DefaultPower => _cardInPlay.Metadata.DefaultPower;
         public Location PossibleLocations => _cardInPlay.Metadata.PossibleLocations;
         public bool IsHero => _cardInPlay.Metadata.IsHero;
@@ -155,8 +155,8 @@ namespace GwentEngine
             return -1;
         }
 
-        public static bool IsClickable(this Ability ability) =>
-            (new[] { Ability.Decoy, Ability.Scorch, Ability.Leader }).Contains(ability);
+        public static bool IsClickable(this GamePhase ability) =>
+            (new[] { GamePhase.Decoy, GamePhase.Scorch, GamePhase.Leader }).Contains(ability);
 
         public static PlayerKind Reverse(this PlayerKind playerKind) =>
             playerKind == PlayerKind.Opponent ? PlayerKind.Player : PlayerKind.Opponent;
@@ -361,87 +361,7 @@ namespace GwentEngine
         }
     }
 
-    namespace Phases
+    namespace Phases2
     {
-
-        public class GamePhase
-        {
-            private readonly Action _onActivatePhase;
-            private readonly Action _onEndPhase;
-
-            public virtual bool Done { get; private set; }
-
-            public GamePhase(Action onActivatePhase = null, Action onEndPhase = null)
-            {
-                _onActivatePhase = onActivatePhase;
-                _onEndPhase = onEndPhase;
-            }
-
-            public virtual void OnClick(int number) { }
-
-            public virtual void Activate()
-            {
-                _onActivatePhase?.Invoke();
-            }
-            public void EndCurrentPhase()
-            {
-                _onEndPhase?.Invoke();
-                Done = true;
-            }
-
-            public virtual bool IsDraggable(Card card)
-            {
-                return false;
-            }
-        }
-
-        public class ChooseFaction : GamePhase
-        {
-            public override void Activate()
-            {
-                EndCurrentPhase(); //This phase is not implemented yet, just simulate end right away}
-            }
-        }
-
-        public class ChooseDeck : GamePhase
-        {
-            public override void Activate()
-            {
-                EndCurrentPhase(); //This phase is not implemented yet, just simulate end right away}
-            }
-        }
-
-        public class ChangeInitialCards : GamePhase
-        {
-            private readonly GameState _gameState;
-
-            private int _nbCardsChanged;
-
-            public ChangeInitialCards(GameState gameState, Action onActivatePhase, Action onEndPhase)
-                : base(onActivatePhase, onEndPhase)
-            {
-                _gameState = gameState;
-                _nbCardsChanged = 0;
-            }
-
-            public override void OnClick(int number)
-            {
-                _gameState.ChangeCard(number);
-                _nbCardsChanged++;
-
-                if (_nbCardsChanged == 2)
-                {
-                    EndCurrentPhase();
-                }
-            }
-        }
-
-        public class Round : GamePhase
-        {
-            public override bool IsDraggable(Card card)
-            {
-                return card.EffectivePlayer == PlayerKind.Player && card.Location == Location.Hand;
-            }
-        }
     }
 }
