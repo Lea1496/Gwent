@@ -541,40 +541,4 @@ namespace GwentEngine
             return $"{_currentState}";
         }
     }
-
-
-    public class Renderer
-    {
-        private class CardGameObject
-        {
-            public Card card;
-            public object obj;
-            public int Power;
-        }
-
-        private Dictionary<int, CardGameObject> _cache = new();
-
-        public void Render()
-        {
-            var gameState = new GameState();
-            gameState.NewGame(null);
-
-            foreach (var cardInPlay in gameState.GetCards(PlayerKind.Player, Location.Hand))
-            {
-                if (_cache.TryGetValue(cardInPlay.Number, out var cachedCard))
-                {
-                    cachedCard.Power = cardInPlay.EffectivePower != cachedCard.Power ? cardInPlay.EffectivePower : cachedCard.Power;
-                }
-                else
-                {
-                    //Create and cache new card
-                }
-            }
-
-
-
-
-        }
-    }
-
 }
