@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
+using GwentEngine.Abilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 
@@ -52,14 +52,6 @@ namespace GwentEngine
         {
             _metadata = CardMetadata.FromFile(DeckFilePath);
             _gameState = new GameState();
-        }
-
-        private void _gameState_OnCardChanged(object sender, CardInfo e)
-        {
-        }
-
-        private void _gameState_OnCardAdded(object sender, CardInfo e)
-        {
         }
 
         [TestMethod]

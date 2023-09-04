@@ -50,7 +50,7 @@ public class CardBehavior : MonoBehaviour
             return;
         }
 
-        var powerString = _card.Power == -1 || _card.IsHero ? "" : _card.Power.ToString();
+        var powerString = _card.EffectivePower == -1 || _card.IsHero ? "" : _card.EffectivePower.ToString();
 
         if (powerText.text != powerString)
         {

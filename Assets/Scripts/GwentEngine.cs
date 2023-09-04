@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using System.Linq;
+using GwentEngine.Abilities;
 
 namespace GwentEngine
 {
@@ -11,87 +12,86 @@ namespace GwentEngine
         public const int InitialCardCount = 10;
     }
 
-    //TODO : Question: une abilité est composable ?
-    public enum Ability
+    namespace Abilities
     {
-        Agile = 0,
-        Berserker = 1,
-        Mardroeme = 2,
-        Medic = 3,
-        MoralBoost = 4,
-        Muster = 5,
-        Spy = 6,
-        TightBond = 7,
-        None = 8,
-
-        Frost = 9,
-        Fog = 10,
-        Rain = 11,
-        CommandersHorn = 12,
-        ClearWeather = 13,
-
-        //TODO : Question c'est des abileté? elle doivent aller la si oui
-        Decoy = 14,
-        Scorch = 15,
-        Leader = 16
-    }
-
-
-    public abstract class CardAbility
-    {
-        public virtual void ApplyAbility(Card source, Card target)
+        public enum Ability
         {
-            if (target.IsHero)
-            {
-                //Not applicable to heroes
-                return;
-            }
+            Agile = 0,
+            Berserker = 1,
+            Mardroeme = 2,
+            Medic = 3,
+            MoralBoost = 4,
+            Muster = 5,
+            Spy = 6,
+            TightBond = 7,
+            None = 8,
 
-            Apply(source, target);
+            Frost = 9,
+            Fog = 10,
+            Rain = 11,
+            CommandersHorn = 12,
+            ClearWeather = 13,
+
+            Decoy = 14,
+            Scorch = 15,
+            Leader = 16
         }
 
-        protected virtual void Apply(Card source, Card target)
+        public abstract class CardAbility
         {
-        }
-    }
-
-    public abstract class SamePlayerCardAbility : CardAbility
-    {
-        public override void ApplyAbility(Card source, Card target)
-        {
-            if (source.EffectivePlayer != target.EffectivePlayer)
+            public virtual void ApplyAbility(Card source, Card target)
             {
-                return;
+                if (target.IsHero)
+                {
+                    //Not applicable to heroes
+                    return;
+                }
+
+                Apply(source, target);
             }
 
-            if (source.Number == target.Number)
+            protected virtual void Apply(Card source, Card target)
             {
-                //Cannot apply to self
-                return;
             }
-
-            base.ApplyAbility(source, target);
         }
-    }
 
-    public class MoralBoostAbility : SamePlayerCardAbility
-    {
-        protected override void Apply(Card source, Card target)
+        public abstract class SamePlayerCardAbility : CardAbility
         {
-            if (source.Location != target.Location)
+            public override void ApplyAbility(Card source, Card target)
             {
-                //Not in the same zone
-                return;
+                if (source.EffectivePlayer != target.EffectivePlayer)
+                {
+                    return;
+                }
+
+                if (source.Number == target.Number)
+                {
+                    //Cannot apply to self
+                    return;
+                }
+
+                base.ApplyAbility(source, target);
             }
-
-            //Applicable
-            target.Power += 1;
         }
-    }
 
-    public class CommandersHornAbility : SamePlayerCardAbility
-    {
-        private static Dictionary<Location, Location> LocationWithCommandersHorn = new()
+        public class MoralBoostAbility : SamePlayerCardAbility
+        {
+            protected override void Apply(Card source, Card target)
+            {
+                if (source.Location != target.Location)
+                {
+                    //Not in the same zone
+                    return;
+                }
+
+                //Applicable
+                target.Power += 1;
+            }
+        }
+
+        public class CommandersHornAbility : SamePlayerCardAbility
+        {
+            private static Dictionary<Location, Location> LocationWithCommandersHorn = new()
         {
             { Location.ComandersHornCatapult, Location.Catapult },
             { Location.ComandersHornSword, Location.Sword },
@@ -99,96 +99,98 @@ namespace GwentEngine
             { Location.Sword, Location.Sword },
         };
 
-        protected override void Apply(Card source, Card target)
-        {
-            if (!LocationWithCommandersHorn.TryGetValue(source.Location, out var targetLocation))
+            protected override void Apply(Card source, Card target)
             {
-                //This commanders horn is not in play
-                return;
-            }
+                if (!LocationWithCommandersHorn.TryGetValue(source.Location, out var targetLocation))
+                {
+                    //This commanders horn is not in play
+                    return;
+                }
 
-            if (target.Location != targetLocation)
-            {
-                //This commanders horn is not in play
-                return;
-            }
+                if (target.Location != targetLocation)
+                {
+                    //This commanders horn is not in play
+                    return;
+                }
 
-            //Applicable
-            target.PowerMultiplier = 2;
-        }
-    }
-
-    public abstract class SpecificLocationAbility : CardAbility
-    {
-        private readonly Location _targetLocation;
-
-        public SpecificLocationAbility(Location targetLocation)
-        {
-            _targetLocation = targetLocation;
-        }
-
-        public override void ApplyAbility(Card source, Card target)
-        {
-            if (target.Location != _targetLocation)
-            {
-                return;
-            }
-
-            base.ApplyAbility(source, target);
-        }
-
-        protected override void Apply(Card source, Card target)
-        {
-            target.Power = 1;
-        }
-    }
-
-    public class FogAbility : SpecificLocationAbility
-    {
-        public FogAbility() : base(Location.Archery) { }
-    }
-
-    public class FrostAbility : SpecificLocationAbility
-    {
-        public FrostAbility() : base(Location.Sword) { }
-    }
-
-    public class RainAbility : SpecificLocationAbility
-    {
-        public RainAbility() : base(Location.Catapult) { }
-    }
-
-    public class DefaultAbility : CardAbility
-    {
-    }
-
-
-    public static class CardAbilityFactory
-    {
-        public static CardAbility Create(Ability ability)
-        {
-            switch (ability)
-            {
-                case Ability.Agile: return new DefaultAbility();
-                case Ability.Berserker: return new DefaultAbility();
-                case Ability.Mardroeme: return new DefaultAbility();
-                case Ability.Medic: return new DefaultAbility();
-                case Ability.MoralBoost: return new MoralBoostAbility();
-                case Ability.Muster: return new DefaultAbility();
-                case Ability.Spy: return new DefaultAbility();
-                case Ability.TightBond: return new DefaultAbility();
-                case Ability.None: return new DefaultAbility();
-                case Ability.Frost: return new FrostAbility();
-                case Ability.Fog: return new FogAbility();
-                case Ability.Rain: return new RainAbility();
-                case Ability.CommandersHorn: return new CommandersHornAbility();
-                case Ability.ClearWeather: return new DefaultAbility();
-                case Ability.Decoy: return new DefaultAbility();
-                case Ability.Scorch: return new DefaultAbility();
-                case Ability.Leader: return new DefaultAbility();
-                default: throw new Exception("Unkown ability");
+                //Applicable
+                target.PowerMultiplier = 2;
             }
         }
+
+        public abstract class SpecificLocationAbility : CardAbility
+        {
+            private readonly Location _targetLocation;
+
+            public SpecificLocationAbility(Location targetLocation)
+            {
+                _targetLocation = targetLocation;
+            }
+
+            public override void ApplyAbility(Card source, Card target)
+            {
+                if (target.Location != _targetLocation)
+                {
+                    return;
+                }
+
+                base.ApplyAbility(source, target);
+            }
+
+            protected override void Apply(Card source, Card target)
+            {
+                target.Power = 1;
+            }
+        }
+
+        public class FogAbility : SpecificLocationAbility
+        {
+            public FogAbility() : base(Location.Archery) { }
+        }
+
+        public class FrostAbility : SpecificLocationAbility
+        {
+            public FrostAbility() : base(Location.Sword) { }
+        }
+
+        public class RainAbility : SpecificLocationAbility
+        {
+            public RainAbility() : base(Location.Catapult) { }
+        }
+
+        public class DefaultAbility : CardAbility
+        {
+        }
+
+
+        public static class CardAbilityFactory
+        {
+            public static CardAbility Create(Ability ability)
+            {
+                switch (ability)
+                {
+                    case Ability.Agile: return new DefaultAbility();
+                    case Ability.Berserker: return new DefaultAbility();
+                    case Ability.Mardroeme: return new DefaultAbility();
+                    case Ability.Medic: return new DefaultAbility();
+                    case Ability.MoralBoost: return new MoralBoostAbility();
+                    case Ability.Muster: return new DefaultAbility();
+                    case Ability.Spy: return new DefaultAbility();
+                    case Ability.TightBond: return new DefaultAbility();
+                    case Ability.None: return new DefaultAbility();
+                    case Ability.Frost: return new FrostAbility();
+                    case Ability.Fog: return new FogAbility();
+                    case Ability.Rain: return new RainAbility();
+                    case Ability.CommandersHorn: return new CommandersHornAbility();
+                    case Ability.ClearWeather: return new DefaultAbility();
+                    case Ability.Decoy: return new DefaultAbility();
+                    case Ability.Scorch: return new DefaultAbility();
+                    case Ability.Leader: return new DefaultAbility();
+                    default: throw new Exception("Unkown ability");
+                }
+            }
+        }
+
     }
 
     public class CardMetadata
@@ -227,17 +229,17 @@ namespace GwentEngine
     [Flags]
     public enum Location
     {
-        None = 0,
-        Hand = 1,
-        ComandersHornCatapult = 2,
-        Catapult = 4,
-        ComandersHornSword = 8,
-        Sword = 16,
-        ComandersHornArchery = 32,
-        Archery = 64,
-        Discard = 128,
-        Weather = 256,
-        Dead = 512
+        None                  = 0b0000000000,
+        Hand                  = 0b0000000001,
+        ComandersHornCatapult = 0b0000000010,
+        Catapult              = 0b0000000100,
+        ComandersHornSword    = 0b0000001000,
+        Sword                 = 0b0000010000,
+        ComandersHornArchery  = 0b0000100000,
+        Archery               = 0b0001000000,
+        Discard               = 0b0010000000,
+        Weather               = 0b0100000000,
+        Dead                  = 0b1000000000
     }
 
     public enum PlayerKind
@@ -250,50 +252,48 @@ namespace GwentEngine
     {
         private static int _sequence = 0;
 
-        public readonly int Number;
+        public readonly CardMetadata Metadata;
 
         public PlayerKind Player;
         public int Sequence;
         public Location Location;
 
-        public CardInPlay(int number, Location location, PlayerKind player, int? sequence = null)
+        public CardInPlay(CardMetadata metadata, Location location, PlayerKind player, int? sequence = null)
         {
-            Number = number;
+            Metadata = metadata;
             Sequence = sequence.GetValueOrDefault(++_sequence);
             Location = location;
             Player = player;
         }
 
-        public override string ToString() => $"#{Number} {Location} {Player}";
+        public override string ToString() => $"#{Metadata} {Location} {Player}";
     }
 
     public class Card
     {
         private CardInPlay _cardInPlay;
-        private CardMetadata _metadata;
 
-        public Card(CardInPlay cardInPlay, CardMetadata metadata)
+        public Card(CardInPlay cardInPlay)
         {
             _cardInPlay = cardInPlay;
-            _metadata = metadata;
             PowerMultiplier = 1;
-            Power = metadata.DefaultPower;
+            Power = _cardInPlay.Metadata.DefaultPower;
         }
 
         public int PowerMultiplier { get; set; }
         public int Power { get; set; }
-        public int Number => _cardInPlay.Number;
+        public int Number => _cardInPlay.Metadata.Number;
         public int Sequence => _cardInPlay.Sequence;
         public Location Location => _cardInPlay.Location;
         public int EffectivePower => Power * PowerMultiplier;
 
-        public string Name => _metadata.Name;
-        public Ability Ability => _metadata.Ability;
-        public int DefaultPower => _metadata.DefaultPower;
-        public Location PossibleLocations => _metadata.PossibleLocations;
-        public bool IsHero => _metadata.IsHero;
-        public int Faction => _metadata.Faction;
-        public CardMetadata Metadata => _metadata;
+        public string Name => _cardInPlay.Metadata.Name;
+        public Ability Ability => _cardInPlay.Metadata.Ability;
+        public int DefaultPower => _cardInPlay.Metadata.DefaultPower;
+        public Location PossibleLocations => _cardInPlay.Metadata.PossibleLocations;
+        public bool IsHero => _cardInPlay.Metadata.IsHero;
+        public int Faction => _cardInPlay.Metadata.Faction;
+        public CardMetadata Metadata => _cardInPlay.Metadata;
         public override string ToString() => $"#{Number} {Location} {EffectivePlayer}";
 
         public PlayerKind EffectivePlayer
@@ -305,25 +305,9 @@ namespace GwentEngine
                     return _cardInPlay.Player;
                 }
 
-                return _metadata.InOpponentZone ? _cardInPlay.Player.Reverse() : _cardInPlay.Player;
+                return _cardInPlay.Metadata.InOpponentZone ? _cardInPlay.Player.Reverse() : _cardInPlay.Player;
             }
         }
-    }
-
-    public class CardInfo
-    {
-        public CardInfo(int number, CardMetadata metadata, PlayerKind player, Location location)
-        {
-            Number = number;
-            Metadata = metadata;
-            Player = player;
-            Location = location;
-        }
-
-        public CardMetadata Metadata;
-        public PlayerKind Player;
-        public int Number;
-        public Location Location;
     }
 
     public static class Extensions
@@ -409,8 +393,8 @@ namespace GwentEngine
         public void UseCard(int cardNumber, PlayerKind player, int? sequence = null)
         {
             var cardMetadata = _metadata[cardNumber];
-            var cardInPlay = new CardInPlay(cardNumber, Location.Hand, player, sequence);
-            _currentState.CardsInPlay[cardInPlay.Number] = cardInPlay;
+            var cardInPlay = new CardInPlay(cardMetadata, Location.Hand, player, sequence);
+            _currentState.CardsInPlay[cardNumber] = cardInPlay;
             _availableCards.Remove(cardNumber);
 
             _allCards = null;
@@ -516,7 +500,7 @@ namespace GwentEngine
 
         private Card[] BuildAllCards()
         {
-            var allCards = _currentState.CardsInPlay.Values.Select(c => new Card(c, _metadata[c.Number])).ToArray();
+            var allCards = _currentState.CardsInPlay.Values.Select(c => new Card(c)).ToArray();
 
             foreach (var cardX in allCards)
             {
