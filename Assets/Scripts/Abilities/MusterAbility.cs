@@ -11,14 +11,14 @@ namespace GwentEngine.Abilities
             return new CustomInitialPhasePhase(() =>
             {
                 var sameCardsAvailable = gameManager.AllAvailableCards.Where(availableCard => availableCard.Name == cardInPlay.Metadata.Name).Select(c => c.Number);
-                var sameCardsInHand = gameManager.GetCards(cardInPlay.Player, Location.Hand).Where(availableCard => availableCard.Name == cardInPlay.Metadata.Name).Select(c => c.Number);
-
-                var sameCards = sameCardsAvailable.Union(sameCardsInHand).ToArray();
-
-                foreach (var sameCard in sameCards)
+               
+                foreach (var sameCard in sameCardsAvailable)
                 {
                     gameManager.UseCard(sameCard, cardInPlay.Player);
                 }
+                
+                var sameCardsInHand = gameManager.GetCards(cardInPlay.Player, Location.Hand).Where(availableCard => availableCard.Name == cardInPlay.Metadata.Name).Select(c => c.Number);
+                var sameCards = sameCardsAvailable.Union(sameCardsInHand).ToArray();
 
                 foreach (var sameCard in sameCards)
                 {
