@@ -2,7 +2,7 @@
 
 namespace GwentEngine.Abilities
 {
-    public enum GamePhase
+    public enum Ability
     {
         Agile = 0,
         Berserker = 1,

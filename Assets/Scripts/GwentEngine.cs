@@ -360,8 +360,4 @@ namespace GwentEngine
             return $"{_currentState}";
         }
     }
-
-    namespace Phases2
-    {
-    }
 }
