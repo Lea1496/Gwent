@@ -351,6 +351,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public Card[] GetCards(PlayerKind player, Location location)
+    {
+        return _gameState.GetCards(player, location);
+    }
+
     public void OnClick(int cardNumber)
     {
         _currentGamePhase.OnClick(cardNumber);

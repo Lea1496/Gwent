@@ -8,17 +8,21 @@ namespace GwentEngine.Abilities
     {
         public override GamePhase CreateInitialPhase(CardInPlay cardInPlay, GameManager gameManager)
         {
-            return new CustomInitialPhasePhase(() => {
-                var sameCards = gameManager.AllAvailableCards.Where(availableCard => availableCard.Name == cardInPlay.Metadata.Name);
+            return new CustomInitialPhasePhase(() =>
+            {
+                var sameCardsAvailable = gameManager.AllAvailableCards.Where(availableCard => availableCard.Name == cardInPlay.Metadata.Name).Select(c => c.Number);
+                var sameCardsInHand = gameManager.GetCards(cardInPlay.Player, Location.Hand).Where(availableCard => availableCard.Name == cardInPlay.Metadata.Name).Select(c => c.Number);
+
+                var sameCards = sameCardsAvailable.Union(sameCardsInHand).ToArray();
 
                 foreach (var sameCard in sameCards)
                 {
-                    gameManager.UseCard(sameCard.Number, cardInPlay.Player);
+                    gameManager.UseCard(sameCard, cardInPlay.Player);
                 }
 
                 foreach (var sameCard in sameCards)
                 {
-                    gameManager.Play(sameCard.Number, cardInPlay.Location);
+                    gameManager.Play(sameCard, cardInPlay.Location);
                 }
 
                 gameManager.EndCurrentPhase();

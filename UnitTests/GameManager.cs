@@ -28,5 +28,10 @@ namespace GwentEngine
         public void EndCurrentPhase()
         {
         }
+
+        public Card[] GetCards(PlayerKind player, Location location)
+        {
+            return new Card[0];
+        }
     }
 }
