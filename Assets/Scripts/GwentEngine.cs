@@ -17,7 +17,7 @@ namespace GwentEngine
         private Lazy<CardAbility> _cardAbility;
 
         public string Name { get; set; }
-        public GamePhase Ability { get; set; }
+        public Ability Ability { get; set; }
         public CardAbility CardAbility => _cardAbility.Value;
         public int DefaultPower { get; set; }
         public Location PossibleLocations { get; set; }
@@ -107,7 +107,7 @@ namespace GwentEngine
         public int EffectivePower => Power * PowerMultiplier;
 
         public string Name => _cardInPlay.Metadata.Name;
-        public GamePhase Ability => _cardInPlay.Metadata.Ability;
+        public Ability Ability => _cardInPlay.Metadata.Ability;
         public int DefaultPower => _cardInPlay.Metadata.DefaultPower;
         public Location PossibleLocations => _cardInPlay.Metadata.PossibleLocations;
         public bool IsHero => _cardInPlay.Metadata.IsHero;
@@ -155,8 +155,8 @@ namespace GwentEngine
             return -1;
         }
 
-        public static bool IsClickable(this GamePhase ability) =>
-            (new[] { GamePhase.Decoy, GamePhase.Scorch, GamePhase.Leader }).Contains(ability);
+        public static bool IsClickable(this Ability ability) =>
+            (new[] { Ability.Decoy, Ability.Scorch, Ability.Leader }).Contains(ability);
 
         public static PlayerKind Reverse(this PlayerKind playerKind) =>
             playerKind == PlayerKind.Opponent ? PlayerKind.Player : PlayerKind.Opponent;
@@ -250,7 +250,7 @@ namespace GwentEngine
         }
 
 
-        public void Play(int cardNumber, Location location)
+        public CardInPlay Play(int cardNumber, Location location)
         {
             var cardMetadata = _metadata[cardNumber];
 
@@ -267,6 +267,8 @@ namespace GwentEngine
             cardInPlay.Location = location;
 
             _allCards = null;
+
+            return cardInPlay;
         }
 
         public void RemoveCard(int cardNumber, bool isRecyclable)
@@ -294,6 +296,14 @@ namespace GwentEngine
             }
 
             _allCards = null;
+        }
+
+        public CardMetadata[] AllAvailableCards
+        {
+            get
+            {  
+                return _availableCards.Select(c => _metadata[c]).ToArray();
+            }
         }
 
         public Card[] AllCards

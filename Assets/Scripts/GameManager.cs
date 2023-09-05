@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
             CommandersHornSwordEnemy = GameObject.Find("CommandersHornSwordEnemy");
             CommandersHornArcEnemy = GameObject.Find("CommandersHornArcEnemy");
             CommandersHornCatEnemy = GameObject.Find("CommandersHornCatEnemy");
-            Weather = GameObject.Find("WeatherZone");            
+            Weather = GameObject.Find("WeatherZone");
         }
 
         public GameObject PlayerSword { get; }
@@ -209,17 +209,17 @@ public class GameManager : MonoBehaviour
         StartCoroutine();
     }
 
-    private void ActivateGamePhase() 
+    private void ActivateGamePhase()
     {
         GamePhase GetCurrentGamePhase() => _gamePhases.First(gp => !gp.Done);
 
         var currentGamePhase = GetCurrentGamePhase();
 
-        while(currentGamePhase != _currentGamePhase)
+        while (currentGamePhase != _currentGamePhase)
         {
             _currentGamePhase = currentGamePhase;
             _currentGamePhase.Activate();
-            
+
             currentGamePhase = GetCurrentGamePhase();
         }
     }
@@ -245,7 +245,7 @@ public class GameManager : MonoBehaviour
                     if (gameState.CanPlayAndAvailable(metadata.Number, location))
                     {
                         gameState.UseCard(metadata.Number, player);
-                        gameState.Play(metadata.Number, location);
+                        Play(metadata.Number, location);
                         break;
                     }
                 }
@@ -327,9 +327,28 @@ public class GameManager : MonoBehaviour
         return _gameState.CanPlay(number, location);
     }
 
+    public void UseCard(int number, PlayerKind player)
+    {
+        _gameState.UseCard(number, player);
+    }
+
     public void Play(int number, Location location)
     {
-        _gameState.Play(number, location);
+        var cardInPlay = _gameState.Play(number, location);
+
+        var initialPhase = cardInPlay.Metadata.CardAbility.CreateInitialPhase(cardInPlay, this);
+        if (initialPhase != null)
+        {
+            _gamePhases.Insert(0, initialPhase);
+        }
+    }
+
+    public CardMetadata[] AllAvailableCards
+    {
+        get
+        {
+            return _gameState.AllAvailableCards;
+        }
     }
 
     public void OnClick(int cardNumber)

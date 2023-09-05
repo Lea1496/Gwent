@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GwentEngine.Phases;
+using System;
 
 namespace GwentEngine.Abilities
 {
@@ -17,6 +18,11 @@ namespace GwentEngine.Abilities
 
         protected virtual void Apply(Card source, Card target)
         {
+        }
+
+        public virtual GamePhase CreateInitialPhase(CardInPlay cardInPlay, GameManager gameManager)
+        {
+            return null;
         }
     }
 }
