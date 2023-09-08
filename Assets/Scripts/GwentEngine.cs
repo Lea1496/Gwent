@@ -329,8 +329,17 @@ namespace GwentEngine
 
         private Card[] BuildAllCards()
         {
-            var allCards = _currentState.CardsInPlay.Values.Select(c => new Card(c)).ToArray();
-
+            var abilityOrder = new[]
+            {
+                Ability.None, Ability.Muster, Ability.Medic, Ability.Spy, Ability.Fog, Ability.Rain, Ability.Frost,
+                Ability.ClearWeather, Ability.TightBond, Ability.MoralBoost, Ability.CommandersHorn, Ability.Scorch
+            };
+            //var allCards = _currentState.CardsInPlay.Values.Select(c => new Card(c)).ToArray();
+            var allCards = _currentState.CardsInPlay
+                .Values
+                .Select(c => new Card(c))
+                .OrderBy(c => abilityOrder.IndexOf(a=> a == c.Metadata.Ability))
+                .ToArray();
             foreach (var cardX in allCards)
             {
                 foreach (var cardY in allCards)

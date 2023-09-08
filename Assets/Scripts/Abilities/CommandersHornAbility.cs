@@ -15,6 +15,8 @@ namespace GwentEngine.Abilities
 
         protected override void Apply(Card source, Card target)
         {
+            
+            
             if (!LocationWithCommandersHorn.TryGetValue(source.Location, out var targetLocation))
             {
                 //This commanders horn is not in play

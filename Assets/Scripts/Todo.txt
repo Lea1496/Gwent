@@ -1,0 +1,11 @@
+Fred mettre des commentaires
+
+Faire les autres habiletés (scorch, decoy, etc)
+
+Faire que les deux paquets pour le joueur et l'enemi aient pas le même paquet (deux dictionnary séparés?)
+
+Faire l'affaire de factions 
+
+Faire le fait que le joueur puisse choisir son paquet
+
+Faire le système de tour et de round
