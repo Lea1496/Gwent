@@ -13,10 +13,8 @@ namespace GwentEngine.Abilities
             { Location.Sword, Location.Sword },
         };
 
-        protected override void Apply(Card source, Card target)
-        {
-            
-            
+        protected override void Apply(Card source, Card target, GameState gameState)
+        {   
             if (!LocationWithCommandersHorn.TryGetValue(source.Location, out var targetLocation))
             {
                 //This commanders horn is not in play
@@ -30,7 +28,7 @@ namespace GwentEngine.Abilities
             }
 
             //Applicable
-            target.PowerMultiplier *= 2;
+            target.SetPowerMultiplier(nameof(CommandersHornAbility), currentValue => 2);
         }
     }
 }

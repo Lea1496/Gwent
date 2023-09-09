@@ -13,10 +13,10 @@ namespace GwentEngine.Abilities
                 return;
             }
 
-            Apply(source, target);
+            Apply(source, target, gameState);
         }
 
-        protected virtual void Apply(Card source, Card target)
+        protected virtual void Apply(Card source, Card target, GameState gameState)
         {
         }
 
