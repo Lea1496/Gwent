@@ -4,6 +4,8 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Linq;
 using GwentEngine.Abilities;
+using UnityEngine;
+using Random = System.Random;
 
 namespace GwentEngine
 {
@@ -264,6 +266,7 @@ namespace GwentEngine
                 throw new Exception($"Cannot play a card not drawn yet");
             }
 
+           
             cardInPlay.Location = location;
 
             _allCards = null;
@@ -344,7 +347,7 @@ namespace GwentEngine
             {
                 foreach (var cardY in allCards)
                 {
-                    cardX.Metadata.CardAbility.ApplyAbility(cardX, cardY);
+                    cardX.Metadata.CardAbility.ApplyAbility(cardX, cardY, this);
                 }
             }
 

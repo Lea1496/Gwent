@@ -30,7 +30,7 @@ namespace GwentEngine.Abilities
             }
 
             //Applicable
-            target.PowerMultiplier = 2;
+            target.PowerMultiplier *= 2;
         }
     }
 }

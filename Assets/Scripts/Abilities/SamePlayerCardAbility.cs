@@ -4,7 +4,7 @@ namespace GwentEngine.Abilities
 {
     public abstract class SamePlayerCardAbility : CardAbility
     {
-        public override void ApplyAbility(Card source, Card target)
+        public override void ApplyAbility(Card source, Card target, GameState gameState)
         {
             if (source.EffectivePlayer != target.EffectivePlayer)
             {
@@ -17,7 +17,7 @@ namespace GwentEngine.Abilities
                 return;
             }
 
-            base.ApplyAbility(source, target);
+            base.ApplyAbility(source, target, gameState);
         }
     }
 

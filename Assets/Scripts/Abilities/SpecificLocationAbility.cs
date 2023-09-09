@@ -12,14 +12,14 @@ namespace GwentEngine.Abilities
             _targetLocation = targetLocation;
         }
 
-        public override void ApplyAbility(Card source, Card target)
+        public override void ApplyAbility(Card source, Card target, GameState gameState)
         {
             if (target.Location != _targetLocation)
             {
                 return;
             }
 
-            base.ApplyAbility(source, target);
+            base.ApplyAbility(source, target, gameState);
         }
 
         protected override void Apply(Card source, Card target)

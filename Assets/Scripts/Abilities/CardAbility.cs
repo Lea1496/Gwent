@@ -5,7 +5,7 @@ namespace GwentEngine.Abilities
 {
     public abstract class CardAbility
     {
-        public virtual void ApplyAbility(Card source, Card target)
+        public virtual void ApplyAbility(Card source, Card target, GameState gameState)
         {
             if (target.IsHero)
             {

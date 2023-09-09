@@ -313,6 +313,11 @@ public class GameManager : MonoBehaviour
         var gameObject = Instantiate(this.card);
         var cardImage = GameObject.Find(card.Metadata.Name);
         var image = gameObject.GetComponent<Image>();
+        if (card.IsHero)
+        {
+            gameObject.GetComponentInChildren<RawImage>().enabled = false;
+        }
+        Debug.Log(card.Name);
         image.sprite = cardImage.GetComponent<SpriteRenderer>().sprite;
         return gameObject;
     }
