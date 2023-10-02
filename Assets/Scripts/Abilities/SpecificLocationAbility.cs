@@ -22,7 +22,7 @@ namespace GwentEngine.Abilities
             base.ApplyAbility(source, target, gameState);
         }
 
-        protected override void Apply(Card source, Card target)
+        protected override void Apply(Card source, Card target, GameState gameState)
         {
             target.Power = 1;
         }

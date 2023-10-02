@@ -4,8 +4,8 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Linq;
 using GwentEngine.Abilities;
-using UnityEngine;
 using Random = System.Random;
+using System.Collections.Concurrent;
 
 namespace GwentEngine
 {
@@ -94,14 +94,20 @@ namespace GwentEngine
     {
         private CardInPlay _cardInPlay;
 
+        private ConcurrentDictionary<string, int> _powerMultiplierSources;
+
         public Card(CardInPlay cardInPlay)
         {
             _cardInPlay = cardInPlay;
-            PowerMultiplier = 1;
+            _powerMultiplierSources = new();
             Power = _cardInPlay.Metadata.DefaultPower;
         }
 
-        public int PowerMultiplier { get; set; }
+        public void SetPowerMultiplier(string name, Func<int, int> getNewValue)
+        {
+            _powerMultiplierSources.AddOrUpdate(name, getNewValue(1), (key, currentValue) => getNewValue(currentValue));
+        }
+
         public int Power { get; set; }
         public int Number => _cardInPlay.Metadata.Number;
         public int Sequence => _cardInPlay.Sequence;
@@ -127,6 +133,16 @@ namespace GwentEngine
                 }
 
                 return _cardInPlay.Metadata.InOpponentZone ? _cardInPlay.Player.Reverse() : _cardInPlay.Player;
+            }
+        }
+
+        public int PowerMultiplier 
+        {
+            get
+            {
+                var multiplier = 1;
+                _powerMultiplierSources.Values.ForEach(v => multiplier *= v);
+                return multiplier;
             }
         }
     }
@@ -266,7 +282,7 @@ namespace GwentEngine
                 throw new Exception($"Cannot play a card not drawn yet");
             }
 
-           
+
             cardInPlay.Location = location;
 
             _allCards = null;
@@ -304,7 +320,7 @@ namespace GwentEngine
         public CardMetadata[] AllAvailableCards
         {
             get
-            {  
+            {
                 return _availableCards.Select(c => _metadata[c]).ToArray();
             }
         }
@@ -341,7 +357,7 @@ namespace GwentEngine
             var allCards = _currentState.CardsInPlay
                 .Values
                 .Select(c => new Card(c))
-                .OrderBy(c => abilityOrder.IndexOf(a=> a == c.Metadata.Ability))
+                .OrderBy(c => abilityOrder.IndexOf(a => a == c.Metadata.Ability))
                 .ToArray();
             foreach (var cardX in allCards)
             {

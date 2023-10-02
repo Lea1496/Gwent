@@ -2,17 +2,21 @@
 using System.Linq;
 using Assets.Scripts.Phases;
 using GwentEngine.Phases;
-using UnityEngine;
 
 namespace GwentEngine.Abilities
 {
-    public class TightBondAbility : CardAbility
-    { 
-        
-        public override GamePhase CreateInitialPhase(CardInPlay cardInPlay, GameManager gameManager)
+    /// <summary>
+    /// See: https://www.ign.com/wikis/the-witcher-3-wild-hunt/Gwent_Card_Game
+    /// 
+    /// Doubles the strength of both cards when placed next to a unit of the same name.
+    /// </summary>
+    public class TightBondAbility : SamePlayerCardAbility
+    {
+        public override void ApplyAbility(Card source, Card target, GameState gameState)
         {
-            return new CustomInitialPhasePhase(() =>
+            if(target.Location == source.Location && target.Name == source.Name)
             {
+<<<<<<< HEAD
                 Card[] cards = gameManager.GetCards(cardInPlay.Player, cardInPlay.Location);
                 foreach (var card in cards)
                 {
@@ -20,6 +24,10 @@ namespace GwentEngine.Abilities
                 }
                 gameManager.EndCurrentPhase();
             });
+=======
+                target.SetPowerMultiplier(nameof(TightBondAbility), currentValue => 2 * currentValue);
+            }
+>>>>>>> eb373a59fbbcbb6d1036fb5ec3f7561bdfa997f8
         }
     }
 }

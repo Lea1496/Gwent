@@ -4,7 +4,7 @@ namespace GwentEngine.Abilities
 {
     public class MoralBoostAbility : SamePlayerCardAbility
     {
-        protected override void Apply(Card source, Card target)
+        protected override void Apply(Card source, Card target, GameState gameState)
         {
             if (source.Location != target.Location)
             {
