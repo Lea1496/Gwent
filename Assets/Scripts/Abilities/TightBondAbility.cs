@@ -17,7 +17,6 @@ namespace GwentEngine.Abilities
                 foreach (var card in cards)
                 {
                     card.PowerMultiplier = (int)Math.Pow(2, cards.Length - 1);
-                    Debug.Log(card.PowerMultiplier + " PowerMult");
                 }
                 gameManager.EndCurrentPhase();
             });

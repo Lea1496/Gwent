@@ -321,7 +321,6 @@ public class GameManager : MonoBehaviour
         image.sprite = cardImage.GetComponent<SpriteRenderer>().sprite;
         return gameObject;
     }
-
     public Location GetLocation(PlayerKind player, GameObject zone)
     {
         return _zones.GetLocation(player, zone);
