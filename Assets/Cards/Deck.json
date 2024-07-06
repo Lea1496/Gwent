@@ -73,7 +73,7 @@
   },
   {
     "Name": "villentretenmerth_card",
-    "Ability": 13,
+    "Ability": 17,
     "DefaultPower": 7,
     "PossibleLocations": 16,
     "IsHero": false,
@@ -92,7 +92,7 @@
   },
   {
     "Name": "decoy_card",
-    "Ability": 12,
+    "Ability": 14,
     "DefaultPower": -1,
     "PossibleLocations": 84,
     "IsHero": false,
@@ -101,7 +101,7 @@
   },
   {
     "Name": "decoy_card",
-    "Ability": 12,
+    "Ability": 14,
     "DefaultPower": -1,
     "PossibleLocations": 84,
     "IsHero": false,
@@ -110,7 +110,7 @@
   },
   {
     "Name": "decoy_card",
-    "Ability": 12,
+    "Ability": 14,
     "DefaultPower": -1,
     "PossibleLocations": 84,
     "IsHero": false,
@@ -146,27 +146,27 @@
   },
   {
     "Name": "scorch_card",
-    "Ability": 13,
+    "Ability": 15,
     "DefaultPower": -1,
-    "PossibleLocations": 0,
+    "PossibleLocations": 256,
     "IsHero": false,
     "Number": 17,
     "Faction": 4
   },
   {
     "Name": "scorch_card",
-    "Ability": 13,
+    "Ability": 15,
     "DefaultPower": -1,
-    "PossibleLocations": 0,
+    "PossibleLocations": 256,
     "IsHero": false,
     "Number": 18,
     "Faction": 4
   },
   {
     "Name": "scorch_card",
-    "Ability": 13,
+    "Ability": 15,
     "DefaultPower": -1,
-    "PossibleLocations": 0,
+    "PossibleLocations": 256,
     "IsHero": false,
     "Number": 19,
     "Faction": 4
@@ -1008,7 +1008,7 @@
     "Name": "filavandrel_card",
     "Ability": 0,
     "DefaultPower": 6,
-    "PossibleLocations": 16,
+    "PossibleLocations": 80,
     "IsHero": false,
     "Number": 112,
     "Faction": 2
@@ -1017,7 +1017,7 @@
     "Name": "yaevinn_card",
     "Ability": 0,
     "DefaultPower": 6,
-    "PossibleLocations": 16,
+    "PossibleLocations": 80,
     "IsHero": false,
     "Number": 113,
     "Faction": 2
@@ -1044,7 +1044,7 @@
     "Name": "ciaran_aep_easnillien_card",
     "Ability": 0,
     "DefaultPower": 3,
-    "PossibleLocations": 16,
+    "PossibleLocations": 80,
     "IsHero": false,
     "Number": 116,
     "Faction": 2
@@ -1053,7 +1053,7 @@
     "Name": "barclay_els_card",
     "Ability": 0,
     "DefaultPower": 6,
-    "PossibleLocations": 16,
+    "PossibleLocations": 80,
     "IsHero": false,
     "Number": 117,
     "Faction": 2
@@ -1089,7 +1089,7 @@
     "Name": "vrihedd_brigade_recruit_card",
     "Ability": 0,
     "DefaultPower": 4,
-    "PossibleLocations": 64,
+    "PossibleLocations": 80,
     "IsHero": false,
     "Number": 121,
     "Faction": 2
@@ -1098,7 +1098,7 @@
     "Name": "vrihedd_brigade_veteran_card",
     "Ability": 0,
     "DefaultPower": 5,
-    "PossibleLocations": 16,
+    "PossibleLocations": 80,
     "IsHero": false,
     "Number": 122,
     "Faction": 2
@@ -1107,7 +1107,7 @@
     "Name": "dol_blathanna_archer_card",
     "Ability": 0,
     "DefaultPower": 6,
-    "PossibleLocations": 64,
+    "PossibleLocations": 80,
     "IsHero": false,
     "Number": 123,
     "Faction": 2
@@ -1116,7 +1116,7 @@
     "Name": "dol_blathanna_scout_card",
     "Ability": 0,
     "DefaultPower": 6,
-    "PossibleLocations": 16,
+    "PossibleLocations": 80,
     "IsHero": false,
     "Number": 124,
     "Faction": 2
@@ -1125,7 +1125,7 @@
     "Name": "dol_blathanna_scout_card",
     "Ability": 0,
     "DefaultPower": 6,
-    "PossibleLocations": 16,
+    "PossibleLocations": 80,
     "IsHero": false,
     "Number": 125,
     "Faction": 2
@@ -1386,7 +1386,7 @@
     "Name": "harpy_card",
     "Ability": 0,
     "DefaultPower": 2,
-    "PossibleLocations": 16,
+    "PossibleLocations": 80,
     "IsHero": false,
     "Number": 155,
     "Faction": 3
@@ -1413,7 +1413,7 @@
     "Name": "celaeno_harpy_card",
     "Ability": 0,
     "DefaultPower": 2,
-    "PossibleLocations": 16,
+    "PossibleLocations": 80,
     "IsHero": false,
     "Number": 158,
     "Faction": 3

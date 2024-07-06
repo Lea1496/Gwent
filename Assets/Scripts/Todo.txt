@@ -9,3 +9,5 @@ Faire l'affaire de factions
 Faire le fait que le joueur puisse choisir son paquet
 
 Faire le système de tour et de round
+
+Choix de qui commence?

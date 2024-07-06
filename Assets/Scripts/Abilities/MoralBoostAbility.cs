@@ -1,19 +1,20 @@
 ﻿using System;
+using System.Linq;
+using Assets.Scripts.Phases;
+using GwentEngine.Phases;
 
 namespace GwentEngine.Abilities
 {
     public class MoralBoostAbility : SamePlayerCardAbility
     {
-        protected override void Apply(Card source, Card target, GameState gameState)
+        public override GamePhase CreateInitialPhase(CardInPlay cardInPlay, GameManager gameManager)
         {
-            if (source.Location != target.Location)
+            return new CustomInitialPhasePhase(() =>
             {
-                //Not in the same zone
-                return;
-            }
+                gameManager.SetRowAction(cardInPlay.Location, ActionKind.MoralBoost);
 
-            //Applicable
-            target.Power += 1;
+                gameManager.EndCurrentPhase();
+            });
         }
     }
 }

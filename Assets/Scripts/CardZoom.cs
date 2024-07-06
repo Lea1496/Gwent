@@ -23,7 +23,9 @@ public class CardZoom : MonoBehaviour
         zoomCard.transform.SetLocalPositionAndRotation(new Vector3(0,transform.localPosition.y,transform.localPosition.z), transform.rotation);
         zoomCard.layer = 10;
         RectTransform rect = zoomCard.GetComponent<RectTransform>();
-        rect.sizeDelta = new Vector2(8, 6);
+        rect.sizeDelta = new Vector2(108, 155);
+        zoomCard.transform.position = gameObject.transform.position;
+        // zoomCard.GetComponentInChildren<>()
     }
 
     public void OnExit()

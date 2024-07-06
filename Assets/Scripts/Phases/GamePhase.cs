@@ -2,7 +2,7 @@
 
 namespace GwentEngine.Phases
 {
-    public class GamePhase
+    public class GamePhase  
     {
         private readonly Action _onActivatePhase;
         private readonly Action _onEndPhase;
@@ -15,13 +15,16 @@ namespace GwentEngine.Phases
             _onEndPhase = onEndPhase;
         }
 
-        public virtual void OnClick(int number) { }
+        public virtual void OnClick(int number)
+        {
+            
+        }
 
         public virtual void Activate()
         {
             _onActivatePhase?.Invoke();
         }
-        public void EndCurrentPhase()
+        public virtual void EndCurrentPhase()
         {
             _onEndPhase?.Invoke();
             Done = true;

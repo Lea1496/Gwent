@@ -24,7 +24,9 @@ namespace GwentEngine.Abilities
 
         protected override void Apply(Card source, Card target, GameState gameState)
         {
-            target.Power = 1;
+            if(!target.IsHero)
+                target.Power = 1;
+            
         }
     }
 }

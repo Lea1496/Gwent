@@ -6,6 +6,7 @@ using System.Linq;
 using GwentEngine.Abilities;
 using Random = System.Random;
 using System.Collections.Concurrent;
+using Unity.VisualScripting;
 
 namespace GwentEngine
 {
@@ -50,17 +51,25 @@ namespace GwentEngine
     [Flags]
     public enum Location
     {
-        None = 0b0000000000,
-        Hand = 0b0000000001,
-        ComandersHornCatapult = 0b0000000010,
-        Catapult = 0b0000000100,
-        ComandersHornSword = 0b0000001000,
-        Sword = 0b0000010000,
-        ComandersHornArchery = 0b0000100000,
-        Archery = 0b0001000000,
-        Discard = 0b0010000000,
-        Weather = 0b0100000000,
-        Dead = 0b1000000000
+        None = 0b0000000000, //0
+        Hand = 0b0000000001, //1
+        ComandersHornCatapult = 0b0000000010, //2
+        Catapult = 0b0000000100, //4
+        ComandersHornSword = 0b0000001000, //8
+        Sword = 0b0000010000, //16
+        ComandersHornArchery = 0b0000100000, //32
+        Archery = 0b0001000000, //64
+        Discard = 0b0010000000, //128
+        Weather = 0b0100000000, //256
+        Dead = 0b1000000000 //512
+    }
+    [Flags]
+    public enum ActionKind
+    {
+        None = 0,
+        CommandersHorn = 1,
+        MoralBoost = 2,
+        Weather = 4
     }
 
     public enum PlayerKind
@@ -96,11 +105,23 @@ namespace GwentEngine
 
         private ConcurrentDictionary<string, int> _powerMultiplierSources;
 
+        
+
+        public void SetAction(ActionKind action)
+        {
+            //if ((action & ActionKind.CommandersHorn) != 0 && (action & ActionKind.MoralBoost) != 0 && (action & ActionKind.Weather) != 0)
+            //    Action = action;
+            //else
+            Action = action;
+        }
+        
+
         public Card(CardInPlay cardInPlay)
         {
             _cardInPlay = cardInPlay;
             _powerMultiplierSources = new();
             Power = _cardInPlay.Metadata.DefaultPower;
+            Action = ActionKind.None;
         }
 
         public void SetPowerMultiplier(string name, Func<int, int> getNewValue)
@@ -112,11 +133,10 @@ namespace GwentEngine
         public int Number => _cardInPlay.Metadata.Number;
         public int Sequence => _cardInPlay.Sequence;
         public Location Location => _cardInPlay.Location;
-        public int EffectivePower => Power * PowerMultiplier;
-
         public string Name => _cardInPlay.Metadata.Name;
         public Ability Ability => _cardInPlay.Metadata.Ability;
         public int DefaultPower => _cardInPlay.Metadata.DefaultPower;
+        public ActionKind Action { get; private set; }
         public Location PossibleLocations => _cardInPlay.Metadata.PossibleLocations;
         public bool IsHero => _cardInPlay.Metadata.IsHero;
         public int Faction => _cardInPlay.Metadata.Faction;
@@ -143,6 +163,37 @@ namespace GwentEngine
                 var multiplier = 1;
                 _powerMultiplierSources.Values.ForEach(v => multiplier *= v);
                 return multiplier;
+            }
+        }
+
+        public int EffectivePower
+        {
+            get
+            {
+                if (Location == Location.Hand || IsHero)
+                    return DefaultPower;
+                var power = Power;
+                if ((Action & ActionKind.Weather) == ActionKind.Weather)
+                {
+                    power = 1;
+                }
+                
+                power *= PowerMultiplier;
+                if (Action == ActionKind.None)
+                    return power;
+                
+                if ((Action & ActionKind.MoralBoost) == ActionKind.MoralBoost)
+                {
+                    if(Ability != Ability.MoralBoost)
+                        power++;
+                }
+                if ((Action & ActionKind.CommandersHorn) == ActionKind.CommandersHorn)
+                {
+                    if(Ability != Ability.CommandersHorn)
+                        power *= 2;
+                }
+
+                return power;
             }
         }
     }
@@ -174,7 +225,7 @@ namespace GwentEngine
         }
 
         public static bool IsClickable(this Ability ability) =>
-            (new[] { Ability.Decoy, Ability.Scorch, Ability.Leader }).Contains(ability);
+            (new[] { Ability.Decoy, Ability.Scorch/*hmm pas sure de sccorch*/, Ability.Leader }).Contains(ability);
 
         public static PlayerKind Reverse(this PlayerKind playerKind) =>
             playerKind == PlayerKind.Opponent ? PlayerKind.Player : PlayerKind.Opponent;
@@ -194,6 +245,9 @@ namespace GwentEngine
         private Card[] _allCards;
 
         public PlayerKind FirstPlayer { get; private set; }
+        public PlayerKind CurrentPlayer { get; set; }
+
+        public Dictionary<Tuple<Location, PlayerKind>, ActionKind> RowMultipliers { get; private set; }
 
         public void NewGame(Dictionary<int, CardMetadata> metadata, int initialCardCount = 0)
         {
@@ -208,7 +262,18 @@ namespace GwentEngine
             });
 
             FirstPlayer = _random.Next(0, 1) == 0 ? PlayerKind.Player : PlayerKind.Opponent;
+            CurrentPlayer = FirstPlayer;
 
+            RowMultipliers = new Dictionary<Tuple<Location, PlayerKind>, ActionKind>()
+            {
+                { new Tuple<Location, PlayerKind>(Location.Sword, PlayerKind.Player), ActionKind.None },
+                { new Tuple<Location, PlayerKind>(Location.Archery, PlayerKind.Player), ActionKind.None },
+                { new Tuple<Location, PlayerKind>(Location.Catapult, PlayerKind.Player), ActionKind.None },
+                { new Tuple<Location, PlayerKind>(Location.Sword, PlayerKind.Opponent), ActionKind.None },
+                { new Tuple<Location, PlayerKind>(Location.Archery, PlayerKind.Opponent), ActionKind.None },
+                { new Tuple<Location, PlayerKind>(Location.Catapult, PlayerKind.Opponent), ActionKind.None }
+            };
+            
             _allCards = null;
         }
 
@@ -220,10 +285,18 @@ namespace GwentEngine
             UseCard(cardNumber, player, sequence);
         }
 
+        public void ExecuteSpy(PlayerKind player, int? sequence = null)
+        {
+            Draw(player, sequence);
+            Draw(player, sequence);
+        }
+
         public void ChangeCard(int cardNumber)
         {
             var currentCard = _currentState.CardsInPlay[cardNumber];
             Draw(currentCard.Player, currentCard.Sequence);
+           // UseCard(20, CurrentPlayer, currentCard.Sequence);
+            //UseCard(29, CurrentPlayer, currentCard.Sequence);
             RemoveCard(cardNumber, true);
         }
 
@@ -237,6 +310,39 @@ namespace GwentEngine
             _allCards = null;
         }
 
+        public void RemoveAllWeatherCards()
+        {
+            AllCards
+                .Where(card => !_availableCards.Contains(card.Number) && card.Location == Location.Weather && card.Ability != Ability.ClearWeather)
+                .ToList()
+                .ForEach(card => RemoveCard(card.Number, false));
+        }
+        public void RemoveClearWeatherCards()
+        {
+            AllCards
+                .Where(card => !_availableCards.Contains(card.Number) && card.Location == Location.Weather && card.Ability == Ability.ClearWeather)
+                .ToList()
+                .ForEach(card => RemoveCard(card.Number, false));
+        }
+
+        public bool SwitchCardFromBoard(int cardFromHand, int cardOnBoard, PlayerKind player, int? sequence = null)
+        {
+            if (_currentState.CardsInPlay[cardOnBoard].Location == Location.Hand ||
+                _currentState.CardsInPlay[cardOnBoard].Player != player
+                || _currentState.CardsInPlay[cardOnBoard].Metadata.IsHero
+                || _currentState.CardsInPlay[cardOnBoard].Metadata.DefaultPower == -1)
+                return false;
+            
+            _currentState.CardsInPlay[cardOnBoard].Location = Location.Hand;
+            _availableCards.Remove(cardFromHand);
+            RemoveCard(cardFromHand, false);
+            return true;
+        }
+
+        public bool IsCardDecoy(int number)
+        {
+            return _currentState.CardsInPlay[number].Metadata.Ability == Ability.Decoy;
+        }
         public bool CanPlayAndAvailable(int cardNumber, Location location)
         {
             var cardMetadata = _metadata[cardNumber];
@@ -262,7 +368,6 @@ namespace GwentEngine
             {
                 return false;
             }
-
 
             return true;
         }
@@ -293,10 +398,33 @@ namespace GwentEngine
         public void RemoveCard(int cardNumber, bool isRecyclable)
         {
             var cardMetadata = _metadata[cardNumber];
+            
             if (!_currentState.CardsInPlay.TryGetValue(cardNumber, out var cardInPlay))
             {
                 throw new Exception($"Cannot play a card not drawn yet");
             }
+
+            if (cardMetadata.Ability == Ability.Fog)
+            {
+                RemoveRowActionBothSides(Location.Archery, ActionKind.Weather);
+            }
+            else if (cardMetadata.Ability == Ability.Frost)
+            {
+                RemoveRowActionBothSides(Location.Sword, ActionKind.Weather);
+            }
+            else if (cardMetadata.Ability == Ability.Rain)
+            {
+                RemoveRowActionBothSides(Location.Catapult, ActionKind.Weather);
+            }
+            else if (cardMetadata.Ability == Ability.CommandersHorn)
+            {
+                RemoveRowAction(_currentState.CardsInPlay[cardMetadata.Number].Location, CurrentPlayer, ActionKind.CommandersHorn);
+            }
+            else if (cardMetadata.Ability == Ability.MoralBoost)
+            {
+                RemoveRowAction(_currentState.CardsInPlay[cardMetadata.Number].Location, CurrentPlayer, ActionKind.MoralBoost);
+            }
+            
             if (isRecyclable)
             {
                 _currentState.CardsInPlay.Remove(cardNumber);
@@ -304,7 +432,7 @@ namespace GwentEngine
             }
             else
             {
-                if (!cardMetadata.IsHero || cardMetadata.DefaultPower != -1)
+                if (!cardMetadata.IsHero && cardMetadata.DefaultPower != -1)
                 {
                     cardInPlay.Location = Location.Discard;
                 }
@@ -315,6 +443,25 @@ namespace GwentEngine
             }
 
             _allCards = null;
+        }
+
+        public void SetRowAction(Location location, PlayerKind player, ActionKind action)
+        {
+            if (RowMultipliers[new Tuple<Location, PlayerKind>(location, player)] == ActionKind.None)
+                RowMultipliers[new Tuple<Location, PlayerKind>(location, player)] = action;
+            else
+                RowMultipliers[new Tuple<Location, PlayerKind>(location, player)] |= action;
+        }
+
+        public void RemoveRowAction(Location location, PlayerKind player, ActionKind action)
+        {
+            RowMultipliers[new Tuple<Location, PlayerKind>(location, player)] &= ~action;
+        }
+        
+        public void RemoveRowActionBothSides(Location location, ActionKind action)
+        {
+            RemoveRowAction(location, PlayerKind.Opponent, action);
+            RemoveRowAction(location, PlayerKind.Player, action);
         }
 
         public CardMetadata[] AllAvailableCards
@@ -363,7 +510,7 @@ namespace GwentEngine
             {
                 foreach (var cardY in allCards)
                 {
-                    cardX.Metadata.CardAbility.ApplyAbility(cardX, cardY, this);
+                    cardX.Metadata.CardAbility.ApplyAbility(cardX, cardY, this); //huh
                 }
             }
 

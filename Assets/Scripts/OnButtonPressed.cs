@@ -7,5 +7,6 @@ public class OnButtonPressed : MonoBehaviour
     public void EndCurrentPhase()
     {
         GameObject.Find("GameManager").GetComponent<GameManager>().EndCurrentPhase();
+        gameObject.SetActive(false);
     }
 }

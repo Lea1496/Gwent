@@ -16,7 +16,7 @@ namespace GwentEngine.Abilities
         {
             if(target.Location == source.Location && target.Name == source.Name)
             {
-<<<<<<< HEAD
+/*<<<<<<< HEAD
                 Card[] cards = gameManager.GetCards(cardInPlay.Player, cardInPlay.Location);
                 foreach (var card in cards)
                 {
@@ -24,10 +24,10 @@ namespace GwentEngine.Abilities
                 }
                 gameManager.EndCurrentPhase();
             });
-=======
+=======*/
                 target.SetPowerMultiplier(nameof(TightBondAbility), currentValue => 2 * currentValue);
             }
->>>>>>> eb373a59fbbcbb6d1036fb5ec3f7561bdfa997f8
+//>>>>>>> eb373a59fbbcbb6d1036fb5ec3f7561bdfa997f8
         }
     }
 }

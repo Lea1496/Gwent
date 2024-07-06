@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Assets.Scripts.Phases;
+using GwentEngine.Phases;
 
 namespace GwentEngine.Abilities
 {
@@ -28,7 +30,10 @@ namespace GwentEngine.Abilities
             }
 
             //Applicable
-            target.SetPowerMultiplier(nameof(CommandersHornAbility), currentValue => 2);
+           // target.SetAction(ActionKind.CommandersHorn);
+           
+            gameState.SetRowAction(target.Location, target.EffectivePlayer, ActionKind.CommandersHorn); // hmm
+           
         }
     }
 }

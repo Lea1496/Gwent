@@ -1,4 +1,5 @@
 ﻿using System;
+using GwentEngine.Abilities;
 
 namespace GwentEngine.Phases
 {
@@ -6,7 +7,7 @@ namespace GwentEngine.Phases
     {
         public override bool IsDraggable(Card card)
         {
-            return card.EffectivePlayer == PlayerKind.Player && card.Location == Location.Hand;
+            return card.EffectivePlayer == PlayerKind.Player && card.Location == Location.Hand && card.Ability != Ability.Decoy;
         }
     }
 }

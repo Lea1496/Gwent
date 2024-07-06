@@ -9,6 +9,7 @@ public class CardBehavior : MonoBehaviour
     [SerializeField] public TextMeshProUGUI powerText;
 
     private Card _card;
+    private GameManager _gameManager;
     
     public Card Card
     {
@@ -23,13 +24,12 @@ public class CardBehavior : MonoBehaviour
 
     private void Awake()
     {
-
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     public void OnClick()
     {
-        var gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        gameManager.OnClick(_card.Number);
+        _gameManager.OnClick(_card.Number);
     }
 
     public void Update()
@@ -38,6 +38,8 @@ public class CardBehavior : MonoBehaviour
         {
             return;
         }
+        if (_card.Location != Location.Hand)
+            _card = _gameManager.GetCard(_card.Number, _card.EffectivePlayer, _card.Location); // pt qu'il faut donner le contraire si c'est un spy ?
 
         var powerString = _card.EffectivePower == -1 || _card.IsHero ? "" : _card.EffectivePower.ToString();
 
@@ -45,5 +47,11 @@ public class CardBehavior : MonoBehaviour
         {
             powerText.text = powerString;
         }
+
+        if (_card.Location == Location.Hand) // à enlever
+            return;
+        
+        powerString = _card.EffectivePower == -1 || _card.IsHero ? "" : _card.EffectivePower.ToString();
+        
     }
 }

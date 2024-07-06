@@ -6,6 +6,8 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using GwentEngine.Abilities;
+using Phases;
 using TMPro;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
@@ -13,10 +15,18 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    private GamePhase _currentGamePhase;
+    public GamePhase CurrentGamePhase;
     private List<GamePhase> _gamePhases = new List<GamePhase>();
     private Dictionary<int, CardMetadata> _cardMetadata;
     private GameState _gameState;
+
+    public bool onClickCalled = false;
+
+    public PlayerKind CurrentPlayer
+    {
+        get => _gameState.CurrentPlayer;
+        private set{}
+    }
 
     private ConcurrentDictionary<int, (GameObject gameObject, Card card, PlayerKind player, Location location, int
         position)> _cardGameObjects;
@@ -110,7 +120,7 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            Debug.Log($"Cannot place card at : {player}, {location}");
+            //Debug.Log($"Cannot place card at : {player}, {location}");
             return null;
         }
 
@@ -161,7 +171,7 @@ public class GameManager : MonoBehaviour
 
         IEnumerator coroutine;
 
-        if (_gameState.FirstPlayer == PlayerKind.Player)
+        if (CurrentPlayer == PlayerKind.Player)
         {
             youStart.gameObject.SetActive(true);
             coroutine = HideText(youStart);
@@ -198,13 +208,20 @@ public class GameManager : MonoBehaviour
         //Simulate(_gameState, PlayerKind.Player);
         //Simulate(_gameState, PlayerKind.Opponent);
 
-        _currentGamePhase = null;
+        CurrentPlayer = _gameState.CurrentPlayer;
+
+        CurrentGamePhase = null;
         _gamePhases = new List<GamePhase>();
         _gamePhases.Add(new ChooseFactionPhase());
         _gamePhases.Add(new ChooseDeckPhase());
-        _gamePhases.Add(new ChangeInitialCardsPhase(_gameState, () => keepCardsButton.gameObject.SetActive(true), () => keepCardsButton.gameObject.SetActive(false)));
-        _gamePhases.Add(new RoundPhase());
-
+        _gamePhases.Add(new ChangeInitialCardsPhase(_gameState, () =>
+        {
+            StartCoroutine();
+            keepCardsButton.gameObject.SetActive(true);
+        }, () => keepCardsButton.gameObject.SetActive(false)));
+       // _gamePhases.Add(new RoundPhase());
+        _gamePhases.Add(new TurnPhase(_gameState));
+        
         UpdateAll();
         StartCoroutine();
     }
@@ -212,16 +229,23 @@ public class GameManager : MonoBehaviour
     private void ActivateGamePhase()
     {
         GamePhase GetCurrentGamePhase() => _gamePhases.First(gp => !gp.Done);
-
+        
         var currentGamePhase = GetCurrentGamePhase();
 
-        while (currentGamePhase != _currentGamePhase)
+        while (currentGamePhase != CurrentGamePhase)
         {
-            _currentGamePhase = currentGamePhase;
-            _currentGamePhase.Activate();
+            CurrentGamePhase = currentGamePhase;
+            CurrentGamePhase.Activate();
 
             currentGamePhase = GetCurrentGamePhase();
         }
+    }
+    
+    public void ActivateGamePhase(GamePhase phase)
+    {
+        CurrentGamePhase = phase;
+        _gamePhases.Add(phase);
+        CurrentGamePhase.Activate(); //peut-être à changer
     }
 
     private void Simulate(GameState gameState, PlayerKind player)
@@ -260,14 +284,23 @@ public class GameManager : MonoBehaviour
 
         ActivateGamePhase();
 
+        var initialRowMultipliers = _gameState.RowMultipliers;
+            
         var cardsByPlayerAndLocation = _gameState.GetAllCards();
 
         var unknownCardNumbers = _cardGameObjects.Keys.ToList();
 
+        var finalRowMultipliers = _gameState.RowMultipliers;
+        
+        UpdateEffectivePowers(initialRowMultipliers, finalRowMultipliers);
+        
+        int totalPlayerScore = 0;
+        int totalOpponentScore = 0;
+        
         foreach (var ((player, location), cards) in cardsByPlayerAndLocation)
         {
             var zone = _zones.GetZone(player, location);
-            if (zone == null)
+            if (!zone)
             {
                 continue;
             }
@@ -293,7 +326,11 @@ public class GameManager : MonoBehaviour
 
 
             //TODO: update row scores
-            var rowScore = cards.Sum(card => card.EffectivePower);
+            var rowScore = cards.Sum(rCard => rCard.EffectivePower);
+            if(player == PlayerKind.Opponent)
+                totalOpponentScore += rowScore;
+            else 
+                totalPlayerScore += rowScore;
         }
 
 
@@ -308,6 +345,36 @@ public class GameManager : MonoBehaviour
         //        Debug.Log($"Update phase: {sw.ElapsedMilliseconds} ms");
     }
 
+    private void UpdateEffectivePowers(Dictionary<Tuple<Location, PlayerKind>, ActionKind> initialRowMult,
+        Dictionary<Tuple<Location, PlayerKind>, ActionKind> finalRowMult)
+    {
+        var swordPlayer = new Tuple<Location, PlayerKind>(Location.Sword, PlayerKind.Player);
+        //if(initialRowMult[swordPlayer] != finalRowMult[swordPlayer])
+            GetCards(PlayerKind.Player, Location.Sword).ForEach(rCard => rCard.SetAction(finalRowMult[swordPlayer]));
+        var archeryPlayer = new Tuple<Location, PlayerKind>(Location.Archery, PlayerKind.Player);
+        //if(initialRowMult[archeryPlayer] != finalRowMult[archeryPlayer])
+            GetCards(PlayerKind.Player, Location.Archery).ForEach(rCard => rCard.SetAction(finalRowMult[archeryPlayer]));
+        var catapultPlayer = new Tuple<Location, PlayerKind>(Location.Catapult, PlayerKind.Player);
+        //if(initialRowMult[catapultPlayer] != finalRowMult[catapultPlayer])
+            GetCards(PlayerKind.Player, Location.Catapult).ForEach(rCard => rCard.SetAction(finalRowMult[catapultPlayer]));
+        var swordOpponent = new Tuple<Location, PlayerKind>(Location.Sword, PlayerKind.Opponent);
+        //if(initialRowMult[swordOpponent] != finalRowMult[swordOpponent])
+            GetCards(PlayerKind.Opponent, Location.Sword).ForEach(rCard => rCard.SetAction(finalRowMult[swordOpponent]));
+        var archeryOpponent = new Tuple<Location, PlayerKind>(Location.Archery, PlayerKind.Opponent);
+        //if(initialRowMult[archeryOpponent] != finalRowMult[archeryOpponent])
+            GetCards(PlayerKind.Opponent, Location.Archery).ForEach(rCard => rCard.SetAction(finalRowMult[archeryOpponent]));
+        var catapultOpponent = new Tuple<Location, PlayerKind>(Location.Catapult, PlayerKind.Opponent);
+        //if(initialRowMult[catapultOpponent] != finalRowMult[catapultOpponent])
+            GetCards(PlayerKind.Opponent, Location.Catapult).ForEach(rCard => rCard.SetAction(finalRowMult[catapultOpponent]));
+
+    }
+
+    public Card GetCard(int cardNumber, PlayerKind player, Location location)
+    {
+        var cards = _gameState.GetCards(player, location);
+        var rCard = cards.First(rCard => rCard.Number == cardNumber);
+        return rCard;
+    }
     private GameObject CreateNewCard(Card card)
     {
         var gameObject = Instantiate(this.card);
@@ -339,12 +406,14 @@ public class GameManager : MonoBehaviour
     public void Play(int number, Location location)
     {
         var cardInPlay = _gameState.Play(number, location);
-
+        
         var initialPhase = cardInPlay.Metadata.CardAbility.CreateInitialPhase(cardInPlay, this);
         if (initialPhase != null)
         {
             _gamePhases.Insert(0, initialPhase);
         }
+
+        cardInPlay.Location = location;
     }
 
     public CardMetadata[] AllAvailableCards
@@ -355,6 +424,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void RemoveAllWeatherCards()
+    {
+        _gameState.RemoveAllWeatherCards();
+    }
+    
+    public void RemoveClearWeatherCards()
+    {
+        _gameState.RemoveClearWeatherCards();
+    }
+    
     public Card[] GetCards(PlayerKind player, Location location)
     {
         return _gameState.GetCards(player, location);
@@ -362,16 +441,72 @@ public class GameManager : MonoBehaviour
 
     public void OnClick(int cardNumber)
     {
-        _currentGamePhase.OnClick(cardNumber);
+        CurrentGamePhase.OnClick(cardNumber);
     }
 
     public void EndCurrentPhase()
     {
-        _currentGamePhase.EndCurrentPhase();
+        CurrentGamePhase.EndCurrentPhase();
     }
 
     public bool IsDraggable(Card card)
     {
-        return _currentGamePhase.IsDraggable(card);
+        return CurrentGamePhase.IsDraggable(card);
     }
+
+    public void ChangeEffectivePlayer()
+    {
+        if (_gameState.CurrentPlayer == PlayerKind.Opponent)  // pas certaine de cette implémentation
+        {
+            _gameState.CurrentPlayer = PlayerKind.Player;
+        }
+        else
+        {
+            _gameState.CurrentPlayer = PlayerKind.Opponent;
+        }
+    }
+    
+    public void StartWaitForFunctionCoroutine()
+    {
+        // Wait until functionCalled becomes true
+        
+        StartCoroutine(new WaitUntil(() => onClickCalled));
+    }
+
+    public void OnEndTurnPhase(bool shouldChangeTurn, TurnPhase phase)
+    {
+        if (shouldChangeTurn)
+        {
+            ChangeEffectivePlayer();
+        }
+        else
+        {
+            _gamePhases.Remove(phase);
+        }
+    }
+
+    public void OnEndDecoyPhase(UseDecoyPhase decoyPhase)
+    {
+        _gamePhases.Remove(decoyPhase);
+    }
+
+    public void RemoveCard(int cardNumber, bool isRecyclable)
+    {
+        _gameState.RemoveCard(cardNumber,isRecyclable);
+    }
+
+    public void ExecuteSpy(int? sequence = null)
+    {
+        _gameState.ExecuteSpy(CurrentPlayer, sequence);
+    }
+
+    public void SetRowAction(Location location, ActionKind action)
+    {
+        _gameState.SetRowAction(location, CurrentPlayer, action);
+    }
+    public void SetRowAction(Location location, PlayerKind player, ActionKind action)
+    {
+        _gameState.SetRowAction(location, player, action);
+    }
+    
 }
