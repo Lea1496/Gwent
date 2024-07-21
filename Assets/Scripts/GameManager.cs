@@ -349,22 +349,22 @@ public class GameManager : MonoBehaviour
         Dictionary<Tuple<Location, PlayerKind>, ActionKind> finalRowMult)
     {
         var swordPlayer = new Tuple<Location, PlayerKind>(Location.Sword, PlayerKind.Player);
-        //if(initialRowMult[swordPlayer] != finalRowMult[swordPlayer])
+        if(initialRowMult[swordPlayer] != finalRowMult[swordPlayer])
             GetCards(PlayerKind.Player, Location.Sword).ForEach(rCard => rCard.SetAction(finalRowMult[swordPlayer]));
         var archeryPlayer = new Tuple<Location, PlayerKind>(Location.Archery, PlayerKind.Player);
-        //if(initialRowMult[archeryPlayer] != finalRowMult[archeryPlayer])
+        if(initialRowMult[archeryPlayer] != finalRowMult[archeryPlayer])
             GetCards(PlayerKind.Player, Location.Archery).ForEach(rCard => rCard.SetAction(finalRowMult[archeryPlayer]));
         var catapultPlayer = new Tuple<Location, PlayerKind>(Location.Catapult, PlayerKind.Player);
-        //if(initialRowMult[catapultPlayer] != finalRowMult[catapultPlayer])
+        if(initialRowMult[catapultPlayer] != finalRowMult[catapultPlayer])
             GetCards(PlayerKind.Player, Location.Catapult).ForEach(rCard => rCard.SetAction(finalRowMult[catapultPlayer]));
         var swordOpponent = new Tuple<Location, PlayerKind>(Location.Sword, PlayerKind.Opponent);
-        //if(initialRowMult[swordOpponent] != finalRowMult[swordOpponent])
+        if(initialRowMult[swordOpponent] != finalRowMult[swordOpponent])
             GetCards(PlayerKind.Opponent, Location.Sword).ForEach(rCard => rCard.SetAction(finalRowMult[swordOpponent]));
         var archeryOpponent = new Tuple<Location, PlayerKind>(Location.Archery, PlayerKind.Opponent);
-        //if(initialRowMult[archeryOpponent] != finalRowMult[archeryOpponent])
+        if(initialRowMult[archeryOpponent] != finalRowMult[archeryOpponent])
             GetCards(PlayerKind.Opponent, Location.Archery).ForEach(rCard => rCard.SetAction(finalRowMult[archeryOpponent]));
         var catapultOpponent = new Tuple<Location, PlayerKind>(Location.Catapult, PlayerKind.Opponent);
-        //if(initialRowMult[catapultOpponent] != finalRowMult[catapultOpponent])
+        if(initialRowMult[catapultOpponent] != finalRowMult[catapultOpponent])
             GetCards(PlayerKind.Opponent, Location.Catapult).ForEach(rCard => rCard.SetAction(finalRowMult[catapultOpponent]));
 
     }

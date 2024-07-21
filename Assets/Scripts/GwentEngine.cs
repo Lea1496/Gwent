@@ -103,9 +103,7 @@ namespace GwentEngine
     {
         private CardInPlay _cardInPlay;
 
-        private ConcurrentDictionary<string, int> _powerMultiplierSources;
-
-        
+        private List<int> _powerMultiplierSources;
 
         public void SetAction(ActionKind action)
         {
@@ -124,9 +122,10 @@ namespace GwentEngine
             Action = ActionKind.None;
         }
 
-        public void SetPowerMultiplier(string name, Func<int, int> getNewValue)
-        {
-            _powerMultiplierSources.AddOrUpdate(name, getNewValue(1), (key, currentValue) => getNewValue(currentValue));
+        public void SetPowerMultiplier(int value)
+        { 
+            _powerMultiplierSources.Add(value);
+           // _powerMultiplierSources.AddOrUpdate(name, getNewValue(1), (key, currentValue) => getNewValue(currentValue)); 
         }
 
         public int Power { get; set; }
@@ -156,12 +155,18 @@ namespace GwentEngine
             }
         }
 
-        public int PowerMultiplier 
-        {
+        public int PowerMultiplier
+       {
             get
             {
                 var multiplier = 1;
-                _powerMultiplierSources.Values.ForEach(v => multiplier *= v);
+               // _powerMultiplierSources.ForEach(v => multiplier *= v);
+                for (int i = 0; i < _powerMultiplierSources.Count(); i++)
+                {
+                    if (i == 0)
+                        continue;
+                    multiplier *= _powerMultiplierSources[i];
+                }
                 return multiplier;
             }
         }
@@ -193,6 +198,7 @@ namespace GwentEngine
                         power *= 2;
                 }
 
+                Power = power;
                 return power;
             }
         }
@@ -294,9 +300,11 @@ namespace GwentEngine
         public void ChangeCard(int cardNumber)
         {
             var currentCard = _currentState.CardsInPlay[cardNumber];
-            Draw(currentCard.Player, currentCard.Sequence);
-           // UseCard(20, CurrentPlayer, currentCard.Sequence);
-            //UseCard(29, CurrentPlayer, currentCard.Sequence);
+            //Draw(currentCard.Player, currentCard.Sequence);
+            UseCard(49, CurrentPlayer, currentCard.Sequence);
+            UseCard(50, CurrentPlayer, currentCard.Sequence);
+            UseCard(51, CurrentPlayer, currentCard.Sequence);
+            UseCard(11, CurrentPlayer, currentCard.Sequence);
             RemoveCard(cardNumber, true);
         }
 
@@ -501,6 +509,7 @@ namespace GwentEngine
                 Ability.ClearWeather, Ability.TightBond, Ability.MoralBoost, Ability.CommandersHorn, Ability.Scorch
             };
             //var allCards = _currentState.CardsInPlay.Values.Select(c => new Card(c)).ToArray();
+          
             var allCards = _currentState.CardsInPlay
                 .Values
                 .Select(c => new Card(c))
