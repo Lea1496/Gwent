@@ -53,7 +53,7 @@ namespace GwentEngine.Phases
         
         public override void EndCurrentPhase()
         {
-            _gameManager.OnEndDecoyPhase(this);
+            _gameManager.OnEndPhase(this);
             base.EndCurrentPhase();
         }
     }

@@ -15,7 +15,6 @@ namespace GwentEngine.Abilities
                 
                 case Ability.Berserker: return new BerserkerAbility();
                 case Ability.Mardroeme: return new MardroemeAbility();
-                case Ability.Medic: return new MedicAbility();
                 case Ability.Muster: return new MusterAbility(); // faire les cas spéciaux
 
                 case Ability.Leader: return new LeaderAbility();
@@ -35,6 +34,7 @@ namespace GwentEngine.Abilities
                 case Ability.Spy: return new SpyAbility();
                 case Ability.ClearWeather: return new ClearWeatherAbility();
                 case Ability.TightBond: return new TightBondAbility();
+                case Ability.Medic: return new MedicAbility();
                 
 
                 default: throw new Exception($"Unkown ability: {ability}");

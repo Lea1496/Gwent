@@ -20,7 +20,6 @@ namespace Phases
 
         {
             _gameState = gameState;
-            Debug.Log("ici");
         }
         public override void Activate()
         {

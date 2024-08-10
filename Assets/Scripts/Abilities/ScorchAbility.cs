@@ -21,8 +21,8 @@ namespace GwentEngine.Abilities
                    if (!(location == Location.Archery || location == Location.Catapult || location == Location.Sword))
                        continue;
                    
-                   var localCards = (Card[])gameManager.GetCards(PlayerKind.Player, location).Where(card => !card.IsHero);
-                   var opponentCards = (Card[])gameManager.GetCards(PlayerKind.Opponent, location).Where(card => !card.IsHero);
+                   var localCards = gameManager.GetCards(PlayerKind.Player, location).Where(card => !card.IsHero).ToArray();
+                   var opponentCards = gameManager.GetCards(PlayerKind.Opponent, location).Where(card => !card.IsHero).ToArray();
                     
                    
                    // local cards

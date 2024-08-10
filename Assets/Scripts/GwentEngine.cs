@@ -6,6 +6,7 @@ using System.Linq;
 using GwentEngine.Abilities;
 using Random = System.Random;
 using System.Collections.Concurrent;
+using GwentEngine.Phases;
 using Unity.VisualScripting;
 
 namespace GwentEngine
@@ -177,7 +178,7 @@ namespace GwentEngine
             {
                 if (Location == Location.Hand || IsHero)
                     return DefaultPower;
-                var power = Power;
+                var power = DefaultPower;
                 if ((Action & ActionKind.Weather) == ActionKind.Weather)
                 {
                     power = 1;
@@ -250,6 +251,7 @@ namespace GwentEngine
         private Random _random = new Random(DateTime.Now.Millisecond);
         private Card[] _allCards;
 
+        public static Dictionary<int, ActionKind> ActionDict;
         public PlayerKind FirstPlayer { get; private set; }
         public PlayerKind CurrentPlayer { get; set; }
 
@@ -260,6 +262,8 @@ namespace GwentEngine
             _metadata = metadata;
             _availableCards = _metadata.Keys.ToList();
             _currentState = new();
+
+            ActionDict = new Dictionary<int, ActionKind>();
 
             Enumerable.Range(0, initialCardCount).ForEach(i =>
             {
@@ -300,11 +304,9 @@ namespace GwentEngine
         public void ChangeCard(int cardNumber)
         {
             var currentCard = _currentState.CardsInPlay[cardNumber];
-            //Draw(currentCard.Player, currentCard.Sequence);
-            UseCard(49, CurrentPlayer, currentCard.Sequence);
-            UseCard(50, CurrentPlayer, currentCard.Sequence);
-            UseCard(51, CurrentPlayer, currentCard.Sequence);
-            UseCard(11, CurrentPlayer, currentCard.Sequence);
+            Draw(currentCard.Player, currentCard.Sequence);
+            UseCard(3, currentCard.Player);
+            UseCard(17, currentCard.Player);
             RemoveCard(cardNumber, true);
         }
 
@@ -342,6 +344,19 @@ namespace GwentEngine
                 return false;
             
             _currentState.CardsInPlay[cardOnBoard].Location = Location.Hand;
+            _availableCards.Remove(cardFromHand);
+            RemoveCard(cardFromHand, false);
+            return true;
+        }
+
+        public bool ReviveCard(int cardFromHand, int cardDiscard, PlayerKind player, int? sequence = null)
+        {
+            if (_currentState.CardsInPlay[cardDiscard].Location != Location.Discard ||
+                _currentState.CardsInPlay[cardDiscard].Player != player)
+                return false;
+
+            _currentState.CardsInPlay[cardDiscard].Location =
+                _currentState.CardsInPlay[cardDiscard].Metadata.PossibleLocations;
             _availableCards.Remove(cardFromHand);
             RemoveCard(cardFromHand, false);
             return true;

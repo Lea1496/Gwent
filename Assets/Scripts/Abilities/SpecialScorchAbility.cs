@@ -20,7 +20,7 @@ namespace GwentEngine.Abilities
                 else
                     opponentPlayer = PlayerKind.Opponent;
                 
-                var cardsInRow = (Card[])gameManager.GetCards(opponentPlayer, cardInPlay.Location).Where(card => !card.IsHero);
+                var cardsInRow = gameManager.GetCards(opponentPlayer, cardInPlay.Location).Where(card => !card.IsHero).ToArray();
 
                 int powerSum = cardsInRow.Sum(card => card.EffectivePower); // I think that works...
                 
