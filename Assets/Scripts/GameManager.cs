@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     private List<GamePhase> _gamePhases = new List<GamePhase>();
     private Dictionary<int, CardMetadata> _cardMetadata;
     private GameState _gameState;
+    private bool _isCardPlayed;
 
     public bool onClickCalled = false;
 
@@ -37,6 +38,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI youStart;
     [SerializeField] private TextMeshProUGUI opponentStarts;
     [SerializeField] private Button keepCardsButton;
+    [SerializeField] private TextMeshProUGUI ennemyPoints;
+    [SerializeField] private TextMeshProUGUI playerPoints;
 
 
     public class Zones
@@ -200,6 +203,7 @@ public class GameManager : MonoBehaviour
         _cardGameObjects = new();
         _gameState = new();
         _zones = new();
+        _isCardPlayed = false;
 
         _cardMetadata = CardMetadata.FromFile(deckFullPath);
 
@@ -281,8 +285,19 @@ public class GameManager : MonoBehaviour
     private void UpdateAll()
     {
         var sw = System.Diagnostics.Stopwatch.StartNew();
-
-        ActivateGamePhase();
+        
+        if (!_isCardPlayed)
+        {
+            ActivateGamePhase();
+        }
+        else if (CurrentGamePhase.GetType() == typeof(TurnPhase) && _isCardPlayed)
+        {
+            _isCardPlayed = false;
+            EndCurrentPhase();
+            _gamePhases.Add(new TurnPhase(_gameState));
+            ActivateGamePhase();
+        }
+        
 
         var initialRowMultipliers = _gameState.RowMultipliers;
             
@@ -323,14 +338,22 @@ public class GameManager : MonoBehaviour
             });
 
             GameObjectsDisposition.DistributeCenter(zone, cardGameObjects.Select(c => c.gameObject).ToArray(), 5);
+            
+            var rowScore = cards
+                .Where(rCard => rCard.Location != Location.None && 
+                                rCard.Location != Location.Dead &&
+                                rCard.Location != Location.Discard &&
+                                rCard.Location != Location.Hand &&
+                                rCard.EffectivePower != -1)
+                .Sum(rCard => rCard.EffectivePower);
 
-
-            //TODO: update row scores
-            var rowScore = cards.Sum(rCard => rCard.EffectivePower);
             if(player == PlayerKind.Opponent)
                 totalOpponentScore += rowScore;
             else 
                 totalPlayerScore += rowScore;
+
+            ennemyPoints.text = totalOpponentScore.ToString();
+            playerPoints.text = totalPlayerScore.ToString();
         }
 
 
@@ -405,11 +428,15 @@ public class GameManager : MonoBehaviour
 
     public void Play(int number, Location location)
     {
+        _isCardPlayed = true;
+        
         var cardInPlay = _gameState.Play(number, location);
-        
-        if(CurrentGamePhase.GetType() == typeof(UseMedicPhase))
+
+        if (CurrentGamePhase.GetType() == typeof(UseMedicPhase))
+        {
             EndCurrentPhase();
-        
+        }
+       
         var initialPhase = cardInPlay.Metadata.CardAbility.CreateInitialPhase(cardInPlay, this);
         if (initialPhase != null)
         {

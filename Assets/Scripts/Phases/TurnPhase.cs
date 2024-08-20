@@ -51,7 +51,7 @@ namespace Phases
         
         public override bool IsDraggable(Card card)
         {
-            return card.EffectivePlayer == PlayerKind.Player && card.Location == Location.Hand && card.Ability != Ability.Decoy;
+            return _gameState.CurrentPlayer == PlayerKind.Player && card.EffectivePlayer == PlayerKind.Player && card.Location == Location.Hand && card.Ability != Ability.Decoy;
         }
     }
 }
