@@ -8,6 +8,7 @@ using Random = System.Random;
 using System.Collections.Concurrent;
 using GwentEngine.Phases;
 using Unity.VisualScripting;
+using UnityEngine;
 
 namespace GwentEngine
 {
@@ -305,8 +306,8 @@ namespace GwentEngine
         {
             var currentCard = _currentState.CardsInPlay[cardNumber];
             Draw(currentCard.Player, currentCard.Sequence);
-            UseCard(3, currentCard.Player);
-            UseCard(17, currentCard.Player);
+           // UseCard(3, currentCard.Player);
+            //UseCard(17, currentCard.Player);
             RemoveCard(cardNumber, true);
         }
 
@@ -534,7 +535,7 @@ namespace GwentEngine
             {
                 foreach (var cardY in allCards)
                 {
-                    cardX.Metadata.CardAbility.ApplyAbility(cardX, cardY, this); //huh
+                    cardX.Metadata.CardAbility.ApplyAbility(cardX, cardY, this);
                 }
             }
 
@@ -549,6 +550,15 @@ namespace GwentEngine
         }
 
         public string ToJson() => JsonConvert.SerializeObject(_currentState);
+        
+        private static string ToJson(BoardState boardState) => JsonConvert.SerializeObject(boardState);
+        
+        public static void WriteJsonToFile(string filePath, BoardState boardState)
+        {
+            string json = ToJson(boardState);
+            
+            File.WriteAllText(filePath, json);
+        }
 
         public static GameState FromFile(Dictionary<int, CardMetadata> metadata, string fullPath)
         {
@@ -567,6 +577,69 @@ namespace GwentEngine
         public string PrettyPrint()
         {
             return $"{_currentState}";
+        }
+    }
+
+    public class DeckState
+    {
+        private BoardState m_NRDeck;
+        private BoardState m_NilfgaardDeck;
+        private BoardState m_SociatelDeck;
+        private BoardState m_MonsterDeck;
+        private BoardState m_SkelligeDeck;
+
+        public List<BoardState> m_boardStates { get; private set; }
+
+        private string[] m_vPaths;
+
+        public DeckState()
+        {
+            m_NRDeck = new();
+            m_NilfgaardDeck = new();
+            m_SociatelDeck = new();
+            m_MonsterDeck = new();
+            m_SkelligeDeck = new();
+
+            m_vPaths = new[]
+            {
+                "Assets/Cards/NorthernRealmsDeck.json", "Assets/Cards/NilfgaardDeck.json",
+                "Assets/Cards/ScotiatelDeck.json", "Assets/Cards/MonsterDeck.json"  /*"Assets/Cards/SkelligeDeck.json"*/
+            };
+
+            m_boardStates = new List<BoardState>()
+                { m_NRDeck, m_NilfgaardDeck, m_SociatelDeck, m_MonsterDeck /*, m_SkelligeDeck*/ };
+            
+            FillDecks();
+        }
+        
+        private void FillDecks()
+        {
+            Action<BoardState, string> fillDeck = (BoardState bs, string path) =>
+            {
+                path = Path.Combine(Application.dataPath, path);
+                Dictionary<int, CardMetadata> tempDict = new Dictionary<int, CardMetadata>();
+                GameState.FromFile(tempDict, path);
+
+                foreach (var kvp in tempDict)
+                {
+                    var key = kvp.Key;
+                    var value = kvp.Value;
+
+                    bs.CardsInPlay[key] = new CardInPlay(value, Location.None, PlayerKind.Player);
+                }
+            };
+
+            fillDeck(this.m_NRDeck, m_vPaths[0]);
+            fillDeck(this.m_NilfgaardDeck, m_vPaths[1]);
+            fillDeck(this.m_SociatelDeck, m_vPaths[2]);
+            fillDeck(this.m_MonsterDeck, m_vPaths[3]);
+            fillDeck(this.m_SkelligeDeck, "Assets/Cards/SkelligeDeck.json");
+        }
+
+        public void SaveDeck(int nDeckIndex)
+        {
+            string path = Path.Combine(Application.dataPath, m_vPaths[nDeckIndex]);
+            GameState.WriteJsonToFile(path, m_boardStates[nDeckIndex]);
         }
     }
 }

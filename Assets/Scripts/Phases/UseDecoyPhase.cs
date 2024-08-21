@@ -26,7 +26,6 @@ namespace GwentEngine.Phases
             _gameState = gameState;
             _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             _decoyNumber = decoyNumber;
-            Debug.Log("ici");
         }
 
         public override void Activate()

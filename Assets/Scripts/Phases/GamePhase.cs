@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace GwentEngine.Phases
 {
@@ -14,10 +15,18 @@ namespace GwentEngine.Phases
             _onActivatePhase = onActivatePhase;
             _onEndPhase = onEndPhase;
         }
-
         public virtual void OnClick(int number)
         {
             
+        }
+        public virtual void OnClick(GameObject card)
+        {
+            
+        }
+        public void OnClick(int number, GameObject card)
+        {
+            OnClick(number);
+            OnClick(card);
         }
 
         public virtual void Activate()

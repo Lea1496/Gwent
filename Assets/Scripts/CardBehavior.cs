@@ -29,7 +29,7 @@ public class CardBehavior : MonoBehaviour
 
     public void OnClick()
     {
-        _gameManager.OnClick(_card.Number);
+        _gameManager.OnClick(_card.Number, gameObject);
     }
 
     public void Update()
