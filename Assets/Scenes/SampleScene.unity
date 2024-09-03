@@ -243,6 +243,7 @@ GameObject:
   m_Component:
   - component: {fileID: 174955588}
   - component: {fileID: 174955587}
+  - component: {fileID: 174955589}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -284,6 +285,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &174955589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174955586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e72118f6a9fda5e4eb2b2f50a6bb95ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &179851549 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8631213470685696850, guid: f87e25ed00a2a994fa95e23cf1077e43, type: 3}
@@ -1464,13 +1477,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 174955586}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 174955589}
+        m_TargetAssemblyTypeName: OnButtonPressed, Assembly-CSharp
+        m_MethodName: PassTurn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

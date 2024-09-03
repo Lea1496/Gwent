@@ -11,6 +11,7 @@ using Phases;
 using TMPro;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -20,7 +21,12 @@ public class GameManager : MonoBehaviour
     private Dictionary<int, CardMetadata> _cardMetadata;
     private GameState _gameState;
     private bool _isCardPlayed;
+    private bool[,] _points;
+    private int _roundNumber;
+    private bool _playerPassed;
+    private bool _enemyPassed;
 
+   
     public bool onClickCalled = false;
 
     public PlayerKind CurrentPlayer
@@ -28,6 +34,12 @@ public class GameManager : MonoBehaviour
         get => _gameState.CurrentPlayer;
         private set{}
     }
+    
+    private PlayerKind _notCurrentPlayer
+    {
+        get => CurrentPlayer == PlayerKind.Player ? PlayerKind.Opponent : PlayerKind.Player;
+    }
+
 
     private ConcurrentDictionary<int, (GameObject gameObject, Card card, PlayerKind player, Location location, int
         position)> _cardGameObjects;
@@ -198,6 +210,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+      //  DontDestroyOnLoad(gameObject);
+        
         var deckFullPath = Path.Combine(Application.dataPath, "Cards", "Deck.json");
 
         _cardGameObjects = new();
@@ -208,6 +222,16 @@ public class GameManager : MonoBehaviour
         _cardMetadata = CardMetadata.FromFile(deckFullPath);
 
         _gameState.NewGame(_cardMetadata, Settings.InitialCardCount);
+
+        _points = new bool[2, 2];
+        _points[0, 0] = true;
+        _points[0, 1] = true;
+        _points[1, 0] = true;
+        _points[1, 1] = true;
+
+        _roundNumber = 1;
+        _playerPassed = false;
+        _enemyPassed = false;
 
         //Simulate(_gameState, PlayerKind.Player);
         //Simulate(_gameState, PlayerKind.Opponent);
@@ -227,7 +251,7 @@ public class GameManager : MonoBehaviour
         _gamePhases.Add(new TurnPhase(_gameState));
         
         UpdateAll();
-        StartCoroutine();
+        //StartCoroutine();
     }
 
     private void ActivateGamePhase()
@@ -504,9 +528,20 @@ public class GameManager : MonoBehaviour
         StartCoroutine(new WaitUntil(() => onClickCalled));
     }
 
+    private bool IsOppositePlayerPassed()
+    {
+        return _notCurrentPlayer == PlayerKind.Player ? _playerPassed : _enemyPassed;
+    }
+
     public void OnEndTurnPhase(bool shouldChangeTurn, TurnPhase phase)
     {
-        if (shouldChangeTurn)
+        if (_playerPassed && _enemyPassed)
+        {
+            EndRound(int.Parse(ennemyPoints.text) > int.Parse(playerPoints.text) ? PlayerKind.Player : PlayerKind.Opponent);
+            return;
+        }
+        
+        if (shouldChangeTurn && !IsOppositePlayerPassed())
         {
             ChangeEffectivePlayer();
         }
@@ -539,5 +574,39 @@ public class GameManager : MonoBehaviour
     {
         _gameState.SetRowAction(location, player, action);
     }
-    
+
+    public void EndRound(PlayerKind winningPlayer)
+    {
+        int nPlayer = winningPlayer == PlayerKind.Player ? 1 : 0;
+
+        _points[nPlayer, _roundNumber - 1] = false;
+
+        if (!(_points[nPlayer, 0] && _points[nPlayer, 1]))
+        {
+            EndGame();
+        }
+        else
+        {
+            _roundNumber++;
+            _playerPassed = false;
+            _enemyPassed = false;
+        }
+    }
+
+    private void EndGame()
+    {
+        //todo
+    }
+
+    public void PassTurn()
+    {
+        if (CurrentPlayer == PlayerKind.Player)
+        {
+            _playerPassed = true;
+        }
+        else
+        {
+            _enemyPassed = true;
+        }
+    }
 }
