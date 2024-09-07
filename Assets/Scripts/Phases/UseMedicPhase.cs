@@ -16,13 +16,10 @@ namespace GwentEngine.Phases
 
         //   public bool OnClickCalled = false;
 
-        private GameManager _gameManager;
-
         public UseMedicPhase(Action onActivatePhase = null, Action onEndPhase =  null)
             : base(onActivatePhase, onEndPhase)
         {
             //_gameState = gameState;
-            _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             Debug.Log("ici");
         }
         

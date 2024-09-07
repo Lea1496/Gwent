@@ -16,15 +16,12 @@ namespace GwentEngine.Phases
 
      //   public bool OnClickCalled = false;
 
-        private GameManager _gameManager;
-
-        private int _decoyNumber;
+     private int _decoyNumber;
         
         public UseDecoyPhase(GameState gameState, int decoyNumber, Action onActivatePhase = null, Action onEndPhase =  null)
             : base(onActivatePhase, onEndPhase)
         {
             _gameState = gameState;
-            _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             _decoyNumber = decoyNumber;
         }
 

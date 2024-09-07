@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GwentEngine.Phases
@@ -7,6 +8,7 @@ namespace GwentEngine.Phases
     {
         private readonly Action _onActivatePhase;
         private readonly Action _onEndPhase;
+        protected GameManager _gameManager;
 
         public virtual bool Done { get; private set; }
 
@@ -14,6 +16,8 @@ namespace GwentEngine.Phases
         {
             _onActivatePhase = onActivatePhase;
             _onEndPhase = onEndPhase;
+            
+            _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         }
         public virtual void OnClick(int number)
         {
