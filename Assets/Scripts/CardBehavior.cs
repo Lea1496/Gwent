@@ -38,7 +38,8 @@ public class CardBehavior : MonoBehaviour
         {
             return;
         }
-        if (_card.Location != Location.Hand)
+        
+        if (_card.Location != Location.Hand && !_gameManager.IsChooseDeckPhase)
             _card = _gameManager.GetCard(_card.Number, _card.EffectivePlayer, _card.Location); // pt qu'il faut donner le contraire si c'est un spy ?
 
         var powerString = _card.EffectivePower == -1 || _card.IsHero ? "" : _card.EffectivePower.ToString();

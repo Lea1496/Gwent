@@ -35,11 +35,23 @@ public class GameManager : MonoBehaviour
         private set{}
     }
     
-    private PlayerKind _notCurrentPlayer
+    private PlayerKind NotCurrentPlayer
     {
         get => CurrentPlayer == PlayerKind.Player ? PlayerKind.Opponent : PlayerKind.Player;
     }
 
+    public bool IsChooseDeckPhase
+    {
+        get => CurrentGamePhase.GetType() == typeof(ChooseDeckPhase);
+    } 
+    private bool IsTurnPhase
+    {
+        get => CurrentGamePhase.GetType() == typeof(TurnPhase);
+    }
+    private bool IsOppositePlayerPassed
+    {
+        get => NotCurrentPlayer == PlayerKind.Player ? _playerPassed : _enemyPassed;
+    }
 
     private ConcurrentDictionary<int, (GameObject gameObject, Card card, PlayerKind player, Location location, int
         position)> _cardGameObjects;
@@ -50,8 +62,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI youStart;
     [SerializeField] private TextMeshProUGUI opponentStarts;
     [SerializeField] private Button keepCardsButton;
-    [SerializeField] private TextMeshProUGUI ennemyPoints;
-    [SerializeField] private TextMeshProUGUI playerPoints;
+    [SerializeField] private TextMeshProUGUI _ennemyPoints;
+    [SerializeField] private TextMeshProUGUI _playerPoints;
 
 
     public class Zones
@@ -241,7 +253,11 @@ public class GameManager : MonoBehaviour
         CurrentGamePhase = null;
         _gamePhases = new List<GamePhase>();
         _gamePhases.Add(new ChooseFactionPhase());
-        _gamePhases.Add(new ChooseDeckPhase());
+        _gamePhases.Add(new ChooseDeckPhase(_gameState, null, () =>
+        {
+            SceneManager.LoadScene(1);
+            _cardGameObjects.Clear();
+        }));
         _gamePhases.Add(new ChangeInitialCardsPhase(_gameState, () =>
         {
             StartCoroutine();
@@ -309,89 +325,103 @@ public class GameManager : MonoBehaviour
     private void UpdateAll()
     {
         var sw = System.Diagnostics.Stopwatch.StartNew();
-        
-        if (!_isCardPlayed)
+        if (CurrentGamePhase != null && IsTurnPhase)
         {
-            ActivateGamePhase();
-        }
-        else if (CurrentGamePhase.GetType() == typeof(TurnPhase) && _isCardPlayed)
-        {
-            _isCardPlayed = false;
-            EndCurrentPhase();
-            _gamePhases.Add(new TurnPhase(_gameState));
-            ActivateGamePhase();
-        }
-        
-
-        var initialRowMultipliers = _gameState.RowMultipliers;
-            
-        var cardsByPlayerAndLocation = _gameState.GetAllCards();
-
-        var unknownCardNumbers = _cardGameObjects.Keys.ToList();
-
-        var finalRowMultipliers = _gameState.RowMultipliers;
-        
-        UpdateEffectivePowers(initialRowMultipliers, finalRowMultipliers);
-        
-        int totalPlayerScore = 0;
-        int totalOpponentScore = 0;
-        
-        foreach (var ((player, location), cards) in cardsByPlayerAndLocation)
-        {
-            var zone = _zones.GetZone(player, location);
-            if (!zone)
+            if (!_isCardPlayed)
             {
-                continue;
+                ActivateGamePhase();
             }
-
-            var cardGameObjects = cards.Select((card, index) => _cardGameObjects.AddOrUpdate(card.Number,
-                    (key) => (CreateNewCard(card), card, player, location, index),
-                    (key, existing) => (existing.gameObject, existing.card, player, location, index)
-                    )).
-                    ToArray();
-
-            cardGameObjects.ForEach(cardGameObject =>
+            else
             {
-                unknownCardNumbers.Remove(cardGameObject.card.Number);
-                cardGameObject.gameObject.GetComponent<CardBehavior>().SetInfo(cardGameObject.card);
-                if (cardGameObject.gameObject.transform.parent != zone.transform)
+                _isCardPlayed = false;
+                EndCurrentPhase();
+                _gamePhases.Add(new TurnPhase(_gameState));
+                ActivateGamePhase();
+            }
+        }
+        else
+        {
+            ActivateGamePhase();
+        }
+        
+        if (!IsChooseDeckPhase)
+        {
+            var initialRowMultipliers = _gameState.RowMultipliers;
+                
+            var cardsByPlayerAndLocation = _gameState.GetAllCards();
+
+            var unknownCardNumbers = _cardGameObjects.Keys.ToList();
+
+            var finalRowMultipliers = _gameState.RowMultipliers;
+            
+            UpdateEffectivePowers(initialRowMultipliers, finalRowMultipliers);
+
+        
+            foreach (var ((player, location), cards) in cardsByPlayerAndLocation)
+            {
+                var zone = _zones.GetZone(player, location);
+                if (!zone)
                 {
-                    cardGameObject.gameObject.transform.localPosition = Vector3.zero;
-                    cardGameObject.gameObject.transform.SetParent(zone.transform, true);
+                    continue;
                 }
-            });
 
-            GameObjectsDisposition.DistributeCenter(zone, cardGameObjects.Select(c => c.gameObject).ToArray(), 5);
+                ManageCards(cards, zone, player, location, ref unknownCardNumbers);
             
-            var rowScore = cards
-                .Where(rCard => rCard.Location != Location.None && 
-                                rCard.Location != Location.Dead &&
-                                rCard.Location != Location.Discard &&
-                                rCard.Location != Location.Hand &&
-                                rCard.EffectivePower != -1)
-                .Sum(rCard => rCard.EffectivePower);
-
-            if(player == PlayerKind.Opponent)
-                totalOpponentScore += rowScore;
-            else 
-                totalPlayerScore += rowScore;
-
-            ennemyPoints.text = totalOpponentScore.ToString();
-            playerPoints.text = totalPlayerScore.ToString();
-        }
-
-
-        foreach (var cardNumber in unknownCardNumbers)
-        {
-            if (_cardGameObjects.TryRemove(cardNumber, out var v))
+            }
+            foreach (var cardNumber in unknownCardNumbers)
             {
-                Destroy(v.gameObject);
+                if (_cardGameObjects.TryRemove(cardNumber, out var v))
+                {
+                    Destroy(v.gameObject);
+                }
             }
         }
+        
 
         //        Debug.Log($"Update phase: {sw.ElapsedMilliseconds} ms");
     }
 
+    private void ManageCards(Card[] cards, GameObject zone, PlayerKind player, Location location, ref List<int> unknownCardNumbers)
+    {
+        var cardGameObjects = GenerateCardGameObjects(cards, player, location);
+
+        foreach (var cardGameObject in cardGameObjects)
+        {
+            unknownCardNumbers.Remove(cardGameObject.card.Number);
+            cardGameObject.gameObject.GetComponent<CardBehavior>().SetInfo(cardGameObject.card);
+            if (cardGameObject.gameObject.transform.parent != zone.transform)
+            {
+                cardGameObject.gameObject.transform.localPosition = Vector3.zero;
+                cardGameObject.gameObject.transform.SetParent(zone.transform, true);
+            }
+        }
+
+        GameObjectsDisposition.DistributeCenter(zone, cardGameObjects.Select(c => c.gameObject).ToArray(), 5);
+            
+        UpdateScores(cards, player);
+    }
+
+    private void UpdateScores(Card[] cards, PlayerKind player)
+    {
+        var rowScore = cards
+            .Where(rCard => rCard.Location != Location.None && 
+                            rCard.Location != Location.Dead &&
+                            rCard.Location != Location.Discard &&
+                            rCard.Location != Location.Hand &&
+                            rCard.EffectivePower != -1)
+            .Sum(rCard => rCard.EffectivePower);
+        
+        int totalPlayerScore = 0;
+        int totalOpponentScore = 0;
+
+        if(player == PlayerKind.Opponent)
+            totalOpponentScore += rowScore;
+        else 
+            totalPlayerScore += rowScore;
+
+        _ennemyPoints.text = totalOpponentScore.ToString();
+        _playerPoints.text = totalPlayerScore.ToString();
+    }
     private void UpdateEffectivePowers(Dictionary<Tuple<Location, PlayerKind>, ActionKind> initialRowMult,
         Dictionary<Tuple<Location, PlayerKind>, ActionKind> finalRowMult)
     {
@@ -435,6 +465,20 @@ public class GameManager : MonoBehaviour
         image.sprite = cardImage.GetComponent<SpriteRenderer>().sprite;
         return gameObject;
     }
+    
+    public (GameObject gameObject, Card card, PlayerKind player, Location location, int index)[] GenerateCardGameObjects(
+        IEnumerable<Card> cards, PlayerKind player, Location location)
+    {
+        var cardGameObjects = cards.Select((card, index) =>
+            _cardGameObjects.AddOrUpdate(card.Number,
+                key => (CreateNewCard(card), card, player, location, index),
+                (key, existing) => (existing.gameObject, existing.card, player, location, index)
+            )
+        ).ToArray();
+
+        return cardGameObjects;
+    }
+
     public Location GetLocation(PlayerKind player, GameObject zone)
     {
         return _zones.GetLocation(player, zone);
@@ -493,9 +537,9 @@ public class GameManager : MonoBehaviour
         return _gameState.GetCards(player, location);
     }
 
-    public void OnClick(int cardNumber)
+    public void OnClick(int cardNumber, GameObject card = null)
     {
-        CurrentGamePhase.OnClick(cardNumber);
+        CurrentGamePhase.OnClick(cardNumber, card);
     }
 
     public void EndCurrentPhase()
@@ -528,27 +572,24 @@ public class GameManager : MonoBehaviour
         StartCoroutine(new WaitUntil(() => onClickCalled));
     }
 
-    private bool IsOppositePlayerPassed()
-    {
-        return _notCurrentPlayer == PlayerKind.Player ? _playerPassed : _enemyPassed;
-    }
+    
 
     public void OnEndTurnPhase(bool shouldChangeTurn, TurnPhase phase)
     {
         if (_playerPassed && _enemyPassed)
         {
-            EndRound(int.Parse(ennemyPoints.text) > int.Parse(playerPoints.text) ? PlayerKind.Player : PlayerKind.Opponent);
+            EndRound(int.Parse(_ennemyPoints.text) > int.Parse(_playerPoints.text) ? PlayerKind.Player : PlayerKind.Opponent);
             return;
         }
         
-        if (shouldChangeTurn && !IsOppositePlayerPassed())
+        if (shouldChangeTurn && !IsOppositePlayerPassed)
         {
             ChangeEffectivePlayer();
         }
-        else
+       /* else
         {
             _gamePhases.Remove(phase);
-        }
+        }*/
     }
 
     public void OnEndPhase(GamePhase phase)
@@ -595,7 +636,7 @@ public class GameManager : MonoBehaviour
 
     private void EndGame()
     {
-        //todo
+        // Todo : faire un endgame phase ?
     }
 
     public void PassTurn()

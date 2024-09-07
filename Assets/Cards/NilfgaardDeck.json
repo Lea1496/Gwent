@@ -1,0 +1,1141 @@
+{
+  "0": {
+    "Metadata": {
+      "Name": "geralt_of_rivia_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 15,
+      "PossibleLocations": 16,
+      "IsHero": true,
+      "Number": 0,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 89,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "1": {
+    "Metadata": {
+      "Name": "cirilla_fiona_elen_riannon_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 15,
+      "PossibleLocations": 16,
+      "IsHero": true,
+      "Number": 1,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 90,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "2": {
+    "Metadata": {
+      "Name": "vesemir_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 6,
+      "PossibleLocations": 16,
+      "IsHero": false,
+      "Number": 2,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 91,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "3": {
+    "Metadata": {
+      "Name": "yennefer_of_vengerberg_card",
+      "Ability": 3,
+      "CardAbility": {},
+      "DefaultPower": 7,
+      "PossibleLocations": 64,
+      "IsHero": true,
+      "Number": 3,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 92,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "5": {
+    "Metadata": {
+      "Name": "triss_merigold_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 7,
+      "PossibleLocations": 16,
+      "IsHero": true,
+      "Number": 5,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 93,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "6": {
+    "Metadata": {
+      "Name": "dandelion_card",
+      "Ability": 12,
+      "CardAbility": {},
+      "DefaultPower": 2,
+      "PossibleLocations": 16,
+      "IsHero": false,
+      "Number": 6,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 94,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "7": {
+    "Metadata": {
+      "Name": "zoltan_chivay_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 5,
+      "PossibleLocations": 16,
+      "IsHero": false,
+      "Number": 7,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 95,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "8": {
+    "Metadata": {
+      "Name": "emiel_regis_rohellec_terzieff_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 5,
+      "PossibleLocations": 16,
+      "IsHero": false,
+      "Number": 8,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 96,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "9": {
+    "Metadata": {
+      "Name": "villentretenmerth_card",
+      "Ability": 17,
+      "CardAbility": {},
+      "DefaultPower": 7,
+      "PossibleLocations": 16,
+      "IsHero": false,
+      "Number": 9,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 97,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "10": {
+    "Metadata": {
+      "Name": "avallach_card",
+      "Ability": 6,
+      "CardAbility": {},
+      "DefaultPower": 0,
+      "PossibleLocations": 16,
+      "IsHero": true,
+      "Number": 10,
+      "Faction": 4,
+      "InOpponentZone": true
+    },
+    "Player": 0,
+    "Sequence": 98,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "11": {
+    "Metadata": {
+      "Name": "decoy_card",
+      "Ability": 14,
+      "CardAbility": {},
+      "DefaultPower": -1,
+      "PossibleLocations": 84,
+      "IsHero": false,
+      "Number": 11,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 99,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "12": {
+    "Metadata": {
+      "Name": "decoy_card",
+      "Ability": 14,
+      "CardAbility": {},
+      "DefaultPower": -1,
+      "PossibleLocations": 84,
+      "IsHero": false,
+      "Number": 12,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 100,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "13": {
+    "Metadata": {
+      "Name": "decoy_card",
+      "Ability": 14,
+      "CardAbility": {},
+      "DefaultPower": -1,
+      "PossibleLocations": 84,
+      "IsHero": false,
+      "Number": 13,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 101,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "14": {
+    "Metadata": {
+      "Name": "commanders_horn_card",
+      "Ability": 12,
+      "CardAbility": {},
+      "DefaultPower": -1,
+      "PossibleLocations": 42,
+      "IsHero": false,
+      "Number": 14,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 102,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "15": {
+    "Metadata": {
+      "Name": "commanders_horn_card",
+      "Ability": 12,
+      "CardAbility": {},
+      "DefaultPower": -1,
+      "PossibleLocations": 42,
+      "IsHero": false,
+      "Number": 15,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 103,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "16": {
+    "Metadata": {
+      "Name": "commanders_horn_card",
+      "Ability": 12,
+      "CardAbility": {},
+      "DefaultPower": -1,
+      "PossibleLocations": 42,
+      "IsHero": false,
+      "Number": 16,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 104,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "17": {
+    "Metadata": {
+      "Name": "scorch_card",
+      "Ability": 15,
+      "CardAbility": {},
+      "DefaultPower": -1,
+      "PossibleLocations": 256,
+      "IsHero": false,
+      "Number": 17,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 105,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "18": {
+    "Metadata": {
+      "Name": "scorch_card",
+      "Ability": 15,
+      "CardAbility": {},
+      "DefaultPower": -1,
+      "PossibleLocations": 256,
+      "IsHero": false,
+      "Number": 18,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 106,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "19": {
+    "Metadata": {
+      "Name": "scorch_card",
+      "Ability": 15,
+      "CardAbility": {},
+      "DefaultPower": -1,
+      "PossibleLocations": 256,
+      "IsHero": false,
+      "Number": 19,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 107,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "20": {
+    "Metadata": {
+      "Name": "biting_frost_card",
+      "Ability": 9,
+      "CardAbility": {},
+      "DefaultPower": -1,
+      "PossibleLocations": 256,
+      "IsHero": false,
+      "Number": 20,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 108,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "21": {
+    "Metadata": {
+      "Name": "biting_frost_card",
+      "Ability": 9,
+      "CardAbility": {},
+      "DefaultPower": -1,
+      "PossibleLocations": 256,
+      "IsHero": false,
+      "Number": 21,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 109,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "22": {
+    "Metadata": {
+      "Name": "biting_frost_card",
+      "Ability": 9,
+      "CardAbility": {},
+      "DefaultPower": -1,
+      "PossibleLocations": 256,
+      "IsHero": false,
+      "Number": 22,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 110,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "23": {
+    "Metadata": {
+      "Name": "impenetrable_fog_card",
+      "Ability": 10,
+      "CardAbility": {},
+      "DefaultPower": -1,
+      "PossibleLocations": 256,
+      "IsHero": false,
+      "Number": 23,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 111,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "24": {
+    "Metadata": {
+      "Name": "impenetrable_fog_card",
+      "Ability": 10,
+      "CardAbility": {},
+      "DefaultPower": -1,
+      "PossibleLocations": 256,
+      "IsHero": false,
+      "Number": 24,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 112,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "25": {
+    "Metadata": {
+      "Name": "impenetrable_fog_card",
+      "Ability": 10,
+      "CardAbility": {},
+      "DefaultPower": -1,
+      "PossibleLocations": 256,
+      "IsHero": false,
+      "Number": 25,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 113,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "26": {
+    "Metadata": {
+      "Name": "torrential_rain_card",
+      "Ability": 11,
+      "CardAbility": {},
+      "DefaultPower": -1,
+      "PossibleLocations": 256,
+      "IsHero": false,
+      "Number": 26,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 114,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "27": {
+    "Metadata": {
+      "Name": "torrential_rain_card",
+      "Ability": 11,
+      "CardAbility": {},
+      "DefaultPower": -1,
+      "PossibleLocations": 256,
+      "IsHero": false,
+      "Number": 27,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 115,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "28": {
+    "Metadata": {
+      "Name": "torrential_rain_card",
+      "Ability": 11,
+      "CardAbility": {},
+      "DefaultPower": -1,
+      "PossibleLocations": 256,
+      "IsHero": false,
+      "Number": 28,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 116,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "29": {
+    "Metadata": {
+      "Name": "clear_weather_card",
+      "Ability": 13,
+      "CardAbility": {},
+      "DefaultPower": -1,
+      "PossibleLocations": 256,
+      "IsHero": false,
+      "Number": 29,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 117,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "30": {
+    "Metadata": {
+      "Name": "clear_weather_card",
+      "Ability": 13,
+      "CardAbility": {},
+      "DefaultPower": -1,
+      "PossibleLocations": 256,
+      "IsHero": false,
+      "Number": 30,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 118,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "31": {
+    "Metadata": {
+      "Name": "clear_weather_card",
+      "Ability": 13,
+      "CardAbility": {},
+      "DefaultPower": -1,
+      "PossibleLocations": 256,
+      "IsHero": false,
+      "Number": 31,
+      "Faction": 4,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 119,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "69": {
+    "Metadata": {
+      "Name": "letho_of_gulet_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 10,
+      "PossibleLocations": 16,
+      "IsHero": true,
+      "Number": 69,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 120,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "70": {
+    "Metadata": {
+      "Name": "menno_coehoorn_card",
+      "Ability": 3,
+      "CardAbility": {},
+      "DefaultPower": 10,
+      "PossibleLocations": 16,
+      "IsHero": true,
+      "Number": 70,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 121,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "71": {
+    "Metadata": {
+      "Name": "morvran_voorhis_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 10,
+      "PossibleLocations": 4,
+      "IsHero": true,
+      "Number": 71,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 122,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "72": {
+    "Metadata": {
+      "Name": "tibor_eggebracht_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 10,
+      "PossibleLocations": 64,
+      "IsHero": true,
+      "Number": 72,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 123,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "73": {
+    "Metadata": {
+      "Name": "albrich_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 2,
+      "PossibleLocations": 64,
+      "IsHero": false,
+      "Number": 73,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 124,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "74": {
+    "Metadata": {
+      "Name": "assire_var_anahid_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 6,
+      "PossibleLocations": 64,
+      "IsHero": false,
+      "Number": 74,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 125,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "75": {
+    "Metadata": {
+      "Name": "cynthia_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 4,
+      "PossibleLocations": 64,
+      "IsHero": false,
+      "Number": 75,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 126,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "76": {
+    "Metadata": {
+      "Name": "fringilla_vigo_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 6,
+      "PossibleLocations": 64,
+      "IsHero": false,
+      "Number": 76,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 127,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "77": {
+    "Metadata": {
+      "Name": "morteisen_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 3,
+      "PossibleLocations": 16,
+      "IsHero": false,
+      "Number": 77,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 128,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "78": {
+    "Metadata": {
+      "Name": "rainfarn_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 4,
+      "PossibleLocations": 16,
+      "IsHero": false,
+      "Number": 78,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 129,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "79": {
+    "Metadata": {
+      "Name": "renuald_aep_matsen_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 5,
+      "PossibleLocations": 64,
+      "IsHero": false,
+      "Number": 79,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 130,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "80": {
+    "Metadata": {
+      "Name": "rotten_mangonel_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 5,
+      "PossibleLocations": 4,
+      "IsHero": false,
+      "Number": 80,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 131,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "81": {
+    "Metadata": {
+      "Name": "shilard_fitz_oesternlen_card",
+      "Ability": 6,
+      "CardAbility": {},
+      "DefaultPower": 7,
+      "PossibleLocations": 16,
+      "IsHero": false,
+      "Number": 81,
+      "Faction": 1,
+      "InOpponentZone": true
+    },
+    "Player": 0,
+    "Sequence": 132,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "82": {
+    "Metadata": {
+      "Name": "stefan_skellen_card",
+      "Ability": 6,
+      "CardAbility": {},
+      "DefaultPower": 9,
+      "PossibleLocations": 16,
+      "IsHero": false,
+      "Number": 82,
+      "Faction": 1,
+      "InOpponentZone": true
+    },
+    "Player": 0,
+    "Sequence": 133,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "83": {
+    "Metadata": {
+      "Name": "sweers_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 2,
+      "PossibleLocations": 64,
+      "IsHero": false,
+      "Number": 83,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 134,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "84": {
+    "Metadata": {
+      "Name": "vanhemar_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 4,
+      "PossibleLocations": 64,
+      "IsHero": false,
+      "Number": 84,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 135,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "85": {
+    "Metadata": {
+      "Name": "vattier_de_rideaux_card",
+      "Ability": 6,
+      "CardAbility": {},
+      "DefaultPower": 4,
+      "PossibleLocations": 16,
+      "IsHero": false,
+      "Number": 85,
+      "Faction": 1,
+      "InOpponentZone": true
+    },
+    "Player": 0,
+    "Sequence": 136,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "86": {
+    "Metadata": {
+      "Name": "vreemde_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 2,
+      "PossibleLocations": 16,
+      "IsHero": false,
+      "Number": 86,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 137,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "87": {
+    "Metadata": {
+      "Name": "cahir_mawr_dyffryn_aep_ceallach_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 6,
+      "PossibleLocations": 16,
+      "IsHero": false,
+      "Number": 87,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 138,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "88": {
+    "Metadata": {
+      "Name": "puttkammer_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 3,
+      "PossibleLocations": 64,
+      "IsHero": false,
+      "Number": 88,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 139,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "89": {
+    "Metadata": {
+      "Name": "etolian_auxiliary_archers_card",
+      "Ability": 3,
+      "CardAbility": {},
+      "DefaultPower": 1,
+      "PossibleLocations": 64,
+      "IsHero": false,
+      "Number": 89,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 140,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "90": {
+    "Metadata": {
+      "Name": "etolian_auxiliary_archers_card",
+      "Ability": 3,
+      "CardAbility": {},
+      "DefaultPower": 1,
+      "PossibleLocations": 64,
+      "IsHero": false,
+      "Number": 90,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 141,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "91": {
+    "Metadata": {
+      "Name": "black_infantry_archer_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 10,
+      "PossibleLocations": 64,
+      "IsHero": false,
+      "Number": 91,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 142,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "92": {
+    "Metadata": {
+      "Name": "black_infantry_archer_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 10,
+      "PossibleLocations": 64,
+      "IsHero": false,
+      "Number": 92,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 143,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "93": {
+    "Metadata": {
+      "Name": "siege_technician_card",
+      "Ability": 3,
+      "CardAbility": {},
+      "DefaultPower": 0,
+      "PossibleLocations": 4,
+      "IsHero": false,
+      "Number": 93,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 144,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "94": {
+    "Metadata": {
+      "Name": "heavy_zerrikanian_fire_scorpion_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 10,
+      "PossibleLocations": 4,
+      "IsHero": false,
+      "Number": 94,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 145,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "95": {
+    "Metadata": {
+      "Name": "impera_brigade_guard_card",
+      "Ability": 7,
+      "CardAbility": {},
+      "DefaultPower": 3,
+      "PossibleLocations": 16,
+      "IsHero": false,
+      "Number": 95,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 146,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "96": {
+    "Metadata": {
+      "Name": "impera_brigade_guard_card",
+      "Ability": 7,
+      "CardAbility": {},
+      "DefaultPower": 3,
+      "PossibleLocations": 16,
+      "IsHero": false,
+      "Number": 96,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 147,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "97": {
+    "Metadata": {
+      "Name": "impera_brigade_guard_card",
+      "Ability": 7,
+      "CardAbility": {},
+      "DefaultPower": 3,
+      "PossibleLocations": 16,
+      "IsHero": false,
+      "Number": 97,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 148,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "98": {
+    "Metadata": {
+      "Name": "impera_brigade_guard_card",
+      "Ability": 7,
+      "CardAbility": {},
+      "DefaultPower": 3,
+      "PossibleLocations": 16,
+      "IsHero": false,
+      "Number": 98,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 149,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "99": {
+    "Metadata": {
+      "Name": "nausicaa_cavalry_brigade_card",
+      "Ability": 7,
+      "CardAbility": {},
+      "DefaultPower": 2,
+      "PossibleLocations": 16,
+      "IsHero": false,
+      "Number": 99,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 150,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "100": {
+    "Metadata": {
+      "Name": "nausicaa_cavalry_brigade_card",
+      "Ability": 7,
+      "CardAbility": {},
+      "DefaultPower": 2,
+      "PossibleLocations": 16,
+      "IsHero": false,
+      "Number": 100,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 151,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "101": {
+    "Metadata": {
+      "Name": "nausicaa_cavalry_brigade_card",
+      "Ability": 7,
+      "CardAbility": {},
+      "DefaultPower": 2,
+      "PossibleLocations": 16,
+      "IsHero": false,
+      "Number": 101,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 152,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "102": {
+    "Metadata": {
+      "Name": "siege_engineer_card",
+      "Ability": 8,
+      "CardAbility": {},
+      "DefaultPower": 6,
+      "PossibleLocations": 4,
+      "IsHero": false,
+      "Number": 102,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 153,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "103": {
+    "Metadata": {
+      "Name": "young_emissary_card",
+      "Ability": 7,
+      "CardAbility": {},
+      "DefaultPower": 5,
+      "PossibleLocations": 16,
+      "IsHero": false,
+      "Number": 103,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 154,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "104": {
+    "Metadata": {
+      "Name": "young_emissary_card",
+      "Ability": 7,
+      "CardAbility": {},
+      "DefaultPower": 5,
+      "PossibleLocations": 16,
+      "IsHero": false,
+      "Number": 104,
+      "Faction": 1,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 155,
+    "Location": 0,
+    "IsSelected": false
+  }
+}

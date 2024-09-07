@@ -9,6 +9,7 @@ using System.Collections.Concurrent;
 using GwentEngine.Phases;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace GwentEngine
 {
@@ -89,16 +90,18 @@ namespace GwentEngine
         public PlayerKind Player;
         public int Sequence;
         public Location Location;
+        public bool IsSelected;
 
-        public CardInPlay(CardMetadata metadata, Location location, PlayerKind player, int? sequence = null)
+        public CardInPlay(CardMetadata metadata, Location location, PlayerKind player, int? sequence = null, bool isSelected = false)
         {
             Metadata = metadata;
             Sequence = sequence.GetValueOrDefault(++_sequence);
             Location = location;
             Player = player;
+            IsSelected = isSelected;
         }
 
-        public override string ToString() => $"#{Metadata} {Location} {Player}";
+        public override string ToString() => $"#{Metadata} {Location} {Player}"; // pas certaine
     }
 
     public class Card
@@ -242,6 +245,17 @@ namespace GwentEngine
     public class BoardState
     {
         public Dictionary<int, CardInPlay> CardsInPlay { get; set; } = new();
+        
+        public static Dictionary<int, CardInPlay> FromFile(string fullPath)
+        {
+            var json = File.ReadAllText(fullPath);
+            return FromJson(json);
+        }
+
+        public static Dictionary<int, CardInPlay> FromJson(string json)
+        {
+            return JsonConvert.DeserializeObject<Dictionary<int, CardInPlay>>(json);
+        }
     }
 
     public class GameState
@@ -551,7 +565,7 @@ namespace GwentEngine
 
         public string ToJson() => JsonConvert.SerializeObject(_currentState);
         
-        private static string ToJson(BoardState boardState) => JsonConvert.SerializeObject(boardState);
+        private static string ToJson(BoardState boardState) => JsonConvert.SerializeObject(boardState.CardsInPlay, Formatting.Indented);
         
         public static void WriteJsonToFile(string filePath, BoardState boardState)
         {
@@ -602,8 +616,8 @@ namespace GwentEngine
 
             m_vPaths = new[]
             {
-                "Assets/Cards/NorthernRealmsDeck.json", "Assets/Cards/NilfgaardDeck.json",
-                "Assets/Cards/ScotiatelDeck.json", "Assets/Cards/MonsterDeck.json"  /*"Assets/Cards/SkelligeDeck.json"*/
+                "Cards/NorthernRealmsDeck.json", "Cards/NilfgaardDeck.json",
+                "Cards/ScotiatelDeck.json", "Cards/MonsterDeck.json"  /*"Assets/Cards/SkelligeDeck.json"*/
             };
 
             m_boardStates = new List<BoardState>()
@@ -614,26 +628,31 @@ namespace GwentEngine
         
         private void FillDecks()
         {
-            Action<BoardState, string> fillDeck = (BoardState bs, string path) =>
+            Action<int, string> fillDeck = (int index, string path) =>
             {
+                BoardState bs = m_boardStates[index];
                 path = Path.Combine(Application.dataPath, path);
-                Dictionary<int, CardMetadata> tempDict = new Dictionary<int, CardMetadata>();
-                GameState.FromFile(tempDict, path);
+                
+                //var deckFullPath = Path.Combine(Application.dataPath, "Cards", "Deck.json");
 
+                Dictionary<int, CardInPlay> tempDict = BoardState.FromFile(path);
+                
+                
                 foreach (var kvp in tempDict)
                 {
                     var key = kvp.Key;
                     var value = kvp.Value;
 
-                    bs.CardsInPlay[key] = new CardInPlay(value, Location.None, PlayerKind.Player);
+                    if (value.Metadata.Faction == index || value.Metadata.Faction == 4)
+                        bs.CardsInPlay[key] = value;
                 }
             };
 
-            fillDeck(this.m_NRDeck, m_vPaths[0]);
-            fillDeck(this.m_NilfgaardDeck, m_vPaths[1]);
-            fillDeck(this.m_SociatelDeck, m_vPaths[2]);
-            fillDeck(this.m_MonsterDeck, m_vPaths[3]);
-            fillDeck(this.m_SkelligeDeck, "Assets/Cards/SkelligeDeck.json");
+            fillDeck(0, m_vPaths[0]);
+            fillDeck(1, m_vPaths[1]);
+            fillDeck(2, m_vPaths[2]);
+            fillDeck(3, m_vPaths[3]);
+           // fillDeck(4, "Assets/Cards/SkelligeDeck.json");
         }
 
         public void SaveDeck(int nDeckIndex)
