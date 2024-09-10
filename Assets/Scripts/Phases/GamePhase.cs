@@ -23,14 +23,10 @@ namespace GwentEngine.Phases
         {
             
         }
-        public virtual void OnClick(GameObject card)
-        {
-            
-        }
-        public void OnClick(int number, GameObject card)
+        
+        public virtual void OnClick(int number, GameObject card)
         {
             OnClick(number);
-            OnClick(card);
         }
 
         public virtual void Activate()

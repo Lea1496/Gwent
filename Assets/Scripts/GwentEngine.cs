@@ -596,32 +596,26 @@ namespace GwentEngine
 
     public class DeckState
     {
-        private BoardState m_NRDeck;
-        private BoardState m_NilfgaardDeck;
-        private BoardState m_SociatelDeck;
-        private BoardState m_MonsterDeck;
-        private BoardState m_SkelligeDeck;
-
-        public List<BoardState> m_boardStates { get; private set; }
+        public List<BoardState> BoardStates { get; private set; }
 
         private string[] m_vPaths;
 
         public DeckState()
         {
-            m_NRDeck = new();
-            m_NilfgaardDeck = new();
-            m_SociatelDeck = new();
-            m_MonsterDeck = new();
-            m_SkelligeDeck = new();
+            BoardState nrDeck = new();
+            BoardState nilfgaardDeck = new();
+            BoardState sociatelDeck = new();
+            BoardState monsterDeck = new();
+            BoardState skelligeDeck = new();
 
             m_vPaths = new[]
             {
                 "Cards/NorthernRealmsDeck.json", "Cards/NilfgaardDeck.json",
-                "Cards/ScotiatelDeck.json", "Cards/MonsterDeck.json"  /*"Assets/Cards/SkelligeDeck.json"*/
+                "Cards/ScotiatelDeck.json", "Cards/MonsterDeck.json"  /*" Cards/SkelligeDeck.json"*/
             };
 
-            m_boardStates = new List<BoardState>()
-                { m_NRDeck, m_NilfgaardDeck, m_SociatelDeck, m_MonsterDeck /*, m_SkelligeDeck*/ };
+            BoardStates = new List<BoardState>()
+                { nrDeck, nilfgaardDeck, sociatelDeck, monsterDeck /*, skelligeDeck*/ };
             
             FillDecks();
         }
@@ -630,7 +624,7 @@ namespace GwentEngine
         {
             Action<int, string> fillDeck = (int index, string path) =>
             {
-                BoardState bs = m_boardStates[index];
+                BoardState bs = BoardStates[index];
                 path = Path.Combine(Application.dataPath, path);
                 
                 //var deckFullPath = Path.Combine(Application.dataPath, "Cards", "Deck.json");
@@ -658,7 +652,7 @@ namespace GwentEngine
         public void SaveDeck(int nDeckIndex)
         {
             string path = Path.Combine(Application.dataPath, m_vPaths[nDeckIndex]);
-            GameState.WriteJsonToFile(path, m_boardStates[nDeckIndex]);
+            GameState.WriteJsonToFile(path, BoardStates[nDeckIndex]);
         }
     }
 }

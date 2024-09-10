@@ -252,7 +252,7 @@
     "Player": 0,
     "Sequence": 35,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "16": {
     "Metadata": {
@@ -269,7 +269,7 @@
     "Player": 0,
     "Sequence": 36,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "17": {
     "Metadata": {
@@ -286,7 +286,7 @@
     "Player": 0,
     "Sequence": 37,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "18": {
     "Metadata": {
@@ -303,7 +303,7 @@
     "Player": 0,
     "Sequence": 38,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "19": {
     "Metadata": {
@@ -541,7 +541,7 @@
     "Player": 0,
     "Sequence": 52,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "33": {
     "Metadata": {
@@ -558,7 +558,7 @@
     "Player": 0,
     "Sequence": 53,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "34": {
     "Metadata": {
@@ -575,7 +575,7 @@
     "Player": 0,
     "Sequence": 54,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "35": {
     "Metadata": {
@@ -592,7 +592,7 @@
     "Player": 0,
     "Sequence": 55,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "36": {
     "Metadata": {
@@ -609,7 +609,7 @@
     "Player": 0,
     "Sequence": 56,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "37": {
     "Metadata": {
@@ -626,7 +626,7 @@
     "Player": 0,
     "Sequence": 57,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "38": {
     "Metadata": {
@@ -643,7 +643,7 @@
     "Player": 0,
     "Sequence": 58,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "39": {
     "Metadata": {
@@ -660,7 +660,7 @@
     "Player": 0,
     "Sequence": 59,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "40": {
     "Metadata": {
@@ -677,7 +677,7 @@
     "Player": 0,
     "Sequence": 60,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "41": {
     "Metadata": {
@@ -694,7 +694,7 @@
     "Player": 0,
     "Sequence": 61,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "42": {
     "Metadata": {
@@ -711,7 +711,7 @@
     "Player": 0,
     "Sequence": 62,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "43": {
     "Metadata": {
@@ -728,7 +728,7 @@
     "Player": 0,
     "Sequence": 63,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "44": {
     "Metadata": {
@@ -830,7 +830,7 @@
     "Player": 0,
     "Sequence": 69,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "50": {
     "Metadata": {
@@ -847,7 +847,7 @@
     "Player": 0,
     "Sequence": 70,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "51": {
     "Metadata": {
@@ -864,7 +864,7 @@
     "Player": 0,
     "Sequence": 71,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "52": {
     "Metadata": {
@@ -881,7 +881,7 @@
     "Player": 0,
     "Sequence": 72,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "53": {
     "Metadata": {
@@ -898,7 +898,7 @@
     "Player": 0,
     "Sequence": 73,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "54": {
     "Metadata": {
@@ -915,7 +915,7 @@
     "Player": 0,
     "Sequence": 74,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "55": {
     "Metadata": {
@@ -932,7 +932,7 @@
     "Player": 0,
     "Sequence": 75,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "56": {
     "Metadata": {
@@ -949,7 +949,7 @@
     "Player": 0,
     "Sequence": 76,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "57": {
     "Metadata": {
@@ -966,7 +966,7 @@
     "Player": 0,
     "Sequence": 77,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "58": {
     "Metadata": {
@@ -983,7 +983,7 @@
     "Player": 0,
     "Sequence": 78,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "59": {
     "Metadata": {
@@ -1051,7 +1051,7 @@
     "Player": 0,
     "Sequence": 82,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "63": {
     "Metadata": {

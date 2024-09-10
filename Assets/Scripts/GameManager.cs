@@ -42,11 +42,21 @@ public class GameManager : MonoBehaviour
 
     public bool IsChooseDeckPhase
     {
-        get => CurrentGamePhase.GetType() == typeof(ChooseDeckPhase);
+        get
+        {
+            if (CurrentGamePhase == null)
+                return false;
+            return CurrentGamePhase.GetType() == typeof(ChooseDeckPhase);
+        }
     } 
     private bool IsTurnPhase
     {
-        get => CurrentGamePhase.GetType() == typeof(TurnPhase);
+        get
+        {
+            if (CurrentGamePhase == null)
+                return false;
+            return CurrentGamePhase.GetType() == typeof(TurnPhase);
+        }
     }
     private bool IsOppositePlayerPassed
     {
@@ -356,6 +366,7 @@ public class GameManager : MonoBehaviour
             
             UpdateEffectivePowers(initialRowMultipliers, finalRowMultipliers);
 
+            //Est-ce qu'on a vraiment besoin de generate à chaque tick?
         
             foreach (var ((player, location), cards) in cardsByPlayerAndLocation)
             {
@@ -452,7 +463,13 @@ public class GameManager : MonoBehaviour
         var rCard = cards.First(rCard => rCard.Number == cardNumber);
         return rCard;
     }
-    private GameObject CreateNewCard(Card card)
+
+    public Card GetCard(int cardNumber)
+    {
+        var cards = _gameState.AllCards;
+        return cards.First(rCard => rCard.Number == cardNumber);
+    }
+    public GameObject CreateNewCard(Card card)
     {
         var gameObject = Instantiate(this.card);
         var cardImage = GameObject.Find(card.Metadata.Name);
@@ -537,9 +554,9 @@ public class GameManager : MonoBehaviour
         return _gameState.GetCards(player, location);
     }
 
-    public void OnClick(int cardNumber, GameObject card = null)
+    public void OnClick(int number, GameObject card)
     {
-        CurrentGamePhase.OnClick(cardNumber, card);
+        CurrentGamePhase.OnClick(number, card);
     }
 
     public void EndCurrentPhase()
