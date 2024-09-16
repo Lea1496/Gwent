@@ -478,7 +478,6 @@ public class GameManager : MonoBehaviour
         {
             gameObject.GetComponentInChildren<RawImage>().enabled = false;
         }
-        Debug.Log(card.Name);
         image.sprite = cardImage.GetComponent<SpriteRenderer>().sprite;
         return gameObject;
     }
@@ -494,6 +493,11 @@ public class GameManager : MonoBehaviour
         ).ToArray();
 
         return cardGameObjects;
+    }
+
+    public void UdateCardGameObjects(int card)
+    {
+        _cardGameObjects.TryRemove(card, out var removedValue);
     }
 
     public Location GetLocation(PlayerKind player, GameObject zone)

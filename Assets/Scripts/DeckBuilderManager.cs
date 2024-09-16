@@ -54,7 +54,7 @@ namespace GwentEngine
 
         private bool m_bDeckModified;
 
-        private GameManager m_gameManager;
+        private GameManager _gameManager;
 
         private GameObject[] m_vZones;
         private GameObject[] m_vZonesDeck;
@@ -91,7 +91,7 @@ namespace GwentEngine
 
             m_deckState = new();
             
-            m_gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
             _highlights = new();
 
@@ -101,7 +101,7 @@ namespace GwentEngine
         }
        public void GenerateCards(Card[] allCards, GameObject[] zones)
        {
-           var cardGameObjects = m_gameManager.GenerateCardGameObjects(allCards, PlayerKind.Player /* À REVOIR */, Location.None);
+           var cardGameObjects = _gameManager.GenerateCardGameObjects(allCards, PlayerKind.Player /* À REVOIR */, Location.None);
             int index = 0;
             int cardNum = 0;
             bool isStart = true;
@@ -208,7 +208,7 @@ namespace GwentEngine
             {
                 m_deckState.SaveDeck(_currentFaction);
 
-                m_gameManager.CurrentGamePhase.EndCurrentPhase();
+                _gameManager.CurrentGamePhase.EndCurrentPhase();
             }
             else
             {
@@ -296,6 +296,9 @@ namespace GwentEngine
             {
                 foreach (Transform children in row.transform)
                 {
+                    var cb = children.gameObject.GetComponent<CardBehavior>();
+                    _gameManager.UdateCardGameObjects(cb.Card.Number);
+
                     Destroy(children.gameObject);
                 }
             }
@@ -304,6 +307,9 @@ namespace GwentEngine
             {
                 foreach (Transform children in row.transform)
                 {
+                    var cb = children.gameObject.GetComponent<CardBehavior>();
+                    _gameManager.UdateCardGameObjects(cb.Card.Number);
+                    
                     Destroy(children.gameObject);
                 }
             }
