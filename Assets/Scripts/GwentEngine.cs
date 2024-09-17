@@ -64,7 +64,8 @@ namespace GwentEngine
         Archery = 0b0001000000, //64
         Discard = 0b0010000000, //128
         Weather = 0b0100000000, //256
-        Dead = 0b1000000000 //512
+        Dead = 0b1000000000, //512
+        Leader = 0b10000000000 //1024
     }
     [Flags]
     public enum ActionKind
@@ -265,6 +266,8 @@ namespace GwentEngine
         private List<int> _availableCards = new();
         private Random _random = new Random(DateTime.Now.Millisecond);
         private Card[] _allCards;
+        private bool _isLeaderPlayed;
+        private bool _isLeaderPlayedEnemy;
 
         public static Dictionary<int, ActionKind> ActionDict;
         public PlayerKind FirstPlayer { get; private set; }
@@ -300,6 +303,9 @@ namespace GwentEngine
             };
             
             _allCards = null;
+            
+            _isLeaderPlayedEnemy = false;
+            _isLeaderPlayed = false;
         }
 
         private void Draw(PlayerKind player, int? sequence = null)
@@ -320,7 +326,7 @@ namespace GwentEngine
         {
             var currentCard = _currentState.CardsInPlay[cardNumber];
             Draw(currentCard.Player, currentCard.Sequence);
-           // UseCard(3, currentCard.Player);
+            UseCard(181, currentCard.Player);
             //UseCard(17, currentCard.Player);
             RemoveCard(cardNumber, true);
         }
@@ -377,6 +383,29 @@ namespace GwentEngine
             return true;
         }
 
+        public Card[] ShowOponnentCards()
+        {
+            PlayerKind opPlayer = CurrentPlayer == PlayerKind.Opponent ? PlayerKind.Player : PlayerKind.Opponent;
+
+            var opponentsCards = AllCards.Where(card => card.EffectivePlayer == opPlayer && card.Number <= 180).ToArray();
+
+            Card[] cardsToShow = new Card[3];
+            
+            int index = 0;
+            while(index < 3)
+            {
+                Random ran = new Random(DateTime.Now.Millisecond);
+
+                var pos = ran.Next(0, opponentsCards.Length);
+                if (cardsToShow.Contains(opponentsCards[pos]))
+                    continue;
+
+                cardsToShow[index++] = opponentsCards[pos];
+            }
+
+            return cardsToShow;
+        }
+
         public bool IsCardDecoy(int number)
         {
             return _currentState.CardsInPlay[number].Metadata.Ability == Ability.Decoy;
@@ -405,6 +434,13 @@ namespace GwentEngine
             if ((cardMetadata.PossibleLocations & location) == 0)
             {
                 return false;
+            }
+            
+            if (cardNumber > 280)
+            {
+                bool isCurrentLeaderPlayed = CurrentPlayer == PlayerKind.Opponent ? _isLeaderPlayedEnemy : _isLeaderPlayed;
+                if (isCurrentLeaderPlayed)
+                    return false;
             }
 
             return true;

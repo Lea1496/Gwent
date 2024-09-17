@@ -29,6 +29,8 @@ public class CardBehavior : MonoBehaviour
 
     public void OnClick()
     {
+        if (_gameManager.isEmhyr1Active)
+            return;
         _gameManager.OnClick(_card.Number, gameObject);
     }
 

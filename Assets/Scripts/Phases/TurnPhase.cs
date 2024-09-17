@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using GwentEngine;
 using GwentEngine.Abilities;
 using GwentEngine.Phases;
@@ -9,24 +10,15 @@ namespace Phases
 {
     public class TurnPhase : GamePhase
     {
-        private GameManager _gameManager;
-
         private GameState _gameState;
 
         private bool _isDecoyPhase;
         
-        public TurnPhase(GameState gameState):
-            base( )
-
+        public TurnPhase(GameState gameState)
         {
             _gameState = gameState;
         }
-        public override void Activate()
-        {
-            _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-            base.Activate();
-        }
-        
+
         public override void OnClick(int number)
         {
             if (_gameState.IsCardDecoy(number))
@@ -41,7 +33,10 @@ namespace Phases
                 EndCurrentPhase();
             }
 
-            _gameManager.onClickCalled = false;
+            if (number > 180)
+            {
+                _gameManager.Play(number, Location.Leader);
+            }
         }
         
         public override void EndCurrentPhase()

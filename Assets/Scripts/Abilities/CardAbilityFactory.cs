@@ -35,6 +35,11 @@ namespace GwentEngine.Abilities
                 case Ability.ClearWeather: return new ClearWeatherAbility();
                 case Ability.TightBond: return new TightBondAbility();
                 case Ability.Medic: return new MedicAbility();
+                case Ability.Emhyr1: return new Emhyr1Ability();
+                case Ability.Emhyr2: return new Emhyr1Ability();
+                case Ability.Emhyr3: return new Emhyr1Ability();
+                case Ability.Emhyr4: return new Emhyr1Ability();
+                case Ability.Emhyr5: return new Emhyr1Ability();
                 
 
                 default: throw new Exception($"Unkown ability: {ability}");

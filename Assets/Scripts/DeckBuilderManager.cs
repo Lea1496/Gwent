@@ -148,12 +148,11 @@ namespace GwentEngine
             var allCardsSelected = m_deckState.BoardStates[_currentFaction].CardsInPlay
                                            .Values
                                            .Where(card => card.IsSelected)
-                                           .Select(c => new Card(c))
+                                           .Select(c => new Card(c)).OrderBy(c => c.Ability)
                                            .ToArray();
             var allCardsUnselected = m_deckState.BoardStates[_currentFaction].CardsInPlay
-                .Values
-                .Where(card => !card.IsSelected)
-                .Select(c => new Card(c))
+                .Values.Where(card => !card.IsSelected)
+                .Select(c => new Card(c)).OrderBy(c => c.Ability)
                 .ToArray();
 
             if(allCardsSelected.Length != 0) GenerateCards(allCardsSelected, m_vZonesDeck);

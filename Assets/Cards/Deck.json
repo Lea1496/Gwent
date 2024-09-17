@@ -1615,5 +1615,50 @@
     "IsHero": false,
     "Number": 180,
     "Faction": 3
+  },
+  {
+    "Name": "emhyr_var_emreis_emperor_of_nilfgaard_card",
+    "Ability": 18,
+    "DefaultPower": -1,
+    "PossibleLocations": 1024,
+    "IsHero": false,
+    "Number": 181,
+    "Faction": 1
+  },
+  {
+    "Name": "emhyr_var_emreis_his_imperial_majesty_card",
+    "Ability": 19,
+    "DefaultPower": -1,
+    "PossibleLocations": 1024,
+    "IsHero": false,
+    "Number": 182,
+    "Faction": 1
+  },
+  {
+    "Name": "emhyr_var_emreis_emperor_of_nilfgaard_card",
+    "Ability": 20,
+    "DefaultPower": -1,
+    "PossibleLocations": 1024,
+    "IsHero": false,
+    "Number": 183,
+    "Faction": 1
+  },
+  {
+    "Name": "emhyr_var_emreis_the_relentless_card",
+    "Ability": 21,
+    "DefaultPower": -1,
+    "PossibleLocations": 1024,
+    "IsHero": false,
+    "Number": 184,
+    "Faction": 1
+  },
+  {
+    "Name": "emhyr_var_emreis_the_white_flame_card",
+    "Ability": 22,
+    "DefaultPower": -1,
+    "PossibleLocations": 1024,
+    "IsHero": false,
+    "Number": 185,
+    "Faction": 1
   }
 ]

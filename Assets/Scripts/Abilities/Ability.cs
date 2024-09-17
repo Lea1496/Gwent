@@ -23,6 +23,11 @@ namespace GwentEngine.Abilities
         Decoy = 14,
         Scorch = 15,
         Leader = 16,
-        SpecialScorch = 17
+        SpecialScorch = 17,
+        Emhyr1 = 18,
+        Emhyr2 = 19,
+        Emhyr3 = 20,
+        Emhyr4 = 21,
+        Emhyr5 = 22
     }
 }

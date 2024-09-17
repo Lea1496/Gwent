@@ -10,6 +10,7 @@ using GwentEngine.Abilities;
 using Phases;
 using TMPro;
 using Unity.Collections.LowLevel.Unsafe;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -25,10 +26,13 @@ public class GameManager : MonoBehaviour
     private int _roundNumber;
     private bool _playerPassed;
     private bool _enemyPassed;
+    private GameObject[] _cardsShown;
 
-   
+
     public bool onClickCalled = false;
+    public bool onFinishClicked = false;
 
+    public bool isEmhyr1Active = false;
     public PlayerKind CurrentPlayer
     {
         get => _gameState.CurrentPlayer;
@@ -63,6 +67,11 @@ public class GameManager : MonoBehaviour
         get => NotCurrentPlayer == PlayerKind.Player ? _playerPassed : _enemyPassed;
     }
 
+    private Button FinishButtonActivePlayer
+    {
+        get => CurrentPlayer == PlayerKind.Player ? finishButtonEnemy : finishButton;
+    }
+
     private ConcurrentDictionary<int, (GameObject gameObject, Card card, PlayerKind player, Location location, int
         position)> _cardGameObjects;
 
@@ -72,8 +81,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI youStart;
     [SerializeField] private TextMeshProUGUI opponentStarts;
     [SerializeField] private Button keepCardsButton;
-    [SerializeField] private TextMeshProUGUI _ennemyPoints;
-    [SerializeField] private TextMeshProUGUI _playerPoints;
+    [SerializeField] private Button finishButton;
+    [SerializeField] private Button finishButtonEnemy;
+    [SerializeField] private TextMeshProUGUI ennemyPoints;
+    [SerializeField] private TextMeshProUGUI playerPoints;
+    [SerializeField] private GameObject showOpponentsCardsZone;
+    [SerializeField] private GameObject showOpponentsCardsZoneEnemy;
 
 
     public class Zones
@@ -98,6 +111,8 @@ public class GameManager : MonoBehaviour
             CommandersHornArcEnemy = GameObject.Find("CommandersHornArcEnemy");
             CommandersHornCatEnemy = GameObject.Find("CommandersHornCatEnemy");
             Weather = GameObject.Find("WeatherZone");
+            Leader = GameObject.Find("LeaderZone");
+            LeaderEnemy = GameObject.Find("LeaderZoneEnemy");
         }
 
         public GameObject PlayerSword { get; }
@@ -120,6 +135,8 @@ public class GameManager : MonoBehaviour
         public GameObject CommandersHornArcEnemy { get; }
         public GameObject CommandersHornCatEnemy { get; }
         public GameObject Weather { get; }
+        public GameObject Leader { get; }
+        public GameObject LeaderEnemy { get; }
 
         public GameObject GetZone(PlayerKind player, Location location)
         {
@@ -140,6 +157,7 @@ public class GameManager : MonoBehaviour
                     case Location.ComandersHornArchery: return CommandersHornArc;
                     case Location.ComandersHornCatapult: return CommandersHornCat;
                     case Location.Weather: return Weather;
+                    case Location.Leader: return Leader;
                 }
             }
             else
@@ -154,6 +172,7 @@ public class GameManager : MonoBehaviour
                     case Location.ComandersHornArchery: return CommandersHornArcEnemy;
                     case Location.ComandersHornCatapult: return CommandersHornCatEnemy;
                     case Location.Weather: return Weather;
+                    case Location.Leader: return LeaderEnemy;
                 }
             }
 
@@ -179,6 +198,7 @@ public class GameManager : MonoBehaviour
                 location = zone == CommandersHornArc ? Location.ComandersHornArchery : location;
                 location = zone == CommandersHornCat ? Location.ComandersHornCatapult : location;
                 location = zone == Weather ? Location.Weather : location;
+                location = zone == Leader ? Location.Leader : location;
             }
             else
             {
@@ -186,10 +206,11 @@ public class GameManager : MonoBehaviour
                 location = zone == EnemySword ? Location.Sword : location;
                 location = zone == EnemyArc ? Location.Archery : location;
                 location = zone == EnemyCatapult ? Location.Catapult : location;
-                location = zone == CommandersHornSword ? Location.ComandersHornSword : location;
-                location = zone == CommandersHornArc ? Location.ComandersHornArchery : location;
-                location = zone == CommandersHornCat ? Location.ComandersHornCatapult : location;
+                location = zone == CommandersHornSwordEnemy ? Location.ComandersHornSword : location;
+                location = zone == CommandersHornArcEnemy ? Location.ComandersHornArchery : location;
+                location = zone == CommandersHornCatEnemy ? Location.ComandersHornCatapult : location;
                 location = zone == Weather ? Location.Weather : location;
+                location = zone == LeaderEnemy ? Location.Leader : location;
             }
 
             //            Debug.Log($"Cannot plate card at : {player}, {location}");
@@ -230,6 +251,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        keepCardsButton = GameObject.Find("ChangeCards").GetComponent<Button>();
+        keepCardsButton = GameObject.Find("FinishButton").GetComponent<Button>();
+        keepCardsButton = GameObject.Find("FinishButtonEnemy").GetComponent<Button>();
+        ennemyPoints = GameObject.Find("EnemyPoints").GetComponent<TextMeshProUGUI>();
+        playerPoints = GameObject.Find("PlayerPoints").GetComponent<TextMeshProUGUI>();
+        youStart = GameObject.Find("YouStart").GetComponent<TextMeshProUGUI>();
+        opponentStarts = GameObject.Find("OpponentStart").GetComponent<TextMeshProUGUI>();
+        showOpponentsCardsZone = GameObject.Find("ShowOpponentsCardsZone");
+        showOpponentsCardsZoneEnemy = GameObject.Find("ShowOpponentsCardsZoneEnemy");
+    }
     private void Awake()
     {
       //  DontDestroyOnLoad(gameObject);
@@ -244,6 +277,8 @@ public class GameManager : MonoBehaviour
         _cardMetadata = CardMetadata.FromFile(deckFullPath);
 
         _gameState.NewGame(_cardMetadata, Settings.InitialCardCount);
+
+        _cardsShown = new GameObject[3];
 
         _points = new bool[2, 2];
         _points[0, 0] = true;
@@ -430,8 +465,8 @@ public class GameManager : MonoBehaviour
         else 
             totalPlayerScore += rowScore;
 
-        _ennemyPoints.text = totalOpponentScore.ToString();
-        _playerPoints.text = totalPlayerScore.ToString();
+        ennemyPoints.text = totalOpponentScore.ToString();
+        playerPoints.text = totalPlayerScore.ToString();
     }
     private void UpdateEffectivePowers(Dictionary<Tuple<Location, PlayerKind>, ActionKind> initialRowMult,
         Dictionary<Tuple<Location, PlayerKind>, ActionKind> finalRowMult)
@@ -591,6 +626,7 @@ public class GameManager : MonoBehaviour
         // Wait until functionCalled becomes true
         
         StartCoroutine(new WaitUntil(() => onClickCalled));
+        onClickCalled = false;
     }
 
     
@@ -599,7 +635,7 @@ public class GameManager : MonoBehaviour
     {
         if (_playerPassed && _enemyPassed)
         {
-            EndRound(int.Parse(_ennemyPoints.text) > int.Parse(_playerPoints.text) ? PlayerKind.Player : PlayerKind.Opponent);
+            EndRound(int.Parse(ennemyPoints.text) > int.Parse(playerPoints.text) ? PlayerKind.Player : PlayerKind.Opponent);
             return;
         }
         
@@ -670,5 +706,57 @@ public class GameManager : MonoBehaviour
         {
             _enemyPassed = true;
         }
+    }
+
+    public void ShowOpponentCards()
+    {
+        isEmhyr1Active = true;
+        var cardsToShow = _gameState.ShowOponnentCards();
+
+        var opponentCardZone =
+            CurrentPlayer == PlayerKind.Opponent ? showOpponentsCardsZone : showOpponentsCardsZoneEnemy;
+
+        FinishButtonActivePlayer.gameObject.SetActive(true);
+
+        for(int i = 0; i < 3; i++)
+        {
+            var cardToInit = _cardGameObjects[cardsToShow[i].Number].gameObject;
+            var boxCollider = cardToInit.GetComponent<BoxCollider2D>();
+            Destroy(boxCollider);
+            _cardsShown[i] = Instantiate(_cardGameObjects[cardsToShow[i].Number].gameObject, opponentCardZone.transform);
+            _cardsShown[i].transform.localScale.Scale(new Vector3(2f, 2f, 2f));
+
+            //pas certaine
+            var newCollider = cardToInit.AddComponent<BoxCollider2D>();
+            
+            newCollider.size = boxCollider.size;
+            newCollider.offset = boxCollider.offset;
+            newCollider.isTrigger = boxCollider.isTrigger;
+
+        }
+        GameObjectsDisposition.DistributeCenter(opponentCardZone, _cardsShown, 5);
+
+        StartWaitForFinishCoroutine();
+
+    }
+    public void StartWaitForFinishCoroutine()
+    {
+        // Wait until functionCalled becomes true
+        
+        StartCoroutine(new WaitUntil(() => onFinishClicked));
+        onFinishClicked = false;
+    }
+    public void OnHideOpponentCards()
+    {
+        for(int i = 0; i < _cardsShown.Length; i++)
+        {
+            Destroy(_cardsShown[i]);
+            _cardsShown[i] = null;
+        }
+        
+        FinishButtonActivePlayer.gameObject.SetActive(false);
+
+        onFinishClicked = true;
+        isEmhyr1Active = false;
     }
 }
