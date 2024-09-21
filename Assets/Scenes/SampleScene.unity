@@ -123,6 +123,63 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &67758122
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 67758124}
+  - component: {fileID: 67758123}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &67758123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67758122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afd1b71a873161f429d7e9c327257fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onClickCalled: 0
+  onFinishClicked: 0
+  isEmhyr1Active: 0
+  card: {fileID: 6913159340962412152, guid: a39bbe072294b0144badf9b8bcc8d1f6, type: 3}
+  youStart: {fileID: 243827533}
+  opponentStarts: {fileID: 1554669141}
+  keepCardsButton: {fileID: 1797755097}
+  finishButton: {fileID: 357297961}
+  finishButtonEnemy: {fileID: 211937139}
+  ennemyPoints: {fileID: 1536760293}
+  playerPoints: {fileID: 1487302534}
+  showOpponentsCardsZone: {fileID: 1366377831}
+  showOpponentsCardsZoneEnemy: {fileID: 161052175}
+--- !u!4 &67758124
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67758122}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 546.84814, y: 263.258, z: 3.7305632}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &118320840
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -392,76 +449,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 161052175}
   m_CullTransparentMesh: 1
---- !u!1 &174955586
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 174955588}
-  - component: {fileID: 174955587}
-  - component: {fileID: 174955589}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &174955587
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 174955586}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afd1b71a873161f429d7e9c327257fb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onClickCalled: 0
-  onFinishClicked: 0
-  isEmhyr1Active: 0
-  card: {fileID: 6913159340962412152, guid: a39bbe072294b0144badf9b8bcc8d1f6, type: 3}
-  youStart: {fileID: 243827533}
-  opponentStarts: {fileID: 1554669141}
-  keepCardsButton: {fileID: 1797755097}
-  finishButton: {fileID: 357297961}
-  finishButtonEnemy: {fileID: 211937139}
-  ennemyPoints: {fileID: 1536760293}
-  playerPoints: {fileID: 1487302534}
-  showOpponentsCardsZone: {fileID: 1366377831}
-  showOpponentsCardsZoneEnemy: {fileID: 161052175}
---- !u!4 &174955588
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 174955586}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 546.84814, y: 263.258, z: 3.7305632}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &174955589
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 174955586}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e72118f6a9fda5e4eb2b2f50a6bb95ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &179851549 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8631213470685696850, guid: f87e25ed00a2a994fa95e23cf1077e43, type: 3}
@@ -625,7 +612,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 174955587}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: OnHideOpponentCards
         m_Mode: 1
@@ -1453,7 +1440,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 174955587}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: OnHideOpponentCards
         m_Mode: 1
@@ -1908,7 +1895,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 174955589}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: OnButtonPressed, Assembly-CSharp
         m_MethodName: PassTurn
         m_Mode: 1
@@ -4446,4 +4433,4 @@ SceneRoots:
   - {fileID: 335331166}
   - {fileID: 783387957}
   - {fileID: 1806011777}
-  - {fileID: 174955588}
+  - {fileID: 67758124}

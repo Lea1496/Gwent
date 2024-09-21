@@ -1,4 +1,5 @@
-﻿using GwentEngine;
+﻿using System.Linq;
+using GwentEngine;
 using UnityEngine;
 
 public class DragDrop : MonoBehaviour
@@ -7,13 +8,22 @@ public class DragDrop : MonoBehaviour
     private Location _dropLocation;
     private bool _canDrop;
     private Vector2 _initialDraggingPosition;
-    private GameManager _gameManager;
+    private bool _isGameManager;
     private CardBehavior _cardBehavior;
+    private GameManager _gameManager;
 
 
+    private GameObject FindManager<T>() where T : class
+    {
+        var allManagers = GameObject.FindObjectsOfType<MonoBehaviour>(true);
+
+        // Filter those that implement the interface
+        return allManagers.FirstOrDefault(m => m.GetComponent(typeof(T)))?.gameObject;
+    }
     private void Start()
     {
-        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _gameManager = FindManager<IManager>().GetComponent<IManager>() as GameManager;
+        _isGameManager = _gameManager != null;
         _cardBehavior = gameObject.GetComponent<CardBehavior>();
     }
 
@@ -27,12 +37,15 @@ public class DragDrop : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (!col.gameObject.CompareTag("Card"))
+        if (_isGameManager)
         {
-            _dropLocation = _gameManager.GetLocation(_cardBehavior.Card.EffectivePlayer, col.gameObject);
-            _canDrop = _gameManager.CanPlay(_cardBehavior.Card.Number, _dropLocation);
+            if (!col.gameObject.CompareTag("Card"))
+            {
+                _dropLocation = _gameManager.GetLocation(_cardBehavior.Card.EffectivePlayer, col.gameObject);
+                _canDrop = _gameManager.CanPlay(_cardBehavior.Card.Number, _dropLocation);
 
-            Debug.Log($"Enter : {col.collider.gameObject.name}. CanDrop: {_canDrop}. Drop Location: {_dropLocation}. Possible locations: {_cardBehavior.Card.PossibleLocations}");
+                Debug.Log($"Enter : {col.collider.gameObject.name}. CanDrop: {_canDrop}. Drop Location: {_dropLocation}. Possible locations: {_cardBehavior.Card.PossibleLocations}");
+            }
         }
     }
 
@@ -47,26 +60,30 @@ public class DragDrop : MonoBehaviour
 
     public void StartDragging()
     {
-        if (_gameManager.IsDraggable(_cardBehavior.Card))
+        if (_isGameManager)
         {
-            Debug.Log("startDragging");
-            _initialDraggingPosition = transform.position;
-            _isDragging = true;
+            _initialDraggingPosition = gameObject.transform.position;
+            _isDragging = _gameManager.IsDraggable(_cardBehavior.Card);
         }
+        
     }
 
     public void EndDragging()
     {
         _isDragging = false;
 
-        if (_dropLocation != Location.None && _canDrop)
+        if (_isGameManager)
         {
-            Debug.Log($"Playing : {_cardBehavior.Card}. Drop Location: {_dropLocation}.");
-            _gameManager.Play(_cardBehavior.Card.Number, _dropLocation);
+            if (_dropLocation != Location.None && _canDrop)
+            {
+                Debug.Log($"Playing : {_cardBehavior.Card}. Drop Location: {_dropLocation}.");
+                _gameManager.Play(_cardBehavior.Card.Number, _dropLocation);
+            }
+            else
+            {
+                gameObject.transform.position = _initialDraggingPosition;
+            }
         }
-        else
-        {
-            gameObject.transform.position = _initialDraggingPosition;
-        }
+        
     }
 }

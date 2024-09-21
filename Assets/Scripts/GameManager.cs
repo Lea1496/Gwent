@@ -4,20 +4,19 @@ using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using GwentEngine.Abilities;
 using Phases;
 using TMPro;
-using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using AsyncOperation = UnityEngine.AsyncOperation;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IManager
 {
-    public GamePhase CurrentGamePhase;
     private List<GamePhase> _gamePhases = new List<GamePhase>();
     private Dictionary<int, CardMetadata> _cardMetadata;
     private GameState _gameState;
@@ -29,10 +28,11 @@ public class GameManager : MonoBehaviour
     private GameObject[] _cardsShown;
 
 
-    public bool onClickCalled = false;
-    public bool onFinishClicked = false;
-
-    public bool isEmhyr1Active = false;
+    [HideInInspector] public bool onClickCalled = false;
+    [HideInInspector] public bool onFinishClicked = false;
+    [HideInInspector] public bool isEmhyr1Active = false;
+    
+    public GamePhase CurrentGamePhase { get; set; }
     public PlayerKind CurrentPlayer
     {
         get => _gameState.CurrentPlayer;
@@ -73,7 +73,14 @@ public class GameManager : MonoBehaviour
     }
 
     private ConcurrentDictionary<int, (GameObject gameObject, Card card, PlayerKind player, Location location, int
-        position)> _cardGameObjects;
+        position)> _cardGameObjects
+    {
+        get => CardsManager.CardGameObjects;
+        set
+        {
+            CardsManager.CardGameObjects = value;
+        }
+    }
 
     private Zones _zones;
 
@@ -250,23 +257,9 @@ public class GameManager : MonoBehaviour
             UpdateAll();
         }
     }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        keepCardsButton = GameObject.Find("ChangeCards").GetComponent<Button>();
-        keepCardsButton = GameObject.Find("FinishButton").GetComponent<Button>();
-        keepCardsButton = GameObject.Find("FinishButtonEnemy").GetComponent<Button>();
-        ennemyPoints = GameObject.Find("EnemyPoints").GetComponent<TextMeshProUGUI>();
-        playerPoints = GameObject.Find("PlayerPoints").GetComponent<TextMeshProUGUI>();
-        youStart = GameObject.Find("YouStart").GetComponent<TextMeshProUGUI>();
-        opponentStarts = GameObject.Find("OpponentStart").GetComponent<TextMeshProUGUI>();
-        showOpponentsCardsZone = GameObject.Find("ShowOpponentsCardsZone");
-        showOpponentsCardsZoneEnemy = GameObject.Find("ShowOpponentsCardsZoneEnemy");
-    }
+    
     private void Awake()
     {
-      //  DontDestroyOnLoad(gameObject);
-        
         var deckFullPath = Path.Combine(Application.dataPath, "Cards", "Deck.json");
 
         _cardGameObjects = new();
@@ -274,9 +267,9 @@ public class GameManager : MonoBehaviour
         _zones = new();
         _isCardPlayed = false;
 
-        _cardMetadata = CardMetadata.FromFile(deckFullPath);
-
-        _gameState.NewGame(_cardMetadata, Settings.InitialCardCount);
+        CreateGameState(CardsManager.CardMetadata);
+       // _cardMetadata = CardMetadata.FromFile(deckFullPath);
+       // _gameState.NewGame(_cardMetadata, Settings.InitialCardCount);
 
         _cardsShown = new GameObject[3];
 
@@ -297,12 +290,6 @@ public class GameManager : MonoBehaviour
 
         CurrentGamePhase = null;
         _gamePhases = new List<GamePhase>();
-        _gamePhases.Add(new ChooseFactionPhase());
-        _gamePhases.Add(new ChooseDeckPhase(_gameState, null, () =>
-        {
-            SceneManager.LoadScene(1);
-            _cardGameObjects.Clear();
-        }));
         _gamePhases.Add(new ChangeInitialCardsPhase(_gameState, () =>
         {
             StartCoroutine();
@@ -313,6 +300,12 @@ public class GameManager : MonoBehaviour
         
         UpdateAll();
         //StartCoroutine();
+    }
+
+    public void CreateGameState(Dictionary<int, CardMetadata> cardMetadata)
+    {
+        _cardMetadata = cardMetadata;
+        _gameState.NewGame(_cardMetadata, Settings.InitialCardCount);
     }
 
     private void ActivateGamePhase()
@@ -429,7 +422,7 @@ public class GameManager : MonoBehaviour
 
     private void ManageCards(Card[] cards, GameObject zone, PlayerKind player, Location location, ref List<int> unknownCardNumbers)
     {
-        var cardGameObjects = GenerateCardGameObjects(cards, player, location);
+        var cardGameObjects = CardsManager.GenerateCardGameObjects(cards, player, location, this);
 
         foreach (var cardGameObject in cardGameObjects)
         {
@@ -504,36 +497,9 @@ public class GameManager : MonoBehaviour
         var cards = _gameState.AllCards;
         return cards.First(rCard => rCard.Number == cardNumber);
     }
-    public GameObject CreateNewCard(Card card)
-    {
-        var gameObject = Instantiate(this.card);
-        var cardImage = GameObject.Find(card.Metadata.Name);
-        var image = gameObject.GetComponent<Image>();
-        if (card.IsHero || card.Number > 180)
-        {
-            gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
-        }
-        image.sprite = cardImage.GetComponent<SpriteRenderer>().sprite;
-        return gameObject;
-    }
     
-    public (GameObject gameObject, Card card, PlayerKind player, Location location, int index)[] GenerateCardGameObjects(
-        IEnumerable<Card> cards, PlayerKind player, Location location)
-    {
-        var cardGameObjects = cards.Select((card, index) =>
-            _cardGameObjects.AddOrUpdate(card.Number,
-                key => (CreateNewCard(card), card, player, location, index),
-                (key, existing) => (existing.gameObject, existing.card, player, location, index)
-            )
-        ).ToArray();
-
-        return cardGameObjects;
-    }
-
-    public void UdateCardGameObjects(int card)
-    {
-        _cardGameObjects.TryRemove(card, out var removedValue);
-    }
+    
+    
 
     public Location GetLocation(PlayerKind player, GameObject zone)
     {
@@ -601,7 +567,7 @@ public class GameManager : MonoBehaviour
     public void EndCurrentPhase()
     {
         CurrentGamePhase.EndCurrentPhase();
-        OnEndPhase(CurrentGamePhase);
+     //   OnEndPhase(CurrentGamePhase);
     }
 
     public bool IsDraggable(Card card)
@@ -762,5 +728,10 @@ public class GameManager : MonoBehaviour
     public void ReviveCards()
     {
         _gameState.ReviveCards();
+    }
+
+    public GameObject InstantiateCard()
+    {
+        return Instantiate(card);
     }
 }

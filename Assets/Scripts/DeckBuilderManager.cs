@@ -3,14 +3,16 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using GwentEngine.Phases;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace GwentEngine
 {
-    public class DeckBuilderManager : MonoBehaviour
+    public class DeckBuilderManager : MonoBehaviour, IManager
     {
         [SerializeField] private TextMeshProUGUI factionName;
         [SerializeField] private TextMeshProUGUI cardsDeck;
@@ -19,6 +21,7 @@ namespace GwentEngine
         [SerializeField] private TextMeshProUGUI cardsStrength;
         [SerializeField] private TextMeshProUGUI heroCards;
         [SerializeField] public GameObject CardHighlight;
+        [SerializeField] public GameObject Card;
 
         [SerializeField] private GameObject zone1;
         [SerializeField] private GameObject zone2;
@@ -54,8 +57,6 @@ namespace GwentEngine
 
         private bool m_bDeckModified;
 
-        private GameManager _gameManager;
-
         private GameObject[] m_vZones;
         private GameObject[] m_vZonesDeck;
         
@@ -63,6 +64,8 @@ namespace GwentEngine
 
         private const int MINIMUM_CARDS = 22;
         private const int MAXIMUM_SPECIAL_CARDS = 10;
+
+        public GamePhase CurrentGamePhase { get; set; }
         
         public BoardState CurrentDeck
         {
@@ -90,10 +93,16 @@ namespace GwentEngine
             m_bDeckModified = false;
 
             m_deckState = new();
-            
-            _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
             _highlights = new();
+
+            CurrentGamePhase = new ChooseDeckPhase(null, null, () =>
+            {
+                CardsManager.CardGameObjects.Clear();
+                SceneManager.LoadScene(1);
+            });
+            
+            CurrentGamePhase.Activate();
 
             BuildCards();
            // for(int i = 0; i < 4; i++)
@@ -101,7 +110,7 @@ namespace GwentEngine
         }
        public void GenerateCards(Card[] allCards, GameObject[] zones)
        {
-           var cardGameObjects = _gameManager.GenerateCardGameObjects(allCards, PlayerKind.Player /* À REVOIR */, Location.None);
+           var cardGameObjects = CardsManager.GenerateCardGameObjects(allCards, PlayerKind.Player /* À REVOIR */, Location.None, this);
             int index = 0;
             int cardNum = 0;
             bool isStart = true;
@@ -184,7 +193,6 @@ namespace GwentEngine
             
             m_bDeckModified = true;
             
-            // ajouter de delete les cartes présentent dans les zones 
             BuildCards();
         }
         private void Update()
@@ -206,8 +214,9 @@ namespace GwentEngine
             if (CanStartGame())
             {
                 m_deckState.SaveDeck(_currentFaction);
-
-                _gameManager.CurrentGamePhase.EndCurrentPhase();
+                
+                CurrentGamePhase.EndCurrentPhase();
+              //  _gameManager.CurrentGamePhase.EndCurrentPhase();
             }
             else
             {
@@ -296,7 +305,7 @@ namespace GwentEngine
                 foreach (Transform children in row.transform)
                 {
                     var cb = children.gameObject.GetComponent<CardBehavior>();
-                    _gameManager.UdateCardGameObjects(cb.Card.Number);
+                    CardsManager.UdateCardGameObjects(cb.Card.Number);
 
                     Destroy(children.gameObject);
                 }
@@ -307,11 +316,21 @@ namespace GwentEngine
                 foreach (Transform children in row.transform)
                 {
                     var cb = children.gameObject.GetComponent<CardBehavior>();
-                    _gameManager.UdateCardGameObjects(cb.Card.Number);
+                    CardsManager.UdateCardGameObjects(cb.Card.Number);
                     
                     Destroy(children.gameObject);
                 }
             }
+        }
+
+        public void OnClick(int number, GameObject card)
+        {
+            CurrentGamePhase.OnClick(number, card);
+        }
+
+        public GameObject InstantiateCard()
+        {
+            return Instantiate(Card);
         }
     }
     

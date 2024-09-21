@@ -31,7 +31,7 @@
     "Player": 0,
     "Sequence": 22,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "2": {
     "Metadata": {
@@ -796,7 +796,7 @@
     "Player": 0,
     "Sequence": 67,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "48": {
     "Metadata": {

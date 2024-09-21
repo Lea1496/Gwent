@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace GwentEngine.Phases
@@ -9,15 +10,23 @@ namespace GwentEngine.Phases
         private readonly Action _onActivatePhase;
         private readonly Action _onEndPhase;
         protected GameManager _gameManager;
+        protected IManager _manager;
 
         public virtual bool Done { get; private set; }
+        private GameObject FindManager<T>() where T : class
+        {
+            var allManagers = GameObject.FindObjectsOfType<MonoBehaviour>(true);
+            return allManagers.FirstOrDefault(m => m.GetComponent(typeof(T)))?.gameObject;
+        }
+
 
         public GamePhase(Action onActivatePhase = null, Action onEndPhase = null)
         {
             _onActivatePhase = onActivatePhase;
             _onEndPhase = onEndPhase;
             
-            _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            _manager = FindManager<IManager>().GetComponent<IManager>();
+            _gameManager = _manager as GameManager;
         }
         public virtual void OnClick(int number)
         {

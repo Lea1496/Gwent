@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using GwentEngine;
 using TMPro;
@@ -9,7 +10,7 @@ public class CardBehavior : MonoBehaviour
     [SerializeField] public TextMeshProUGUI powerText;
 
     private Card _card;
-    private GameManager _gameManager;
+    private IManager _manager;
     
     public Card Card
     {
@@ -22,16 +23,24 @@ public class CardBehavior : MonoBehaviour
         _card = card;
     }
 
+    private GameObject FindManager<T>() where T : class
+    {
+        var allManagers = GameObject.FindObjectsOfType<MonoBehaviour>(true);
+        return allManagers.FirstOrDefault(m => m.GetComponent(typeof(T)))?.gameObject;
+    }
+    
+        
     private void Awake()
     {
-        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _manager = FindManager<IManager>().GetComponent<IManager>();
     }
 
     public void OnClick()
     {
-        if (_gameManager.isEmhyr1Active)
+        GameManager gm = _manager as GameManager;
+        if (gm != null && gm.isEmhyr1Active)
             return;
-        _gameManager.OnClick(_card.Number, gameObject);
+        _manager.OnClick(_card.Number, gameObject);
     }
 
     public void Update()
@@ -40,9 +49,10 @@ public class CardBehavior : MonoBehaviour
         {
             return;
         }
+        GameManager gm = _manager as GameManager;
         
-        if (_card.Location != Location.Hand && !_gameManager.IsChooseDeckPhase)
-            _card = _gameManager.GetCard(_card.Number, _card.EffectivePlayer, _card.Location); // pt qu'il faut donner le contraire si c'est un spy ?
+        if (gm != null && _card.Location != Location.Hand)
+            _card = gm.GetCard(_card.Number, _card.EffectivePlayer, _card.Location); // pt qu'il faut donner le contraire si c'est un spy ?
 
         var powerString = _card.EffectivePower == -1 || _card.IsHero ? "" : _card.EffectivePower.ToString();
 
