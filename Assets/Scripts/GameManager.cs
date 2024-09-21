@@ -509,9 +509,9 @@ public class GameManager : MonoBehaviour
         var gameObject = Instantiate(this.card);
         var cardImage = GameObject.Find(card.Metadata.Name);
         var image = gameObject.GetComponent<Image>();
-        if (card.IsHero)
+        if (card.IsHero || card.Number > 180)
         {
-            gameObject.GetComponentInChildren<RawImage>().enabled = false;
+            gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
         }
         image.sprite = cardImage.GetComponent<SpriteRenderer>().sprite;
         return gameObject;
@@ -740,9 +740,7 @@ public class GameManager : MonoBehaviour
 
     }
     public void StartWaitForFinishCoroutine()
-    {
-        // Wait until functionCalled becomes true
-        
+    {       
         StartCoroutine(new WaitUntil(() => onFinishClicked));
         onFinishClicked = false;
     }
@@ -758,5 +756,11 @@ public class GameManager : MonoBehaviour
 
         onFinishClicked = true;
         isEmhyr1Active = false;
+    }
+    
+
+    public void ReviveCards()
+    {
+        _gameState.ReviveCards();
     }
 }

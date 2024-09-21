@@ -36,8 +36,8 @@ namespace GwentEngine.Abilities
                 case Ability.TightBond: return new TightBondAbility();
                 case Ability.Medic: return new MedicAbility();
                 case Ability.Emhyr1: return new Emhyr1Ability();
-                case Ability.Emhyr2: return new Emhyr1Ability();
-                case Ability.Emhyr3: return new Emhyr1Ability();
+                case Ability.Emhyr2: return new Emhyr2Ability();
+                case Ability.Emhyr3: return new Emhyr3Ability();
                 case Ability.Emhyr4: return new Emhyr1Ability();
                 case Ability.Emhyr5: return new Emhyr1Ability();
                 

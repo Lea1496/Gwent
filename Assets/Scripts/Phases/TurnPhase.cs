@@ -32,7 +32,7 @@ namespace Phases
                 _isDecoyPhase = true;
                 EndCurrentPhase();
             }
-
+            
             if (number > 180)
             {
                 _gameManager.Play(number, Location.Leader);
@@ -42,11 +42,12 @@ namespace Phases
         public override void EndCurrentPhase()
         {
             _gameManager.OnEndTurnPhase(!_isDecoyPhase, this);
+            base.EndCurrentPhase();
         }
         
         public override bool IsDraggable(Card card)
         {
-            return _gameState.CurrentPlayer == PlayerKind.Player && card.EffectivePlayer == PlayerKind.Player && card.Location == Location.Hand && card.Ability != Ability.Decoy;
+            return _gameState.CurrentPlayer == PlayerKind.Player && card.EffectivePlayer == PlayerKind.Player && card.Location == Location.Hand && card.Ability != Ability.Decoy && !_gameManager.isEmhyr1Active;
         }
     }
 }

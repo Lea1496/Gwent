@@ -330,6 +330,12 @@ namespace GwentEngine
             //UseCard(17, currentCard.Player);
             RemoveCard(cardNumber, true);
         }
+        
+        public void ReviveCards()
+        {
+            ReviveRandomCard(PlayerKind.Opponent);
+            ReviveRandomCard(PlayerKind.Player);
+        }
 
         public void UseCard(int cardNumber, PlayerKind player, int? sequence = null)
         {
@@ -370,7 +376,7 @@ namespace GwentEngine
             return true;
         }
 
-        public bool ReviveCard(int cardFromHand, int cardDiscard, PlayerKind player, int? sequence = null)
+       /* public bool ReviveCard(int cardFromHand, int cardDiscard, PlayerKind player, int? sequence = null)
         {
             if (_currentState.CardsInPlay[cardDiscard].Location != Location.Discard ||
                 _currentState.CardsInPlay[cardDiscard].Player != player)
@@ -381,7 +387,24 @@ namespace GwentEngine
             _availableCards.Remove(cardFromHand);
             RemoveCard(cardFromHand, false);
             return true;
-        }
+        }*/
+
+       private void ReviveRandomCard(PlayerKind player)
+       {
+           var deadCards = GetCards(player, Location.Discard).Select(card => card.Number).ToArray();
+
+           if (deadCards.Length == 0)
+               return;
+           
+           int index = _random.Next(0, deadCards.Length);
+           var cardToRevive = deadCards[index];
+
+           Location loc = _currentState.CardsInPlay[cardToRevive].Metadata.PossibleLocations;
+           
+           _currentState.CardsInPlay[cardToRevive].Location = loc;
+
+           Play(cardToRevive, loc);
+       }
 
         public Card[] ShowOponnentCards()
         {
@@ -389,6 +412,9 @@ namespace GwentEngine
 
             var opponentsCards = AllCards.Where(card => card.EffectivePlayer == opPlayer && card.Number <= 180).ToArray();
 
+            if (opponentsCards.Length <= 3)
+                return opponentsCards;
+            
             Card[] cardsToShow = new Card[3];
             
             int index = 0;
@@ -436,7 +462,7 @@ namespace GwentEngine
                 return false;
             }
             
-            if (cardNumber > 280)
+            if (cardNumber > 180)
             {
                 bool isCurrentLeaderPlayed = CurrentPlayer == PlayerKind.Opponent ? _isLeaderPlayedEnemy : _isLeaderPlayed;
                 if (isCurrentLeaderPlayed)
@@ -478,25 +504,26 @@ namespace GwentEngine
                 throw new Exception($"Cannot play a card not drawn yet");
             }
 
-            if (cardMetadata.Ability == Ability.Fog)
+            if (_currentState.CardsInPlay[cardMetadata.Number].Location != Location.Hand)
             {
-                RemoveRowActionBothSides(Location.Archery, ActionKind.Weather);
-            }
-            else if (cardMetadata.Ability == Ability.Frost)
-            {
-                RemoveRowActionBothSides(Location.Sword, ActionKind.Weather);
-            }
-            else if (cardMetadata.Ability == Ability.Rain)
-            {
-                RemoveRowActionBothSides(Location.Catapult, ActionKind.Weather);
-            }
-            else if (cardMetadata.Ability == Ability.CommandersHorn)
-            {
-                RemoveRowAction(_currentState.CardsInPlay[cardMetadata.Number].Location, CurrentPlayer, ActionKind.CommandersHorn);
-            }
-            else if (cardMetadata.Ability == Ability.MoralBoost)
-            {
-                RemoveRowAction(_currentState.CardsInPlay[cardMetadata.Number].Location, CurrentPlayer, ActionKind.MoralBoost);
+                switch (cardMetadata.Ability)
+                {
+                    case Ability.Fog:
+                        RemoveRowActionBothSides(Location.Archery, ActionKind.Weather);
+                        break;
+                    case Ability.Frost:
+                        RemoveRowActionBothSides(Location.Sword, ActionKind.Weather);
+                        break;
+                    case Ability.Rain:
+                        RemoveRowActionBothSides(Location.Catapult, ActionKind.Weather);
+                        break;
+                    case Ability.CommandersHorn:
+                        RemoveRowAction(_currentState.CardsInPlay[cardMetadata.Number].Location, CurrentPlayer, ActionKind.CommandersHorn);
+                        break;
+                    case Ability.MoralBoost:
+                        RemoveRowAction(_currentState.CardsInPlay[cardMetadata.Number].Location, CurrentPlayer, ActionKind.MoralBoost);
+                        break;
+                }
             }
             
             if (isRecyclable)
