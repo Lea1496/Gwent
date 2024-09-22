@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour, IManager
     [SerializeField] private Button keepCardsButton;
     [SerializeField] private Button finishButton;
     [SerializeField] private Button finishButtonEnemy;
-    [SerializeField] private TextMeshProUGUI ennemyPoints;
+    [SerializeField] private TextMeshProUGUI enemyPoints;
     [SerializeField] private TextMeshProUGUI playerPoints;
     [SerializeField] private GameObject showOpponentsCardsZone;
     [SerializeField] private GameObject showOpponentsCardsZoneEnemy;
@@ -381,40 +381,41 @@ public class GameManager : MonoBehaviour, IManager
         {
             ActivateGamePhase();
         }
+
+        enemyPoints.text = "0";
+        playerPoints.text = "0";
         
-        if (!IsChooseDeckPhase)
+        var initialRowMultipliers = _gameState.RowMultipliers;
+            
+        var cardsByPlayerAndLocation = _gameState.GetAllCards();
+
+        var unknownCardNumbers = _cardGameObjects.Keys.ToList();
+
+        var finalRowMultipliers = _gameState.RowMultipliers;
+        
+        UpdateEffectivePowers(initialRowMultipliers, finalRowMultipliers);
+
+        //Est-ce qu'on a vraiment besoin de generate à chaque tick?
+    
+        foreach (var ((player, location), cards) in cardsByPlayerAndLocation)
         {
-            var initialRowMultipliers = _gameState.RowMultipliers;
-                
-            var cardsByPlayerAndLocation = _gameState.GetAllCards();
-
-            var unknownCardNumbers = _cardGameObjects.Keys.ToList();
-
-            var finalRowMultipliers = _gameState.RowMultipliers;
-            
-            UpdateEffectivePowers(initialRowMultipliers, finalRowMultipliers);
-
-            //Est-ce qu'on a vraiment besoin de generate à chaque tick?
-        
-            foreach (var ((player, location), cards) in cardsByPlayerAndLocation)
+            var zone = _zones.GetZone(player, location);
+            if (!zone)
             {
-                var zone = _zones.GetZone(player, location);
-                if (!zone)
-                {
-                    continue;
-                }
-
-                ManageCards(cards, zone, player, location, ref unknownCardNumbers);
-            
+                continue;
             }
-            foreach (var cardNumber in unknownCardNumbers)
+
+            ManageCards(cards, zone, player, location, ref unknownCardNumbers);
+        
+        }
+        foreach (var cardNumber in unknownCardNumbers)
+        {
+            if (_cardGameObjects.TryRemove(cardNumber, out var v))
             {
-                if (_cardGameObjects.TryRemove(cardNumber, out var v))
-                {
-                    Destroy(v.gameObject);
-                }
+                Destroy(v.gameObject);
             }
         }
+        
         
 
         //        Debug.Log($"Update phase: {sw.ElapsedMilliseconds} ms");
@@ -450,15 +451,15 @@ public class GameManager : MonoBehaviour, IManager
                             rCard.EffectivePower != -1)
             .Sum(rCard => rCard.EffectivePower);
         
-        int totalPlayerScore = 0;
-        int totalOpponentScore = 0;
+        int totalPlayerScore = int.Parse(playerPoints.text);
+        int totalOpponentScore = int.Parse(enemyPoints.text) ;
 
         if(player == PlayerKind.Opponent)
             totalOpponentScore += rowScore;
         else 
             totalPlayerScore += rowScore;
 
-        ennemyPoints.text = totalOpponentScore.ToString();
+        enemyPoints.text = totalOpponentScore.ToString();
         playerPoints.text = totalPlayerScore.ToString();
     }
     private void UpdateEffectivePowers(Dictionary<Tuple<Location, PlayerKind>, ActionKind> initialRowMult,
@@ -601,7 +602,7 @@ public class GameManager : MonoBehaviour, IManager
     {
         if (_playerPassed && _enemyPassed)
         {
-            EndRound(int.Parse(ennemyPoints.text) > int.Parse(playerPoints.text) ? PlayerKind.Player : PlayerKind.Opponent);
+            EndRound(int.Parse(enemyPoints.text) > int.Parse(playerPoints.text) ? PlayerKind.Player : PlayerKind.Opponent);
             return;
         }
         
@@ -735,5 +736,10 @@ public class GameManager : MonoBehaviour, IManager
     public GameObject InstantiateCard()
     {
         return Instantiate(card);
+    }
+    
+    public bool ExistsCardsInDiscard()
+    {
+        return _gameState.GetCards(CurrentPlayer, Location.Discard).Length != 0;
     }
 }

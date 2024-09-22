@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using GwentEngine;
+using GwentEngine.Abilities;
 using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -40,20 +41,13 @@ public static class CardsManager
     {
         var cardImage = GameObject.Find(card.Metadata.Name);
         Image image = gameObject.GetComponent<Image>();
-        if (card.IsHero || card.Number > 180)
+        if (card.IsHero || card.Power == -1)
         {
-            gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
+            gameObject.GetComponentInChildren<SpriteRenderer>().gameObject.GetComponent<Image>().enabled = false;
         }
-
-        try
-        {
-            image.sprite = cardImage.GetComponent<SpriteRenderer>().sprite;
-        }
-        catch (Exception e)
-        {
-            Debug.Log(card.Metadata.Name);
-            throw;
-        }
+        
+        image.sprite = cardImage.GetComponent<SpriteRenderer>().sprite;
+        
         
         return gameObject;
     }

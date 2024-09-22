@@ -11,3 +11,6 @@ Faire le fait que le joueur puisse choisir son paquet
 Faire le système de tour et de round
 
 Choix de qui commence?
+
+todo : si le deck de quelqu'un est rendu vide, brasser la défausse et refaire un paquet avec
+todo : mettre un effet sur la/les rangées affectées par weather

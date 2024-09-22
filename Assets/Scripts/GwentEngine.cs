@@ -11,6 +11,7 @@ using GwentEngine.Phases;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UIElements;
 
 namespace GwentEngine
 {
@@ -289,6 +290,10 @@ namespace GwentEngine
                 Draw(PlayerKind.Player);
                 Draw(PlayerKind.Opponent);
             });
+            UseCard(_availableCards.First(number => number > 180), PlayerKind.Player);
+            
+            // Todo : faire UseCard pour le leader de l'enemie
+            
 
             FirstPlayer = _random.Next(0, 1) == 0 ? PlayerKind.Player : PlayerKind.Opponent;
             CurrentPlayer = FirstPlayer;
@@ -313,7 +318,12 @@ namespace GwentEngine
         {
             var index = _random.Next(0, _availableCards.Count - 1);
             var cardNumber = _availableCards[index];
-
+            if (cardNumber > 180)
+            {
+                Draw(player, sequence);
+                return;
+            }
+            
             UseCard(cardNumber, player, sequence);
         }
 

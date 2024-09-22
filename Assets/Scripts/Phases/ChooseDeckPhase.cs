@@ -32,7 +32,8 @@ namespace GwentEngine.Phases
             
             foreach (var keyValuePair in _deckBuilderManager.CurrentDeck.CardsInPlay)
             {
-                chosenDeck[keyValuePair.Key] = keyValuePair.Value.Metadata;
+                if(keyValuePair.Value.IsSelected)
+                    chosenDeck[keyValuePair.Key] = keyValuePair.Value.Metadata;
             }
 
             CardsManager.CardMetadata = chosenDeck;

@@ -161,7 +161,7 @@ MonoBehaviour:
   keepCardsButton: {fileID: 1797755097}
   finishButton: {fileID: 357297961}
   finishButtonEnemy: {fileID: 211937139}
-  ennemyPoints: {fileID: 1536760293}
+  enemyPoints: {fileID: 1536760293}
   playerPoints: {fileID: 1487302534}
   showOpponentsCardsZone: {fileID: 1366377831}
   showOpponentsCardsZoneEnemy: {fileID: 161052175}

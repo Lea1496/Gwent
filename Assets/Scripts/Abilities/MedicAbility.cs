@@ -17,6 +17,9 @@ namespace GwentEngine.Abilities
         
         public override GamePhase CreateInitialPhase(CardInPlay cardInPlay, GameManager gameManager)
         {
+            if (!gameManager.ExistsCardsInDiscard())
+                return null;
+            
             return new UseMedicPhase(null, null);
         }
 
