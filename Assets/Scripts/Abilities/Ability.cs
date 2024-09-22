@@ -28,6 +28,18 @@ namespace GwentEngine.Abilities
         Emhyr2 = 19,
         Emhyr3 = 20,
         Emhyr4 = 21,
-        Emhyr5 = 22
+        Emhyr5 = 22,
+        Foltest1 = 23,
+        Foltest2 = 24,
+        Foltest3 = 25,
+        Foltest4 = 26,
+        Francesca1 = 27,
+        Francesca2 = 28,
+        Francesca3 = 29,
+        Francesca4 = 30,
+        Eredin1 = 31,
+        Eredin2 = 32,
+        Eredin3 = 33,
+        Eredin4 = 34
     }
 }

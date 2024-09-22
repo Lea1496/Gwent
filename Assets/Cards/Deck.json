@@ -1660,5 +1660,113 @@
     "IsHero": false,
     "Number": 185,
     "Faction": 1
+  },
+  {
+    "Name": "foltest_lord_commander_of_the_north_card",
+    "Ability": 23,
+    "DefaultPower": -1,
+    "PossibleLocations": 1024,
+    "IsHero": false,
+    "Number": 186,
+    "Faction": 0
+  },
+  {
+    "Name": "foltest_king_of_temeria_card",
+    "Ability": 24,
+    "DefaultPower": -1,
+    "PossibleLocations": 1024,
+    "IsHero": false,
+    "Number": 187,
+    "Faction": 0
+  },
+  {
+    "Name": "foltest_the_siegemaster_card",
+    "Ability": 25,
+    "DefaultPower": -1,
+    "PossibleLocations": 1024,
+    "IsHero": false,
+    "Number": 188,
+    "Faction": 0
+  },
+  {
+    "Name": "foltest_the_steel-forged_card",
+    "Ability": 26,
+    "DefaultPower": -1,
+    "PossibleLocations": 1024,
+    "IsHero": false,
+    "Number": 189,
+    "Faction": 0
+  },
+  {
+    "Name": "francesca_findabair_card",
+    "Ability": 27,
+    "DefaultPower": -1,
+    "PossibleLocations": 1024,
+    "IsHero": false,
+    "Number": 190,
+    "Faction": 2
+  },
+  {
+    "Name": "francesca_findabair_daisy_of_the_valley_card",
+    "Ability": 28,
+    "DefaultPower": -1,
+    "PossibleLocations": 1024,
+    "IsHero": false,
+    "Number": 191,
+    "Faction": 2
+  },
+  {
+    "Name": "francesca_findabair_pureblood_elf_card",
+    "Ability": 29,
+    "DefaultPower": -1,
+    "PossibleLocations": 1024,
+    "IsHero": false,
+    "Number": 192,
+    "Faction": 2
+  },
+  {
+    "Name": "francesca_findabair_queen_of_dol_blathanna_card",
+    "Ability": 30,
+    "DefaultPower": -1,
+    "PossibleLocations": 1024,
+    "IsHero": false,
+    "Number": 193,
+    "Faction": 2
+  },
+  {
+    "Name": "eredin_bringer_of_death_card",
+    "Ability": 31,
+    "DefaultPower": -1,
+    "PossibleLocations": 1024,
+    "IsHero": false,
+    "Number": 194,
+    "Faction": 3
+  },
+  {
+    "Name": "eredin_destroyer_of_worlds_card",
+    "Ability": 32,
+    "DefaultPower": -1,
+    "PossibleLocations": 1024,
+    "IsHero": false,
+    "Number": 195,
+    "Faction": 3
+  },
+  {
+    "Name": "eredin_king_of_wild_hunt_card",
+    "Ability": 33,
+    "DefaultPower": -1,
+    "PossibleLocations": 1024,
+    "IsHero": false,
+    "Number": 196,
+    "Faction": 3
+  },
+  {
+    "Name": "eredin_commander_of_the_red_riders_card",
+    "Ability": 34,
+    "DefaultPower": -1,
+    "PossibleLocations": 1024,
+    "IsHero": false,
+    "Number": 197,
+    "Faction": 3
   }
 ]

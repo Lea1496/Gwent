@@ -3,7 +3,7 @@ using GwentEngine;
 using GwentEngine.Abilities;
 using GwentEngine.Phases;
 
-namespace Abilities
+namespace Abilities.LeaderAbilities
 {
     public class Emhyr1Ability : CardAbility
     {

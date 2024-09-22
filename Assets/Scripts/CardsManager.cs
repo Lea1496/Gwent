@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,7 @@ public static class CardsManager
     {
         var cardGameObjects = cards.Select((card, index) =>
             CardGameObjects.AddOrUpdate(card.Number,
-                key => (CreateNewCard(card, manager), card, player, location, index),
+                key => (CreateNewCard(card, manager.InstantiateCard()), card, player, location, index),
                 (key, existing) => (existing.gameObject, existing.card, player, location, index)
             )
         ).ToArray();
@@ -35,16 +36,25 @@ public static class CardsManager
         return cardGameObjects;
     }
     
-    public static GameObject CreateNewCard(Card card, IManager manager)
+    public static GameObject CreateNewCard(Card card, GameObject gameObject)
     {
-        var gameObject = manager.InstantiateCard();
         var cardImage = GameObject.Find(card.Metadata.Name);
         Image image = gameObject.GetComponent<Image>();
         if (card.IsHero || card.Number > 180)
         {
             gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
         }
-        image.sprite = cardImage.GetComponent<SpriteRenderer>().sprite;
+
+        try
+        {
+            image.sprite = cardImage.GetComponent<SpriteRenderer>().sprite;
+        }
+        catch (Exception e)
+        {
+            Debug.Log(card.Metadata.Name);
+            throw;
+        }
+        
         return gameObject;
     }
 }

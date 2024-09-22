@@ -6,6 +6,7 @@ using System.Linq;
 using GwentEngine.Abilities;
 using Random = System.Random;
 using System.Collections.Concurrent;
+using Abilities;
 using GwentEngine.Phases;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -326,7 +327,6 @@ namespace GwentEngine
         {
             var currentCard = _currentState.CardsInPlay[cardNumber];
             Draw(currentCard.Player, currentCard.Sequence);
-            UseCard(181, currentCard.Player);
             //UseCard(17, currentCard.Player);
             RemoveCard(cardNumber, true);
         }
@@ -340,7 +340,8 @@ namespace GwentEngine
         public void UseCard(int cardNumber, PlayerKind player, int? sequence = null)
         {
             var cardMetadata = _metadata[cardNumber];
-            var cardInPlay = new CardInPlay(cardMetadata, Location.Hand, player, sequence);
+            Location loc = cardMetadata.Number > 180 ? Location.Leader : Location.Hand;
+            var cardInPlay = new CardInPlay(cardMetadata, loc, player, sequence);
             _currentState.CardsInPlay[cardNumber] = cardInPlay;
             _availableCards.Remove(cardNumber);
 

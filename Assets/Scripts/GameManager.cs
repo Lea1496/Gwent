@@ -644,6 +644,8 @@ public class GameManager : MonoBehaviour, IManager
         int nPlayer = winningPlayer == PlayerKind.Player ? 1 : 0;
 
         _points[nPlayer, _roundNumber - 1] = false;
+        
+        // Todo : Implémenter les pouvoirs de factions selon la faction choisie et la round
 
         if (!(_points[nPlayer, 0] && _points[nPlayer, 1]))
         {

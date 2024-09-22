@@ -12,7 +12,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 21,
+    "Sequence": 1,
     "Location": 0,
     "IsSelected": false
   },
@@ -29,7 +29,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 22,
+    "Sequence": 2,
     "Location": 0,
     "IsSelected": true
   },
@@ -46,9 +46,9 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 23,
+    "Sequence": 3,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "3": {
     "Metadata": {
@@ -63,7 +63,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 24,
+    "Sequence": 4,
     "Location": 0,
     "IsSelected": false
   },
@@ -80,9 +80,9 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 25,
+    "Sequence": 5,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "6": {
     "Metadata": {
@@ -97,7 +97,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 26,
+    "Sequence": 6,
     "Location": 0,
     "IsSelected": false
   },
@@ -114,9 +114,9 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 27,
+    "Sequence": 7,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "8": {
     "Metadata": {
@@ -131,7 +131,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 28,
+    "Sequence": 8,
     "Location": 0,
     "IsSelected": false
   },
@@ -148,7 +148,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 29,
+    "Sequence": 9,
     "Location": 0,
     "IsSelected": false
   },
@@ -165,9 +165,9 @@
       "InOpponentZone": true
     },
     "Player": 0,
-    "Sequence": 30,
+    "Sequence": 10,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "11": {
     "Metadata": {
@@ -182,7 +182,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 31,
+    "Sequence": 11,
     "Location": 0,
     "IsSelected": false
   },
@@ -199,7 +199,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 32,
+    "Sequence": 12,
     "Location": 0,
     "IsSelected": false
   },
@@ -216,7 +216,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 33,
+    "Sequence": 13,
     "Location": 0,
     "IsSelected": false
   },
@@ -233,7 +233,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 34,
+    "Sequence": 14,
     "Location": 0,
     "IsSelected": false
   },
@@ -250,9 +250,9 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 35,
+    "Sequence": 15,
     "Location": 0,
-    "IsSelected": true
+    "IsSelected": false
   },
   "16": {
     "Metadata": {
@@ -267,9 +267,9 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 36,
+    "Sequence": 16,
     "Location": 0,
-    "IsSelected": true
+    "IsSelected": false
   },
   "17": {
     "Metadata": {
@@ -284,9 +284,9 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 37,
+    "Sequence": 17,
     "Location": 0,
-    "IsSelected": true
+    "IsSelected": false
   },
   "18": {
     "Metadata": {
@@ -301,9 +301,9 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 38,
+    "Sequence": 18,
     "Location": 0,
-    "IsSelected": true
+    "IsSelected": false
   },
   "19": {
     "Metadata": {
@@ -318,7 +318,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 39,
+    "Sequence": 19,
     "Location": 0,
     "IsSelected": false
   },
@@ -335,7 +335,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 40,
+    "Sequence": 20,
     "Location": 0,
     "IsSelected": false
   },
@@ -352,7 +352,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 41,
+    "Sequence": 21,
     "Location": 0,
     "IsSelected": false
   },
@@ -369,7 +369,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 42,
+    "Sequence": 22,
     "Location": 0,
     "IsSelected": false
   },
@@ -386,7 +386,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 43,
+    "Sequence": 23,
     "Location": 0,
     "IsSelected": false
   },
@@ -403,7 +403,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 44,
+    "Sequence": 24,
     "Location": 0,
     "IsSelected": false
   },
@@ -420,7 +420,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 45,
+    "Sequence": 25,
     "Location": 0,
     "IsSelected": false
   },
@@ -437,7 +437,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 46,
+    "Sequence": 26,
     "Location": 0,
     "IsSelected": false
   },
@@ -454,7 +454,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 47,
+    "Sequence": 27,
     "Location": 0,
     "IsSelected": false
   },
@@ -471,9 +471,9 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 48,
+    "Sequence": 28,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "29": {
     "Metadata": {
@@ -488,7 +488,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 49,
+    "Sequence": 29,
     "Location": 0,
     "IsSelected": false
   },
@@ -505,7 +505,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 50,
+    "Sequence": 30,
     "Location": 0,
     "IsSelected": false
   },
@@ -522,7 +522,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 51,
+    "Sequence": 31,
     "Location": 0,
     "IsSelected": false
   },
@@ -539,9 +539,9 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 52,
+    "Sequence": 32,
     "Location": 0,
-    "IsSelected": true
+    "IsSelected": false
   },
   "33": {
     "Metadata": {
@@ -556,7 +556,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 53,
+    "Sequence": 33,
     "Location": 0,
     "IsSelected": true
   },
@@ -573,9 +573,9 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 54,
+    "Sequence": 34,
     "Location": 0,
-    "IsSelected": true
+    "IsSelected": false
   },
   "35": {
     "Metadata": {
@@ -590,9 +590,9 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 55,
+    "Sequence": 35,
     "Location": 0,
-    "IsSelected": true
+    "IsSelected": false
   },
   "36": {
     "Metadata": {
@@ -607,7 +607,7 @@
       "InOpponentZone": true
     },
     "Player": 0,
-    "Sequence": 56,
+    "Sequence": 36,
     "Location": 0,
     "IsSelected": true
   },
@@ -624,9 +624,9 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 57,
+    "Sequence": 37,
     "Location": 0,
-    "IsSelected": true
+    "IsSelected": false
   },
   "38": {
     "Metadata": {
@@ -641,9 +641,9 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 58,
+    "Sequence": 38,
     "Location": 0,
-    "IsSelected": true
+    "IsSelected": false
   },
   "39": {
     "Metadata": {
@@ -658,9 +658,9 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 59,
+    "Sequence": 39,
     "Location": 0,
-    "IsSelected": true
+    "IsSelected": false
   },
   "40": {
     "Metadata": {
@@ -675,7 +675,7 @@
       "InOpponentZone": true
     },
     "Player": 0,
-    "Sequence": 60,
+    "Sequence": 40,
     "Location": 0,
     "IsSelected": true
   },
@@ -692,7 +692,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 61,
+    "Sequence": 41,
     "Location": 0,
     "IsSelected": true
   },
@@ -709,9 +709,9 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 62,
+    "Sequence": 42,
     "Location": 0,
-    "IsSelected": true
+    "IsSelected": false
   },
   "43": {
     "Metadata": {
@@ -726,9 +726,9 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 63,
+    "Sequence": 43,
     "Location": 0,
-    "IsSelected": true
+    "IsSelected": false
   },
   "44": {
     "Metadata": {
@@ -743,7 +743,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 64,
+    "Sequence": 44,
     "Location": 0,
     "IsSelected": false
   },
@@ -760,7 +760,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 65,
+    "Sequence": 45,
     "Location": 0,
     "IsSelected": false
   },
@@ -777,9 +777,9 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 66,
+    "Sequence": 46,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "47": {
     "Metadata": {
@@ -794,9 +794,9 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 67,
+    "Sequence": 47,
     "Location": 0,
-    "IsSelected": true
+    "IsSelected": false
   },
   "48": {
     "Metadata": {
@@ -811,7 +811,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 68,
+    "Sequence": 48,
     "Location": 0,
     "IsSelected": false
   },
@@ -828,7 +828,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 69,
+    "Sequence": 49,
     "Location": 0,
     "IsSelected": true
   },
@@ -845,9 +845,9 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 70,
+    "Sequence": 50,
     "Location": 0,
-    "IsSelected": true
+    "IsSelected": false
   },
   "51": {
     "Metadata": {
@@ -862,7 +862,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 71,
+    "Sequence": 51,
     "Location": 0,
     "IsSelected": true
   },
@@ -879,7 +879,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 72,
+    "Sequence": 52,
     "Location": 0,
     "IsSelected": true
   },
@@ -896,7 +896,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 73,
+    "Sequence": 53,
     "Location": 0,
     "IsSelected": true
   },
@@ -913,7 +913,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 74,
+    "Sequence": 54,
     "Location": 0,
     "IsSelected": true
   },
@@ -930,9 +930,9 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 75,
+    "Sequence": 55,
     "Location": 0,
-    "IsSelected": true
+    "IsSelected": false
   },
   "56": {
     "Metadata": {
@@ -947,9 +947,9 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 76,
+    "Sequence": 56,
     "Location": 0,
-    "IsSelected": true
+    "IsSelected": false
   },
   "57": {
     "Metadata": {
@@ -964,7 +964,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 77,
+    "Sequence": 57,
     "Location": 0,
     "IsSelected": true
   },
@@ -981,7 +981,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 78,
+    "Sequence": 58,
     "Location": 0,
     "IsSelected": true
   },
@@ -998,7 +998,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 79,
+    "Sequence": 59,
     "Location": 0,
     "IsSelected": false
   },
@@ -1015,7 +1015,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 80,
+    "Sequence": 60,
     "Location": 0,
     "IsSelected": false
   },
@@ -1032,9 +1032,9 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 81,
+    "Sequence": 61,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "62": {
     "Metadata": {
@@ -1049,7 +1049,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 82,
+    "Sequence": 62,
     "Location": 0,
     "IsSelected": true
   },
@@ -1066,7 +1066,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 83,
+    "Sequence": 63,
     "Location": 0,
     "IsSelected": false
   },
@@ -1083,9 +1083,9 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 84,
+    "Sequence": 64,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "65": {
     "Metadata": {
@@ -1100,9 +1100,9 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 85,
+    "Sequence": 65,
     "Location": 0,
-    "IsSelected": false
+    "IsSelected": true
   },
   "66": {
     "Metadata": {
@@ -1117,7 +1117,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 86,
+    "Sequence": 66,
     "Location": 0,
     "IsSelected": false
   },
@@ -1134,7 +1134,7 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 87,
+    "Sequence": 67,
     "Location": 0,
     "IsSelected": false
   },
@@ -1151,7 +1151,75 @@
       "InOpponentZone": false
     },
     "Player": 0,
-    "Sequence": 88,
+    "Sequence": 68,
+    "Location": 0,
+    "IsSelected": true
+  },
+  "186": {
+    "Metadata": {
+      "Name": "foltest_lord_commander_of_the_north_card",
+      "Ability": 23,
+      "CardAbility": {},
+      "DefaultPower": -1,
+      "PossibleLocations": 1024,
+      "IsHero": false,
+      "Number": 186,
+      "Faction": 0,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 69,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "187": {
+    "Metadata": {
+      "Name": "foltest_king_of_temeria_card",
+      "Ability": 24,
+      "CardAbility": {},
+      "DefaultPower": -1,
+      "PossibleLocations": 1024,
+      "IsHero": false,
+      "Number": 187,
+      "Faction": 0,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 70,
+    "Location": 0,
+    "IsSelected": false
+  },
+  "188": {
+    "Metadata": {
+      "Name": "foltest_the_siegemaster_card",
+      "Ability": 25,
+      "CardAbility": {},
+      "DefaultPower": -1,
+      "PossibleLocations": 1024,
+      "IsHero": false,
+      "Number": 188,
+      "Faction": 0,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 71,
+    "Location": 0,
+    "IsSelected": true
+  },
+  "189": {
+    "Metadata": {
+      "Name": "foltest_the_steel-forged_card",
+      "Ability": 26,
+      "CardAbility": {},
+      "DefaultPower": -1,
+      "PossibleLocations": 1024,
+      "IsHero": false,
+      "Number": 189,
+      "Faction": 0,
+      "InOpponentZone": false
+    },
+    "Player": 0,
+    "Sequence": 72,
     "Location": 0,
     "IsSelected": false
   }

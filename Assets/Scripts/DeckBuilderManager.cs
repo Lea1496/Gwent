@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using GwentEngine.Abilities;
 using GwentEngine.Phases;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+
 
 namespace GwentEngine
 {
@@ -20,8 +18,9 @@ namespace GwentEngine
         [SerializeField] private TextMeshProUGUI specialCards;
         [SerializeField] private TextMeshProUGUI cardsStrength;
         [SerializeField] private TextMeshProUGUI heroCards;
-        [SerializeField] public GameObject CardHighlight;
-        [SerializeField] public GameObject Card;
+        [SerializeField] public GameObject cardHighlight;
+        [SerializeField] public GameObject card;
+        [SerializeField] private GameObject leaderDescPanel;
 
         [SerializeField] private GameObject zone1;
         [SerializeField] private GameObject zone2;
@@ -49,6 +48,8 @@ namespace GwentEngine
         [SerializeField] private GameObject zoneDeck11;
         [SerializeField] private GameObject zoneDeck12;
 
+        [SerializeField] private GameObject leaderCard;
+
         private List<string> factionNames;
         private int _currentFaction;
         private int m_nFactions;
@@ -64,6 +65,31 @@ namespace GwentEngine
 
         private const int MINIMUM_CARDS = 22;
         private const int MAXIMUM_SPECIAL_CARDS = 10;
+
+        private List<Card> _leaders;
+        private int _selectedLeader;
+
+        private Dictionary<string, string> _leaderDesc = new Dictionary<string, string>
+        {
+            {"emhyr_var_emreis_emperor_of_nilfgaard_card", "Emperor of Nilfgaard: Look at 3 random cards from your opponent's hand."},
+            {"emhyr_var_emreis_his_imperial_majesty_card","His Imperial Majesty: Pick a Torrential Rain card from your deck and play it instantly."},
+            {"emhyr_var_emreis_invader_of_the_north_card","Invader of the North: Abilities that restore a unit to the battlefield restore a randomly-chosen unit. Affects both players."},
+            {"emhyr_var_emreis_the_relentless_card","The Relentless: Draw a card from your opponent's discard pile."},
+            {"emhyr_var_emreis_the_white_flame_card", "The White Flame: Cancel your opponent's Leader Ability."},
+            {"foltest_lord_commander_of_the_north_card","Lord Commander of the North: Clear any weather effects (resulting from Biting Frost, Torrential Rain or Impenetrable Fog cards) in play."},
+            {"foltest_king_of_temeria_card", "King of Temeria: Pick an Impenetrable Fog card from your deck and play it instantly."},
+            {"foltest_the_siegemaster_card", "The Siegemaster: Doubles the strength of all your Siege units (unless a Commander's Horn is also present on that row)."},
+            {"foltest_the_steel-forged_card", "The Steel Forged: Destroy your enemy's strongest Siege unit(s) if the combined strength of all his or her Siege units is 10 or more."},
+            {"francesca_findabair_card", "The Beautiful: Doubles the strength of all your Ranged Combat units (unless a Commander's Horn is also present on that row)."},
+            {"francesca_findabair_daisy_of_the_valley_card", "Daisy of the Valley: Draw an extra card at the beginning of the battle."},
+            {"francesca_findabair_pureblood_elf_card", "Pureblood Elf: Pick a Biting Frost card from your deck and play it instantly."},
+            {"francesca_findabair_queen_of_dol_blathanna_card", "Queen of Dol Blathanna: Destroy your enemy's strongest Close Combat unit(s) if the combined strength of all his or her Close Combat units is 10 or more."},
+            {"eredin_bringer_of_death_card", "Bringer of Death: Restore a card from your discard pile to your hand."},
+            {"eredin_destroyer_of_worlds_card", "Destroyer of Worlds: Discard 2 card and draw 1 card of your choice from your deck."},
+            {"eredin_king_of_wild_hunt_card","King of the Wild Hunt: Pick any weather card from your deck and play it instantly."},
+            {"eredin_commander_of_the_red_riders_card", "Commander of the Red Riders: Double the strength of all your Close Combat units (unless a Commander's horn is also present on that row)."}
+        };
+        
 
         public GamePhase CurrentGamePhase { get; set; }
         
@@ -96,6 +122,9 @@ namespace GwentEngine
 
             _highlights = new();
 
+            _leaders = new List<Card>();
+            _selectedLeader = 0;
+
             CurrentGamePhase = new ChooseDeckPhase(null, null, () =>
             {
                 CardsManager.CardGameObjects.Clear();
@@ -105,8 +134,8 @@ namespace GwentEngine
             CurrentGamePhase.Activate();
 
             BuildCards();
-           // for(int i = 0; i < 4; i++)
-           //     m_deckState.SaveDeck(i);
+           //for(int i = 0; i < 4; i++)
+            //    m_deckState.SaveDeck(i);
         }
        public void GenerateCards(Card[] allCards, GameObject[] zones)
        {
@@ -163,12 +192,38 @@ namespace GwentEngine
                 .Values.Where(card => !card.IsSelected)
                 .Select(c => new Card(c)).OrderBy(c => c.Ability)
                 .ToArray();
+            
+            if(allCardsSelected.Length != 0) GenerateCards(allCardsSelected.Where(card => card.Number <= 180).ToArray(), m_vZonesDeck);
+            if(allCardsUnselected.Length != 0) GenerateCards(allCardsUnselected.Where(card => card.Number <= 180).ToArray(), m_vZones);
 
-            if(allCardsSelected.Length != 0) GenerateCards(allCardsSelected, m_vZonesDeck);
-            if(allCardsUnselected.Length != 0) GenerateCards(allCardsUnselected, m_vZones);
+            if (_selectedLeader == 0)
+            {
+                _leaders = allCardsSelected.Length != 0 ? allCardsSelected.Where(card => card.Number > 180).ToList() : new List<Card>();
+                
+                var leaders = allCardsUnselected.Where(card => card.Number > 180).ToArray();
+                foreach (var card in leaders)
+                {
+                    _leaders.Add(card);
+                }
+
+                CurrentDeck.CardsInPlay[_leaders[0].Number].IsSelected = true;
+                CardsManager.CreateNewCard(_leaders[_selectedLeader], leaderCard);
+            }
+            
 
             m_bDeckModified = true;
         }
+
+       public void ChangeLeader(bool goBack)
+       {
+           CurrentDeck.CardsInPlay[_leaders[_selectedLeader].Number].IsSelected = false;
+           _selectedLeader = goBack
+               ? (_selectedLeader - 1 < 0 ? _leaders.Count - 1 : _selectedLeader - 1)
+               : (_selectedLeader + 1) % _leaders.Count;
+           
+           CurrentDeck.CardsInPlay[_leaders[_selectedLeader].Number].IsSelected = true;
+           CardsManager.CreateNewCard(_leaders[_selectedLeader], leaderCard);
+       }
 
        public void ManageHighlights(int number, GameObject card)
        {
@@ -183,7 +238,7 @@ namespace GwentEngine
                || UnselectedCards.Contains(number) &&
                     UnselectedCards.Contains(_highlights.First().Key))
            {
-               _highlights.Add(number, Instantiate(CardHighlight, card.transform));
+               _highlights.Add(number, Instantiate(cardHighlight, card.transform));
            }
        }
         public void ChangeFaction(bool bNext)
@@ -192,6 +247,8 @@ namespace GwentEngine
             factionName.text = factionNames[_currentFaction];
             
             m_bDeckModified = true;
+
+            _selectedLeader = 0;
             
             BuildCards();
         }
@@ -330,7 +387,19 @@ namespace GwentEngine
 
         public GameObject InstantiateCard()
         {
-            return Instantiate(Card);
+            return Instantiate(card);
+        }
+
+        public void DisplayLeaderDesc()
+        {
+            string desc = _leaderDesc[_leaders[_selectedLeader].Name];
+            leaderDescPanel.SetActive(true);
+            leaderDescPanel.GetComponentInChildren<TextMeshProUGUI>().text = desc;
+        }
+
+        public void HideLeaderDesc()
+        {
+            leaderDescPanel.SetActive(false);
         }
     }
     

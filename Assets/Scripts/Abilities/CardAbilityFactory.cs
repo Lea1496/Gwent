@@ -1,7 +1,8 @@
 ﻿using System;
-using Abilities;
+using Abilities.LeaderAbilities;
+using GwentEngine.Abilities;
 
-namespace GwentEngine.Abilities
+namespace Abilities
 {
     public static class CardAbilityFactory
     {
@@ -11,13 +12,7 @@ namespace GwentEngine.Abilities
         {
             switch (ability)
             {
-                //TODO
                 
-                case Ability.Berserker: return new BerserkerAbility();
-                case Ability.Mardroeme: return new MardroemeAbility();
-                case Ability.Muster: return new MusterAbility(); // faire les cas spéciaux
-
-                case Ability.Leader: return new LeaderAbility();
                 
 
                 //DONE
@@ -38,9 +33,30 @@ namespace GwentEngine.Abilities
                 case Ability.Emhyr1: return new Emhyr1Ability();
                 case Ability.Emhyr2: return new Emhyr2Ability();
                 case Ability.Emhyr3: return new Emhyr3Ability();
-                case Ability.Emhyr4: return new Emhyr1Ability();
-                case Ability.Emhyr5: return new Emhyr1Ability();
                 
+                //TODO
+                case Ability.Emhyr4: return new Emhyr4Ability();
+                case Ability.Emhyr5: return new Emhyr5Ability();
+                case Ability.Foltest1: return new Emhyr1Ability();
+                case Ability.Foltest2: return new Emhyr1Ability();
+                case Ability.Foltest3: return new Emhyr1Ability();
+                case Ability.Foltest4: return new Emhyr1Ability();
+                case Ability.Francesca1: return new Emhyr1Ability();
+                case Ability.Francesca2: return new Emhyr1Ability();
+                case Ability.Francesca3: return new Emhyr1Ability();
+                case Ability.Francesca4: return new Emhyr1Ability();
+                case Ability.Eredin1: return new Emhyr1Ability();
+                case Ability.Eredin2: return new Emhyr1Ability();
+                case Ability.Eredin3: return new Emhyr1Ability();
+                case Ability.Eredin4: return new Emhyr1Ability();
+                
+                
+                
+                case Ability.Berserker: return new BerserkerAbility();
+                case Ability.Mardroeme: return new MardroemeAbility();
+                case Ability.Muster: return new MusterAbility(); // faire les cas spéciaux
+
+                case Ability.Leader: return new LeaderAbility();
 
                 default: throw new Exception($"Unkown ability: {ability}");
             }
