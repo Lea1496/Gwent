@@ -14,3 +14,6 @@ Choix de qui commence?
 
 todo : si le deck de quelqu'un est rendu vide, brasser la défausse et refaire un paquet avec
 todo : mettre un effet sur la/les rangées affectées par weather
+todo : faire que le network manager se réveille juste quand on se connecte au serveur
+todo : faire que les deux clients soient connecté pour que la partie commence
+todo : faire afficher un message quand une personne pèse sur start et qu'elle attend après l'autre

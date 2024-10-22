@@ -1,6 +1,8 @@
-﻿using System;
+﻿
 
-namespace GwentEngine.Abilities
+using GwentEngine.Abilities;
+
+namespace Abilities
 {
     public class AgileAbility : CardAbility
     { 
