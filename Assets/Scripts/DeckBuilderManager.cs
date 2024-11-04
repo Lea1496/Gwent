@@ -55,6 +55,7 @@ namespace GwentEngine
         private int m_nFactions;
 
         private DeckState m_deckState;
+        private DeckState _deckState;
 
         private bool m_bDeckModified;
 
@@ -96,6 +97,7 @@ namespace GwentEngine
         public BoardState CurrentDeck
         {
             get => m_deckState.BoardStates[_currentFaction];
+            get => _deckState.BoardStates[_currentFaction];
         }
 
         private List<int> DeckCards
@@ -110,6 +112,7 @@ namespace GwentEngine
         
 
         private void Awake()
+        public void MyAwake()
         {
             factionNames = new List<string>() { "Northern Realms", "Nilfgaard", "Scotiatël", "Monster" };
             m_vZones = new GameObject[] { zone1, zone2, zone3, zone4, zone5, zone6, zone7, zone8, zone9, zone10, zone11, zone12 };
@@ -138,6 +141,7 @@ namespace GwentEngine
             //    m_deckState.SaveDeck(i);
         }
        public void GenerateCards(Card[] allCards, GameObject[] zones)
+        public void GenerateCards(Card[] allCards, GameObject[] zones)
        {
            var cardGameObjects = CardsManager.GenerateCardGameObjects(allCards, PlayerKind.Player /* À REVOIR */, Location.None, this);
             int index = 0;
@@ -147,7 +151,6 @@ namespace GwentEngine
 
             foreach(var cardGameObject in cardGameObjects)
             {
-                
                 if (cardNum % 6 == 0 && !isStart)
                 {
                     GameObjectsDisposition.DistributeCenter(zones[index++], cardsGO, 5);
@@ -176,6 +179,7 @@ namespace GwentEngine
                 Array.Resize(ref cardsGO, numCards);
             
             GameObjectsDisposition.DistributeCenter(zones[index], cardsGO, 5);
+                GameObjectsDisposition.DistributeCenter(zones[index], cardsGO, 5);
             
        }
 
@@ -184,11 +188,13 @@ namespace GwentEngine
             ClearRows();
             
             var allCardsSelected = m_deckState.BoardStates[_currentFaction].CardsInPlay
+            var allCardsSelected = _deckState.BoardStates[_currentFaction].CardsInPlay
                                            .Values
                                            .Where(card => card.IsSelected)
                                            .Select(c => new Card(c)).OrderBy(c => c.Ability)
                                            .ToArray();
             var allCardsUnselected = m_deckState.BoardStates[_currentFaction].CardsInPlay
+            var allCardsUnselected = _deckState.BoardStates[_currentFaction].CardsInPlay
                 .Values.Where(card => !card.IsSelected)
                 .Select(c => new Card(c)).OrderBy(c => c.Ability)
                 .ToArray();
@@ -244,6 +250,7 @@ namespace GwentEngine
         public void ChangeFaction(bool bNext)
         {
             _currentFaction = bNext ? (_currentFaction + 1) % m_nFactions : (_currentFaction - 1) % m_nFactions;
+            _currentFaction = bNext ? (_currentFaction + 1) % m_nFactions : ((_currentFaction - 1) < 0 ? _currentFaction - 1 + m_nFactions : _currentFaction - 1) ;
             factionName.text = factionNames[_currentFaction];
             
             m_bDeckModified = true;
@@ -289,6 +296,7 @@ namespace GwentEngine
         private bool CalculateTotalCards()
         {
             var value = m_deckState.BoardStates[_currentFaction].CardsInPlay.Values.Count(card => card.IsSelected);
+            var value = _deckState.BoardStates[_currentFaction].CardsInPlay.Values.Count(card => card.IsSelected) - 1;
             cardsDeck.text = value.ToString();
             return value >= MINIMUM_CARDS;
         }
@@ -296,6 +304,7 @@ namespace GwentEngine
         private bool CalculateTotalUnitCards()
         {
             var value = m_deckState.BoardStates[_currentFaction].CardsInPlay
+            var value = _deckState.BoardStates[_currentFaction].CardsInPlay
                 .Count(kv => kv.Value.Metadata.DefaultPower != -1 && kv.Value.IsSelected);
             unitCards.text = value.ToString();
 
@@ -306,6 +315,7 @@ namespace GwentEngine
         {
             var value = m_deckState.BoardStates[_currentFaction].CardsInPlay
                 .Count(kv => kv.Value.Metadata.DefaultPower == -1 && kv.Value.IsSelected);
+                .Count(kv => kv.Value.Metadata.DefaultPower == -1 && kv.Value.IsSelected) -1;
             specialCards.text = $"{value}/10";
 
             if (value > MAXIMUM_SPECIAL_CARDS)
@@ -322,6 +332,7 @@ namespace GwentEngine
         private void CalculateTotalStrength()
         {
             var value = m_deckState.BoardStates[_currentFaction].CardsInPlay
+            var value = _deckState.BoardStates[_currentFaction].CardsInPlay
                 .Where(kv => kv.Value.Metadata.DefaultPower != -1 && kv.Value.IsSelected).Sum(kv => kv.Value.Metadata.DefaultPower);
             cardsStrength.text = value.ToString();
         }
@@ -329,6 +340,7 @@ namespace GwentEngine
         private void CalculateTotalHeroCards()
         {
             heroCards.text = m_deckState.BoardStates[_currentFaction].CardsInPlay
+            heroCards.text = _deckState.BoardStates[_currentFaction].CardsInPlay
                 .Count(kv => kv.Value.Metadata.IsHero && kv.Value.IsSelected).ToString();
         }
 

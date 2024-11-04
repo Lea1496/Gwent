@@ -8,7 +8,7 @@ public class OnButtonPressed : MonoBehaviour
 
     private void Awake()
     {
-        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _gameManager = GameObject.Find("GameManager")?.GetComponent<GameManager>();
     }
 
     public void EndCurrentPhase()
@@ -26,4 +26,8 @@ public class OnButtonPressed : MonoBehaviour
         _gameManager.OnEndTurnPhase(true, (TurnPhase)_gameManager.CurrentGamePhase );
     }
     
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }
