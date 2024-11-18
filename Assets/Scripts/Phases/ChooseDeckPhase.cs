@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using Phases;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace GwentEngine.Phases
@@ -36,7 +34,11 @@ namespace GwentEngine.Phases
                     chosenDeck[keyValuePair.Key] = keyValuePair.Value.Metadata;
             }
 
-            CardsManager.CardMetadata = chosenDeck;
+            //var deck = new NetworkVariable<Dictionary<int, CardMetadata>>(chosenDeck);
+            if (NetworkManager.Singleton.LocalClientId == 0)
+                CardsManager.RequestHostCardChange(chosenDeck);
+            else
+                CardsManager.RequestClientCardChange(chosenDeck);
             
             base.EndCurrentPhase();
         }

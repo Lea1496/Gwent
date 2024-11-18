@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using Newtonsoft.Json;
 using System.Linq;
 using GwentEngine.Abilities;
 using Random = System.Random;
-using System.Collections.Concurrent;
 using Abilities;
-using GwentEngine.Phases;
-using Unity.VisualScripting;
+using Network;
+using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Networking;
-using UnityEngine.UIElements;
+using NetworkManager = Unity.Netcode.NetworkManager;
 
 namespace GwentEngine
 {
@@ -279,6 +278,8 @@ namespace GwentEngine
 
         public void NewGame(Dictionary<int, CardMetadata> metadata, int initialCardCount = 0)
         {
+            // Todo : Change this so that it's possible to have two different decks, pt ajouter un player dans le dic
+            
             _metadata = metadata;
             _availableCards = _metadata.Keys.ToList();
             _currentState = new();
@@ -420,7 +421,7 @@ namespace GwentEngine
         public Card[] ShowOponnentCards()
         {
             PlayerKind opPlayer = CurrentPlayer == PlayerKind.Opponent ? PlayerKind.Player : PlayerKind.Opponent;
-
+                                                    
             var opponentsCards = AllCards.Where(card => card.EffectivePlayer == opPlayer && card.Number <= 180).ToArray();
 
             if (opponentsCards.Length <= 3)

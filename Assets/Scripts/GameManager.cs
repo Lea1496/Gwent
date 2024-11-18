@@ -287,6 +287,7 @@ public class GameManager : MonoBehaviour, IManager
         //Simulate(_gameState, PlayerKind.Opponent);
 
         CurrentPlayer = _gameState.CurrentPlayer;
+        _currentPlayerNet = new NetworkVariable<PlayerKind>(CurrentPlayer);
 
         CurrentGamePhase = null;
         _gamePhases = new List<GamePhase>();
@@ -578,14 +579,9 @@ public class GameManager : MonoBehaviour, IManager
 
     public void ChangeEffectivePlayer()
     {
-        if (_gameState.CurrentPlayer == PlayerKind.Opponent)  // pas certaine de cette implémentation
-        {
-            _gameState.CurrentPlayer = PlayerKind.Player;
-        }
-        else
-        {
-            _gameState.CurrentPlayer = PlayerKind.Opponent;
-        }
+        _gameState.CurrentPlayer = _gameState.CurrentPlayer == PlayerKind.Opponent
+            ? PlayerKind.Player
+            : PlayerKind.Opponent;
     }
     
     public void StartWaitForFunctionCoroutine()
